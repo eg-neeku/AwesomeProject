@@ -137,4 +137,6 @@ To fix the ADB thing:
 
 7. Here why three terminals have been launched?
 
-8. 
+8. Elements are: View,Text,Image,Button,TextInput.
+Style can : Text, View,TextInput, TouchOpacity(alternatie to button, but now color attribute)
+Style cannot: Button,
