@@ -95,3 +95,46 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+## https://reactnative.dev/docs/getting-started-without-a-framework : Using React Native without the Expo
+1. After installing android studio, its emulator, git, vscode,openjdk. Open the following Environment variable and Add the following paths to it:
+``` bash
+    ✅ Environment Variables → User Variables
+    JAVA_HOME = C:\Program Files\Microsoft\jdk-17
+    ANDROID_HOME = C:\Users\rootUser\AppData\Local\Android\Sdk
+    ANDROID_SDK_ROOT = C:\Users\rootUser\AppData\Local\Android\Sdk
+```
+
+``` bash
+✅ Add to PATH
+    %JAVA_HOME%\bin
+    C:\Users\rootUser\AppData\Local\Android\Sdk\platform-tools
+    C:\Users\rootUser\AppData\Local\Android\Sdk\emulator
+    C:\Users\rootUser\AppData\Local\Android\Sdk\tools
+    C:\Users\rootUser\AppData\Local\Android\Sdk\tools\bin
+```
+2. (Optional)If the adb is not launching then only add this using powershell:
+To fix the ADB thing:
+``` powershell
+    $env:PATH += ";C:\Users\neeku\AppData\Local\Android\Sdk\platform-tools"
+```
+3. Open the VSCode and run the command
+``` bash
+    npx @react-native-community/cli@latest init AwesomeProject.
+```
+
+4. Start Metro(JS Build tool for React Native)
+``` bash
+    npm start
+```
+
+5. Start you application
+``` bash
+    npm run android
+```
+
+6. Dont run the 4,5 simultaneously. Run 4 to build the project and 5 to see the output.
+
+7. Here why three terminals have been launched?
+
+8. 
