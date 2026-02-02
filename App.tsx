@@ -10,7 +10,7 @@ import { StatusBar, StyleSheet, Text, useColorScheme, View, Button, TextInput, T
 import {
   SafeAreaProvider
 } from 'react-native-safe-area-context';
-import CommUI from './components/CommUI';
+// import CommUI from './components/CommUI';
 import ItemList from './components/ItemList';
 
 function App() {
