@@ -137,6 +137,32 @@ To fix the ADB thing:
 
 7. Here why three terminals have been launched?
 
-8. Elements are: View,Text,Image,Button,TextInput.
-Style can : Text, View,TextInput, TouchOpacity(alternatie to button, but now color attribute)
+8. Elements are: View, Text, Image, Button, TextInput.
+Style can : 
+    8.1. Text
+    8.2. View: So by default what ever you add inside this say if it exceed you screen size, it is not scrollable. So to fix it ScrollView is used.
+    8.3. TextInput
+    8.4. TouchOpacity(alternatie to button, but no color attribute)
+    8.5. FlatList: used to render the list of items.
+        8.5.1. data = is an attribute used to link the variable having the dataItems
+        8.5.2. renderItem = used to iterate over the data and display it in the UI. example {({item})=>{ return <View item={item} />}}
+        8.5.3. keyExtractor = acts like adding unique key props to each UI element. If data has id and is of type string then directly can be used else needs to be typecasted. example: keyExtractor={(item, index) => index.toString()}
+        8.5.4: By default(vertical) has scrolling feature.
+    8.5.4 ScrollView: Same as FlatList, but useful for article type contents. For list it is more memory consumption(i.e why we use FlatList).
+
+
 Style cannot: Button,
+
+9. CSS styles: almost all types of styles of normal CSS indeeds matches but in camelCase.
+width:80 means 80px, height:'80[%/vw/vh/rem/em]' As styles are considers as JS Object in ReactNative.
+    9.1. For coloring try to use the hex values wrapped in ''. It then gives you the pallete to select the desired colors.
+    9.2. The gap property in CSS is used to add spacing between elements 
+    9.3. The property borderRadius on Text applies only on Android and not on IOS. Now to happen in IOS we use View which is more generic way, where the borderRadius will be working on both the elements.
+    9.4. Adding styles based on condition inside the StyleSheet.create().
+        Example: ...(condition?{ add the styles here}:{keep empty if you do not want that style})
+    9.5. There is No Style inheritance of CSS(IN WEB) as in React Native.
+
+
+Handling Events:
+    So where refering the js function. If we add parenthesis the function would be executed as soom as it is parsed and rendered on screen. 
+    

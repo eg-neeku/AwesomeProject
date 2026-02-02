@@ -11,6 +11,7 @@ import {
   SafeAreaProvider
 } from 'react-native-safe-area-context';
 import CommUI from './components/CommUI';
+import ItemList from './components/ItemList';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -18,7 +19,8 @@ function App() {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <CommUI />
+      {/* <CommUI /> */}
+      <ItemList />
     </SafeAreaProvider>
   );
 }
