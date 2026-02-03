@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FlatList, Text, View, StyleSheet, TextInput, Button, ScrollView, Pressable } from "react-native";
+import { FlatList, Text, View, StyleSheet, TextInput, Button, ScrollView, Pressable, Modal, Alert } from "react-native";
 
 type ItemType = { id: string, text: string };
 type ItemProps = { item: ItemType, value: number }
@@ -7,6 +7,7 @@ type ItemProps = { item: ItemType, value: number }
 const ItemList = () => {
     const [itemDetails, setItemDetails] = useState<ItemType[]>([]);
     const [item, setItem] = useState<ItemType>({ id: "", text: "" });
+    const [modalVisible, setModalVisible] = useState(false);
 
     const styles = StyleSheet.create({
         container: {
@@ -47,17 +48,72 @@ const ItemList = () => {
             fontWeight: 'bold',
             fontSize: 20
         },
-        pressed:{
-            opacity:1
+        pressed: {
+            opacity: 0.5,
+            borderWidth:1,
+            borderColor:'navy',
+        },
+        centeredView: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        modalView: {
+            margin: '5%',
+            backgroundColor: 'white',
+            borderRadius: '5%',
+            padding: '15%',
+            alignItems: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0, height: 2
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5
         }
     });
 
+    // const EditItem: React.FC<{ item: ItemType }> = ({ item }) => { // Method1: this can be the way to send the type fixing
+    const EditItem = (props: { item: ItemType }) => {
+        const { item } = props;
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed');
+                    setModalVisible(!modalVisible);
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <TextInput
+                            editable multiline
+                            value={item.text}
+                            style={styles.textInput}
+                        />
+                        <View style={styles.buttonSet}>
+                            <Button title="Update" onPress={() => handleEditItems(item.id, item.text)} />
+                            <Button title="Close" onPress={() => setModalVisible(!modalVisible)} />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        )
+    }
+
     const Items = ({ item, value }: ItemProps) => {
         return (
-            <View style={styles.items}>
+            <View style={{flexDirection:'row', alignItems:'center',gap:'6%'}}>
                 <Text style={styles.itemsValue}>{value.toString()}. {item.text}</Text>
-                <Pressable android_ripple={{color:'#dddddd'}} style={({pressed})=> pressed && styles.pressed} onPress={() => handleEditItems(item.id, item.text)}>Edit</Pressable>
-                <Pressable android_ripple={{color:'#dddddd'}} style={({pressed})=> pressed && styles.pressed}  onPress={() => handleDeleteItems(item.id)}>Delete</Pressable>
+                <Pressable android_ripple={{ color: '#000000' }}
+                    style={({ pressed }) => pressed && styles.pressed}
+                    onPress={() => setModalVisible(!modalVisible)}
+                ><Text>Edit</Text>
+                </Pressable>
+                <Pressable android_ripple={{ color: '#dddddd' }} style={({ pressed }) => pressed && styles.pressed} onPress={() => handleDeleteItems(item.id)}><Text>Delete</Text></Pressable>
+                {/* <EditItem item={item} /> Here I need to extract this peice of element  */}
             </View>
         )
     }

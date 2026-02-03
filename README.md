@@ -161,7 +161,7 @@ width:80 means 80px, height:'80[%/vw/vh/rem/em]' As styles are considers as JS O
     9.4. Adding styles based on condition inside the StyleSheet.create().
         Example: ...(condition?{ add the styles here}:{keep empty if you do not want that style})
     9.5. There is No Style inheritance of CSS(IN WEB) as in React Native.
-
+    9.6: android_ripple: Pressable button adds some click effect by specifying the color.
 
 Handling Events:
     So where refering the js function. If we add parenthesis the function would be executed as soom as it is parsed and rendered on screen. 
