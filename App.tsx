@@ -6,7 +6,7 @@
  */
 
 // import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, useColorScheme } from 'react-native';
+import { ScrollView, StatusBar, useColorScheme } from 'react-native';
 import {
   SafeAreaProvider
 } from 'react-native-safe-area-context';
@@ -22,7 +22,9 @@ function App() {
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       {/* <CommUI /> */}
       {/* <ItemList /> */}
-      <GuessGame />
+      <ScrollView>
+        <GuessGame />
+      </ScrollView>
     </SafeAreaProvider>
   );
 }
