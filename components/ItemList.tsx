@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { FlatList, Text, View, StyleSheet, TextInput, Button, ScrollView } from "react-native";
+import { FlatList, Text, View, StyleSheet, TextInput, Button, ScrollView, Pressable } from "react-native";
 
-type ItemType = { text: string };
+type ItemType = { id: string, text: string };
 type ItemProps = { item: ItemType, value: number }
 
 const ItemList = () => {
-    const [itemDetails, setItemsDetails] = useState<ItemType[]>([]);
-    const [item, setItem] = useState<ItemType>({ text: "" });
+    const [itemDetails, setItemDetails] = useState<ItemType[]>([]);
+    const [item, setItem] = useState<ItemType>({ id: "", text: "" });
 
     const styles = StyleSheet.create({
         container: {
@@ -46,33 +46,45 @@ const ItemList = () => {
             fontFamily: 'cursive',
             fontWeight: 'bold',
             fontSize: 20
+        },
+        pressed:{
+            opacity:1
         }
     });
 
     const Items = ({ item, value }: ItemProps) => {
         return (
-            <Text style={styles.itemsValue}>
-                {value.toString()}. {item.text}
-                <Text style={{ backgroundColor: 'navy', color: 'white',marginLeft:'5%' }} onPress={() => handleEditItems(item.text)}>Edit</Text>
-            </Text>
+            <View style={styles.items}>
+                <Text style={styles.itemsValue}>{value.toString()}. {item.text}</Text>
+                <Pressable android_ripple={{color:'#dddddd'}} style={({pressed})=> pressed && styles.pressed} onPress={() => handleEditItems(item.id, item.text)}>Edit</Pressable>
+                <Pressable android_ripple={{color:'#dddddd'}} style={({pressed})=> pressed && styles.pressed}  onPress={() => handleDeleteItems(item.id)}>Delete</Pressable>
+            </View>
         )
     }
 
     const addItemsDetails = () => {
         if (item.text.trim().length === 0) return;
         /* Different ways to add the elements in the array */
-        // setItemsDetails([...itemDetails, item]); //Method 1
-        // setItemsDetails(prevItem => [...prevItem, item]); //Method 2
-        setItemsDetails(itemDetails.concat(item));
-        setItem({ text: "" });
+        // setItemDetails([...itemDetails, item]); //Method 1
+        setItemDetails(prevItem => [...prevItem, { id: Math.random().toString().substring(0, 12), text: item.text }]); //Method 2
+        // setItemDetails(itemDetails.concat(item)); //Method 3
+        setItem({ id: "", text: "" });
     }
 
-    const handleEditItems = (text: string) => {
-        console.log(itemDetails.indexOf({ text }));
+    const handleEditItems = (id: string, newText: string) => {
+        setItemDetails(prev =>
+            prev.map(it =>
+                it.id === id ? { ...it, text: newText } : it
+            )
+        );
+    }
+
+    const handleDeleteItems = (id: string) => {
+        setItemDetails(itemDetails.filter(item => item.id !== id));
     }
 
     const clearItemDetails = () => {
-        setItemsDetails([]);
+        setItemDetails([]);
     }
 
     return (
@@ -96,8 +108,8 @@ const ItemList = () => {
                     :
                     <FlatList style={styles.lists}
                         data={itemDetails}
-                        renderItem={({ item, index }) => { return <Items item={item} value={index + 1} /> }}
-                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={(itemData) => { return <Items item={itemData.item} value={itemData.index + 1} /> }}
+                        keyExtractor={item => item.id}
                     />
                 }
             </View>
