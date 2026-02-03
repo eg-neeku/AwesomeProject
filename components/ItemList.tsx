@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FlatList, Text, View, StyleSheet, TextInput, Button, ScrollView, Pressable, Modal, Alert } from "react-native";
+import { FlatList, Text, View, StyleSheet, TextInput, Button, ScrollView, Pressable, Modal, Alert, Image } from "react-native";
 
 type ItemType = { id: string, text: string };
 type ItemProps = { item: ItemType, value: number }
@@ -21,7 +21,7 @@ const ItemList = () => {
             flexDirection: 'row',
             borderBottomWidth: 1,
             borderBottomColor: '#000000',
-            ...(itemDetails.length > 0 ? { marginTop: '20%' } : {}), // adding some styles based on condition
+            ...(itemDetails.length > 0 ? { marginTop: '20%', paddingTop: '20%' } : {}), // adding some styles based on condition
         },
         textInput: {
             width: '80%',
@@ -29,7 +29,8 @@ const ItemList = () => {
             padding: '5%',
             borderColor: '#0000ff',
             borderWidth: 1,
-            borderRadius: 10
+            borderRadius: 10,
+            textAlignVertical: 'top'
         },
         buttonSet: {
             gap: 3,
@@ -50,8 +51,8 @@ const ItemList = () => {
         },
         pressed: {
             opacity: 0.5,
-            borderWidth:1,
-            borderColor:'navy',
+            borderWidth: 1,
+            borderColor: 'navy',
         },
         centeredView: {
             flex: 1,
@@ -71,9 +72,13 @@ const ItemList = () => {
             shadowOpacity: 0.25,
             shadowRadius: 4,
             elevation: 5
+        },
+        imageStyle:{
+            width:'30%',
+            height:100
         }
     });
-
+    
     // const EditItem: React.FC<{ item: ItemType }> = ({ item }) => { // Method1: this can be the way to send the type fixing
     const EditItem = (props: { item: ItemType }) => {
         const { item } = props;
@@ -88,11 +93,13 @@ const ItemList = () => {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <TextInput
-                            editable multiline
-                            value={item.text}
-                            style={styles.textInput}
-                        />
+                        <View style={{ minHeight: 120 }}>
+                            <TextInput
+                                editable multiline
+                                value={item.text}
+                                style={styles.textInput}
+                            />
+                        </View>
                         <View style={styles.buttonSet}>
                             <Button title="Update" onPress={() => handleEditItems(item.id, item.text)} />
                             <Button title="Close" onPress={() => setModalVisible(!modalVisible)} />
@@ -105,7 +112,7 @@ const ItemList = () => {
 
     const Items = ({ item, value }: ItemProps) => {
         return (
-            <View style={{flexDirection:'row', alignItems:'center',gap:'6%'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: '6%' }}>
                 <Text style={styles.itemsValue}>{value.toString()}. {item.text}</Text>
                 <Pressable android_ripple={{ color: '#000000' }}
                     style={({ pressed }) => pressed && styles.pressed}
@@ -122,7 +129,7 @@ const ItemList = () => {
         if (item.text.trim().length === 0) return;
         /* Different ways to add the elements in the array */
         // setItemDetails([...itemDetails, item]); //Method 1
-        setItemDetails(prevItem => [...prevItem, { id: Math.random().toString().substring(0, 12), text: item.text }]); //Method 2
+        setItemDetails(prevItem => [...prevItem, { id: Math.random().toString().substring(0, 12), text: item.text.trim() }]); //Method 2
         // setItemDetails(itemDetails.concat(item)); //Method 3
         setItem({ id: "", text: "" });
     }
@@ -145,9 +152,16 @@ const ItemList = () => {
 
     return (
         <View style={styles.container}>
+            <Image 
+                source={require('../assets/images/logo.png')} 
+                style={styles.imageStyle}
+            />
             <View style={styles.taskContainer}>
                 <TextInput
                     editable multiline
+                    numberOfLines={4}
+                    // maxLength={40}
+                    scrollEnabled={true}
                     placeholder="Enter the task details"
                     value={item?.text ?? ""}
                     onChangeText={(text: string) => setItem(prev => ({ ...prev, text }))}
