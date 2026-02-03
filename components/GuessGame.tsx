@@ -43,7 +43,7 @@ const GameStartScreen = () => {
             marginTop: '15%',
             marginHorizontal: '10%',
             padding: '6%',
-            backgroundColor: '#ab0759',
+            backgroundColor: '#4e0328',
             borderRadius: '6%',
             elevation: 8, //box shadow in css(only on android)
             shadowColor: '#949292',
