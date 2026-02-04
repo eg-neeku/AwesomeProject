@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TextInput, Pressable, Alert } from "react-nativ
 import PrimaryButton from "./PrimaryButton";
 import Colors from "../../constants/colors";
 import NumberContainer from "./NumberContainer";
+import Card from "./Card";
 
 const generateRandomBetween = (min: number, max: number, exclude: number) => {
     const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -11,17 +12,13 @@ const generateRandomBetween = (min: number, max: number, exclude: number) => {
 }
 
 type StatusProp = { trails: number, status: boolean };
-type GameScreenProps = {
+type OpponentScreenProps = {
     userNumber: number,
     onGameOver: (statusProp:StatusProp) => void
 }
 
-const GameScreen = ({ userNumber, onGameOver }: GameScreenProps) => {
+const OpponentScreen = ({ userNumber, onGameOver }: OpponentScreenProps) => {
     const styles = StyleSheet.create({
-        screen: {
-            flex: 1,
-            padding: '5%'
-        },
         title: {
             fontSize: 24,
             fontWeight: 'bold',
@@ -62,9 +59,9 @@ const GameScreen = ({ userNumber, onGameOver }: GameScreenProps) => {
             return;
         }
         if (currentGuess > userNumber)
-            setScreenMessage("Guess the Lower number");
+            setScreenMessage("Hint: Guess the Lower number");
         else if (currentGuess < userNumber)
-            setScreenMessage("Guess the Higher number");
+            setScreenMessage("Hint: Guess the Higher number");
         else {
             setTrailStatus({ ...trialStatus, status: true });
             setScreenMessage("You Guessed the number");
@@ -78,7 +75,7 @@ const GameScreen = ({ userNumber, onGameOver }: GameScreenProps) => {
         setTrailStatus({ ...trialStatus, trails: trialStatus.trails + 1 });
     }
     return (
-        <View style={styles.screen}>
+        <Card>
             <Text style={styles.title}>Opponents Guess</Text>
             <NumberContainer>{currentGuess}</NumberContainer>
             <View>
@@ -92,8 +89,8 @@ const GameScreen = ({ userNumber, onGameOver }: GameScreenProps) => {
                     </View>
                 </View>
             </View>
-        </View>
+        </Card>
     )
 }
 
-export default GameScreen;
+export default OpponentScreen;

@@ -15,7 +15,7 @@ import {
 // import ItemList from './components/ItemList'
 import LinearGradient from 'react-native-linear-gradient';
 import { useState } from 'react';
-import GameScreen from './components/guessGame/GameScreen';
+import OpponentScreen from './components/guessGame/OpponentScreen';
 import GameStartScreen from './components/guessGame/GameStartScreen';
 import Colors from './constants/colors';
 import GameOverScreen from './components/guessGame/GameOverScreen';
@@ -48,10 +48,10 @@ function App() {
   let screen = <GameStartScreen onPickNumber={pickedNumberHandler} />
   if (!Number.isNaN(userNumber)) {
     screen = (
-      <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />
+      <OpponentScreen userNumber={userNumber} onGameOver={gameOverHandler} />
     );
   }
-  if (gameIsOver) {
+  if (gameIsOver && trialStatus.status) {
     screen = <GameOverScreen trailStatus={trialStatus}/>
   }
 

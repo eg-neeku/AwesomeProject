@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import PrimaryButton from "./PrimaryButton";
 import Colors from "../../constants/colors";
+import Card from "./Card";
 
 type GameStartScreenProps = {
     onPickNumber: (val: number) => void
@@ -9,20 +10,6 @@ type GameStartScreenProps = {
 
 const GameStartScreen = ({ onPickNumber }: GameStartScreenProps) => {
     const styles = StyleSheet.create({
-        inputContainer: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '15%',
-            marginHorizontal: '10%',
-            padding: '6%',
-            backgroundColor: Colors.primary600,
-            borderRadius: '6%',
-            elevation: 8, //box shadow in css(only on android)
-            shadowColor: '#949292',
-            shadowOffset: { width: 2, height: 2 },
-            shadowOpacity: 0.75,
-            shadowRadius: 5
-        },
         welcomeText: {
             fontSize: 32,
             textAlign: 'center',
@@ -74,7 +61,7 @@ const GameStartScreen = ({ onPickNumber }: GameStartScreenProps) => {
 
     const [enteredNumber, setEnteredNumber] = useState('');
     return (
-        <View style={styles.inputContainer}>
+        <Card>
             <Text style={styles.welcomeText}>Welcome to Number Guessing</Text>
             <TextInput style={styles.numberInput}
                 maxLength={2} keyboardType="numeric"
@@ -92,7 +79,7 @@ const GameStartScreen = ({ onPickNumber }: GameStartScreenProps) => {
             {enteredNumber.length !== 0 ? <View>
                 <Text style={styles.outputText}>Entered Value is {enteredNumber}</Text>
             </View> : <></>}
-        </View>
+        </Card>
     )
 }
 
