@@ -4,6 +4,7 @@ import PrimaryButton from "./PrimaryButton";
 import Colors from "../../constants/colors";
 import NumberContainer from "./NumberContainer";
 import Card from "./Card";
+import Feather from 'react-native-vector-icons/Feather';
 
 const generateRandomBetween = (min: number, max: number, exclude: number) => {
     const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -82,10 +83,14 @@ const OpponentScreen = ({ userNumber, onGameOver }: OpponentScreenProps) => {
                 <Text style={styles.outputMessage}>{screenMessage}</Text>
                 <View style={styles.buttonContainer}>
                     <View style={styles.buttonSubContainer}>
-                        <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>-</PrimaryButton>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
+                            <Feather name="minus" color="#000" size={24}/>
+                        </PrimaryButton>
                     </View>
                     <View style={styles.buttonSubContainer}>
-                        <PrimaryButton onPress={nextGuessHandler.bind(this, "upper")}>+</PrimaryButton>
+                        <PrimaryButton onPress={nextGuessHandler.bind(this, "upper")}>
+                            <Feather name="plus" color="#000" size={24} />
+                        </PrimaryButton>
                     </View>
                 </View>
             </View>

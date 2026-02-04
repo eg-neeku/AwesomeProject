@@ -166,4 +166,8 @@ width:80 means 80px, height:'80[%/vw/vh/rem/em]' As styles are considers as JS O
     9.7: if many styles needed to be applied then use [,,]. In comma append the styles
 Handling Events:
     So where refering the js function. If we add parenthesis the function would be executed as soom as it is parsed and rendered on screen. 
+
+10. Icons:
+    Command: npm i --save-dev @types/react-native-vector-icons
+    
     
