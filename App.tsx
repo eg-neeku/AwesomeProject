@@ -6,7 +6,7 @@
  */
 
 // import { NewAppScreen } from '@react-native/new-app-screen';
-import { ImageBackground, StatusBar, StyleSheet, useColorScheme } from 'react-native';
+import { ImageBackground, ScrollView, StatusBar, StyleSheet, useColorScheme } from 'react-native';
 import {
   SafeAreaProvider
 } from 'react-native-safe-area-context';
@@ -35,7 +35,9 @@ function App() {
       <LinearGradient colors={["#4e0329", "#ddb52f"]} style={styles.rootStyle}>
         <ImageBackground source={require('./assets/images/background.png')}
           resizeMode='cover' style={styles.rootStyle} imageStyle={styles.bgImgStyle}>
-          <GuessGame />
+          <ScrollView>
+            <GuessGame />
+          </ScrollView>
         </ImageBackground>
       </LinearGradient>
     </SafeAreaProvider>

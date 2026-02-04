@@ -1,6 +1,7 @@
-import { Text, View, StyleSheet, TextInput, Pressable } from "react-native"
+import { useState } from "react";
+import { Text, View, StyleSheet, TextInput, Pressable, Alert } from "react-native"
 
-const PrimaryButton = ({ children }: any) => {
+const PrimaryButton = ({ children, onPress }: any) => {
     const styles = StyleSheet.create({
         buttonOuterContainer: {
             borderRadius: 28,
@@ -22,13 +23,10 @@ const PrimaryButton = ({ children }: any) => {
         }
     });
 
-    const pressHandler = () => {
-        // console.log("Pressed");
-    }
-
     return (
         <View style={styles.buttonOuterContainer}>
-            <Pressable style={({ pressed }) => pressed ? [styles.buttonInnerContainer, styles.pressed] : styles.buttonInnerContainer} onPress={pressHandler} android_ripple={{ color: '#98e836' }}>
+            <Pressable style={({ pressed }) => pressed ? [styles.buttonInnerContainer, styles.pressed] : styles.buttonInnerContainer}
+                onPress={onPress} android_ripple={{ color: '#98e836' }}>
                 <Text style={styles.buttonText}>{children}</Text>
             </Pressable>
         </View>
@@ -77,22 +75,49 @@ const GameStartScreen = () => {
         },
         buttonSubContainer: {
             flex: 1
+        },
+        outputText: {
+            marginTop: '10%',
+            color: 'green',
+            fontSize: 20
         }
     });
+
+    const resetInputHandler = () => {
+        setEnteredNumber('');
+    }
+
+    const confirmInputHandler = () => {
+        const chosenNumber = parseInt(enteredNumber);
+        if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+            Alert.alert('Invalid number!', 'Number has to be within range of 1 to 99',
+                [{ text: 'Okay', style:'destructive', onPress: resetInputHandler }]
+            );
+            return;
+        }
+        Alert.alert('Valid number');
+    }
+
+    const [enteredNumber, setEnteredNumber] = useState('');
     return (
         <View style={styles.inputContainer}>
             <Text style={styles.welcomeText}>Welcome to Number Guessing</Text>
             <TextInput style={styles.numberInput}
                 maxLength={2} keyboardType="numeric"
+                value={enteredNumber}
+                onChangeText={(text: string) => setEnteredNumber(text)}
             />
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonSubContainer}>
-                    <PrimaryButton>Reset</PrimaryButton>
+                    <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
                 </View>
                 <View style={styles.buttonSubContainer}>
-                    <PrimaryButton>Confirm</PrimaryButton>
+                    <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
                 </View>
             </View>
+            {enteredNumber.length !== 0?<View>
+                <Text style={styles.outputText}>Entered Value is {enteredNumber}</Text>
+            </View>:<></>}
         </View>
     )
 }
