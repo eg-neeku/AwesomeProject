@@ -18,6 +18,7 @@ import { useState } from 'react';
 import GameScreen from './components/guessGame/GameScreen';
 import GameStartScreen from './components/guessGame/GameStartScreen';
 import Colors from './constants/colors';
+import GameOverScreen from './components/guessGame/GameOverScreen';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,14 +32,24 @@ function App() {
   });
 
   const [userNumber, setUserNumber] = useState(NaN);
+  const [gameIsOver, setGameIsOver] = useState(false);
 
   const pickedNumberHandler = (pickedNumber: number) => {
     setUserNumber(pickedNumber);
   }
 
+  const gameOverHandler = () => {
+    setGameIsOver(true);
+  }
+
   let screen = <GameStartScreen onPickNumber={pickedNumberHandler} />
   if (userNumber) {
-    screen = <GameScreen />
+    screen = (
+      <GameScreen userNumber={userNumber} onGameOver={gameOverHandler}/>
+    );
+  }
+  if (gameIsOver) {
+    screen = <GameOverScreen />
   }
 
   return (
