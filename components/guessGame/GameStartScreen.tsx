@@ -1,39 +1,13 @@
 import { useState } from "react";
-import { Text, View, StyleSheet, TextInput, Pressable, Alert } from "react-native"
+import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import PrimaryButton from "./PrimaryButton";
+import Colors from "../../constants/colors";
 
-const PrimaryButton = ({ children, onPress }: any) => {
-    const styles = StyleSheet.create({
-        buttonOuterContainer: {
-            borderRadius: 28,
-            margin: '2%',
-            overflow: 'hidden',
-        },
-        buttonInnerContainer: {
-            backgroundColor: '#72063c',
-            paddingVertical: '6%',
-            paddingHorizontal: '12%',
-            elevation: 2
-        },
-        buttonText: {
-            color: 'white',
-            textAlign: 'center'
-        },
-        pressed: {
-            opacity: 0.75
-        }
-    });
-
-    return (
-        <View style={styles.buttonOuterContainer}>
-            <Pressable style={({ pressed }) => pressed ? [styles.buttonInnerContainer, styles.pressed] : styles.buttonInnerContainer}
-                onPress={onPress} android_ripple={{ color: '#98e836' }}>
-                <Text style={styles.buttonText}>{children}</Text>
-            </Pressable>
-        </View>
-    )
+type GameStartScreenProps = {
+    onPickNumber: (val: number) => void
 }
 
-const GameStartScreen = () => {
+const GameStartScreen = ({ onPickNumber }: GameStartScreenProps) => {
     const styles = StyleSheet.create({
         inputContainer: {
             justifyContent: 'center',
@@ -41,7 +15,7 @@ const GameStartScreen = () => {
             marginTop: '15%',
             marginHorizontal: '10%',
             padding: '6%',
-            backgroundColor: '#4e0328',
+            backgroundColor: Colors.primary600,
             borderRadius: '6%',
             elevation: 8, //box shadow in css(only on android)
             shadowColor: '#949292',
@@ -54,16 +28,16 @@ const GameStartScreen = () => {
             textAlign: 'center',
             fontFamily: 'cursive',
             fontWeight: 'bold',
-            color: '#ddb52f'
+            color: Colors.accent500
         },
         numberInput: {
             height: '35%',
             width: '35%',
             textAlign: 'center',
             fontSize: 32,
-            borderBottomColor: '#ddb52f',
+            borderBottomColor: Colors.accent500,
             borderBottomWidth: 2,
-            color: '#ddb52f',
+            color: Colors.accent500,
             marginVertical: '2%',
             fontWeight: 'bold'
         },
@@ -91,11 +65,11 @@ const GameStartScreen = () => {
         const chosenNumber = parseInt(enteredNumber);
         if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
             Alert.alert('Invalid number!', 'Number has to be within range of 1 to 99',
-                [{ text: 'Okay', style:'destructive', onPress: resetInputHandler }]
+                [{ text: 'Okay', style: 'destructive', onPress: resetInputHandler }]
             );
             return;
         }
-        Alert.alert('Valid number');
+        onPickNumber(chosenNumber);
     }
 
     const [enteredNumber, setEnteredNumber] = useState('');
@@ -115,25 +89,11 @@ const GameStartScreen = () => {
                     <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
                 </View>
             </View>
-            {enteredNumber.length !== 0?<View>
+            {enteredNumber.length !== 0 ? <View>
                 <Text style={styles.outputText}>Entered Value is {enteredNumber}</Text>
-            </View>:<></>}
+            </View> : <></>}
         </View>
     )
 }
 
-const GameOver = () => {
-
-}
-
-const GuessGame = () => {
-    const styles = StyleSheet.create({
-    });
-    return (
-        <View>
-            <GameStartScreen />
-        </View>
-    )
-}
-
-export default GuessGame;
+export default GameStartScreen;
