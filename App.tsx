@@ -20,6 +20,7 @@ import GameStartScreen from './components/guessGame/GameStartScreen';
 import Colors from './constants/colors';
 import GameOverScreen from './components/guessGame/GameOverScreen';
 
+type StatusProp = { trails: number, status: boolean };
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
   const styles = StyleSheet.create({
@@ -33,23 +34,25 @@ function App() {
 
   const [userNumber, setUserNumber] = useState(NaN);
   const [gameIsOver, setGameIsOver] = useState(false);
+  const [trialStatus, setTrailStatus] = useState<StatusProp>({ trails: 0, status: false });
 
   const pickedNumberHandler = (pickedNumber: number) => {
     setUserNumber(pickedNumber);
   }
 
-  const gameOverHandler = () => {
+  const gameOverHandler = (newTrailStatus: StatusProp) => {
     setGameIsOver(true);
+    setTrailStatus(newTrailStatus);
   }
 
   let screen = <GameStartScreen onPickNumber={pickedNumberHandler} />
-  if (userNumber) {
+  if (!Number.isNaN(userNumber)) {
     screen = (
-      <GameScreen userNumber={userNumber} onGameOver={gameOverHandler}/>
+      <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />
     );
   }
   if (gameIsOver) {
-    screen = <GameOverScreen />
+    screen = <GameOverScreen trailStatus={trialStatus}/>
   }
 
   return (

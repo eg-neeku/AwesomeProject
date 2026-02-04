@@ -10,9 +10,10 @@ const generateRandomBetween = (min: number, max: number, exclude: number) => {
     else return rndNum;
 }
 
+type StatusProp = { trails: number, status: boolean };
 type GameScreenProps = {
     userNumber: number,
-    onGameOver: ()=>void
+    onGameOver: (statusProp:StatusProp) => void
 }
 
 const GameScreen = ({ userNumber, onGameOver }: GameScreenProps) => {
@@ -44,13 +45,9 @@ const GameScreen = ({ userNumber, onGameOver }: GameScreenProps) => {
             fontSize: 15,
             textAlign: 'center',
             margin: '5%'
-        },
-        test:{
-            fontSize:20
         }
     });
 
-    type StatusProp = { trails: number, status: boolean };
     let minBoundary = 1, maxBoundary = 100
     const initialGuess = generateRandomBetween(1, 100, userNumber);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
@@ -71,7 +68,7 @@ const GameScreen = ({ userNumber, onGameOver }: GameScreenProps) => {
         else {
             setTrailStatus({ ...trialStatus, status: true });
             setScreenMessage("You Guessed the number");
-            onGameOver();
+            onGameOver(trialStatus);
             return;
         }
         if (direction === 'lower') maxBoundary = currentGuess;
@@ -95,9 +92,6 @@ const GameScreen = ({ userNumber, onGameOver }: GameScreenProps) => {
                     </View>
                 </View>
             </View>
-            {trialStatus.status ? <View>
-                <Text style={[styles.outputMessage,styles.test]}>Total {trialStatus.trails} trails took to guess the number</Text>
-            </View> : <></>}
         </View>
     )
 }
