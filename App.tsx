@@ -43,7 +43,7 @@ function App() {
   const gameOverHandler = (newTrailStatus: StatusProp) => {
     setGameIsOver(true);
     setTrailStatus(newTrailStatus);
-  }
+  } 
 
   let screen = <GameStartScreen onPickNumber={pickedNumberHandler} />
   if (!Number.isNaN(userNumber)) {

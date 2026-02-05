@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native"
+import { Text, View, StyleSheet, Image } from "react-native"
 import Colors from "../../constants/colors";
 import Card from "./Card";
 
@@ -22,6 +22,12 @@ const GameOverScreen = ({ trailStatus }: GameStatusProp) => {
         },
         test: {
             fontSize: 20
+        },
+        goalImage: {
+            width: '100%',
+            height: 400,
+            borderRadius: 200,
+            borderWidth: 3
         }
     });
     return (
@@ -30,6 +36,7 @@ const GameOverScreen = ({ trailStatus }: GameStatusProp) => {
             {trailStatus.status ? <View>
                 <Text style={[styles.outputMessage, styles.test]}>Total {trailStatus.trails} trails took to guess the number</Text>
             </View> : <></>}
+            <Image source={require('../../assets/images/goal.png')} style={styles.goalImage} />
         </Card>
     )
 }
