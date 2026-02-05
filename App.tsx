@@ -52,7 +52,7 @@ function App() {
     );
   }
   if (gameIsOver && trialStatus.status) {
-    screen = <GameOverScreen trailStatus={trialStatus}/>
+    screen = <GameOverScreen trailStatus={trialStatus} userNumber={userNumber}/>
   }
 
   return (

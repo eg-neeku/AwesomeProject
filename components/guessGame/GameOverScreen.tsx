@@ -3,8 +3,8 @@ import Colors from "../../constants/colors";
 import Card from "./Card";
 
 type StatusProp = { trails: number, status: boolean };
-type GameStatusProp = { trailStatus: StatusProp }
-const GameOverScreen = ({ trailStatus }: GameStatusProp) => {
+type GameStatusProp = { trailStatus: StatusProp, userNumber: number }
+const GameOverScreen = ({ trailStatus, userNumber }: GameStatusProp) => {
     const styles = StyleSheet.create({
         title: {
             fontSize: 24,
@@ -34,7 +34,7 @@ const GameOverScreen = ({ trailStatus }: GameStatusProp) => {
         <Card>
             <Text style={styles.title}>Game Over!!</Text>
             {trailStatus.status ? <View>
-                <Text style={[styles.outputMessage, styles.test]}>Total {trailStatus.trails} trails took to guess the number</Text>
+                <Text style={[styles.outputMessage, styles.test]}>Total {trailStatus.trails} trails took to guess the number {userNumber}</Text>
             </View> : <></>}
             <Image source={require('../../assets/images/goal.png')} style={styles.goalImage} />
         </Card>
