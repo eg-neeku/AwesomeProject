@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FlatList, Text, View, StyleSheet, TextInput, Button, ScrollView, Pressable, Modal, Alert, Image } from "react-native";
+import { FlatList, Text, View, StyleSheet, TextInput, Button, Pressable, Modal, Alert, Image } from "react-native";
 
 type ItemType = { id: string, text: string };
 type ItemProps = { item: ItemType, value: number }
