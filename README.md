@@ -170,5 +170,4 @@ Handling Events:
 10. Icons:
     Command: npm i --save-dev @types/react-native-vector-icons
     
-11. Adaptive Responsive UIs
-    
+11. Adaptive Responsive UIs: colors.android.js, colors.ios.js; So jus do normally task. The platform itself detects what type of file UI has to be attached and use.
