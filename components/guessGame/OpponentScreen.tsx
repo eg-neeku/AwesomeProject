@@ -15,7 +15,7 @@ const generateRandomBetween = (min: number, max: number, exclude: number) => {
 type StatusProp = { trails: number, status: boolean };
 type OpponentScreenProps = {
     userNumber: number,
-    onGameOver: (statusProp:StatusProp) => void
+    onGameOver: (statusProp: StatusProp) => void
 }
 
 const OpponentScreen = ({ userNumber, onGameOver }: OpponentScreenProps) => {
@@ -52,9 +52,9 @@ const OpponentScreen = ({ userNumber, onGameOver }: OpponentScreenProps) => {
     const [trialStatus, setTrailStatus] = useState<StatusProp>({ trails: 0, status: false });
     const [screenMessage, setScreenMessage] = useState("");
 
-    useEffect(()=>{
-        minBoundary = 1; maxBoundary=100;
-    },[]);
+    useEffect(() => {
+        minBoundary = 1; maxBoundary = 100;
+    }, []);
 
     const nextGuessHandler = (direction: string) => {
         if ((direction === 'lower' && currentGuess < userNumber)
@@ -82,22 +82,21 @@ const OpponentScreen = ({ userNumber, onGameOver }: OpponentScreenProps) => {
     return (
         <Card>
             <Text style={styles.title}>Opponents Guess</Text>
-            <NumberContainer>{currentGuess}</NumberContainer>
             <View>
                 <Text style={styles.outputMessage}>{screenMessage}</Text>
                 <View style={styles.buttonContainer}>
                     <View style={styles.buttonSubContainer}>
                         <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
-                            <Icon name="minus" color="#000" size={24}/>
+                            <Icon name="minus" color="#000" size={24} />
                         </PrimaryButton>
                     </View>
+                    <NumberContainer>{currentGuess}</NumberContainer>
                     <View style={styles.buttonSubContainer}>
                         <PrimaryButton onPress={nextGuessHandler.bind(this, "upper")}>
                             <Icon name="plus" color="#000" size={24} />
                         </PrimaryButton>
                     </View>
                 </View>
-
             </View>
         </Card>
     )

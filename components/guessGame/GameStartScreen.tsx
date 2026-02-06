@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from "react-native";
 import PrimaryButton from "./PrimaryButton";
 import Colors from "../../constants/colors";
 import Card from "./Card";
@@ -61,25 +61,27 @@ const GameStartScreen = ({ onPickNumber }: GameStartScreenProps) => {
 
     const [enteredNumber, setEnteredNumber] = useState('');
     return (
-        <Card>
-            <Text style={styles.welcomeText}>Welcome to Number Guessing</Text>
-            <TextInput style={styles.numberInput}
-                maxLength={2} keyboardType="numeric"
-                value={enteredNumber}
-                onChangeText={(text: string) => setEnteredNumber(text)}
-            />
-            <View style={styles.buttonContainer}>
-                <View style={styles.buttonSubContainer}>
-                    <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
+            <Card>
+                <Text style={styles.welcomeText}>Welcome to Number Guessing</Text>
+                <TextInput style={styles.numberInput}
+                    maxLength={2} keyboardType="numeric"
+                    value={enteredNumber}
+                    onChangeText={(text: string) => setEnteredNumber(text)}
+                />
+                <View style={styles.buttonContainer}>
+                    <View style={styles.buttonSubContainer}>
+                        <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+                    </View>
+                    <View style={styles.buttonSubContainer}>
+                        <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
+                    </View>
                 </View>
-                <View style={styles.buttonSubContainer}>
-                    <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
-                </View>
-            </View>
-            {enteredNumber.length !== 0 ? <View>
-                <Text style={styles.outputText}>Entered Value is {enteredNumber}</Text>
-            </View> : <></>}
-        </Card>
+                {enteredNumber.length !== 0 ? <View>
+                    <Text style={styles.outputText}>Entered Value is {enteredNumber}</Text>
+                </View> : <></>}
+            </Card>
+        </KeyboardAvoidingView>
     )
 }
 

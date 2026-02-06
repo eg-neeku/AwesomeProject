@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Image } from "react-native"
+import { Text, View, StyleSheet, Image, Dimensions } from "react-native"
 import Colors from "../../constants/colors";
 import Card from "./Card";
 import PrimaryButton from "./PrimaryButton";
@@ -6,6 +6,7 @@ import PrimaryButton from "./PrimaryButton";
 type StatusProp = { trails: number, status: boolean };
 type GameStatusProp = { trailStatus: StatusProp, userNumber: number, onStartNewGame: () => void }
 const GameOverScreen = ({ trailStatus, userNumber, onStartNewGame }: GameStatusProp) => {
+    const deviceWidth = Dimensions.get("window").width;
     const styles = StyleSheet.create({
         title: {
             fontSize: 24,
@@ -25,9 +26,9 @@ const GameOverScreen = ({ trailStatus, userNumber, onStartNewGame }: GameStatusP
             fontSize: 20
         },
         goalImage: {
-            width: '100%',
-            height: 400,
-            borderRadius: 200,
+            width: deviceWidth < 380 ? 150 : '100%',
+            height: deviceWidth < 380 ? 150 : 300,
+            borderRadius: deviceWidth < 380 ? 75 : 200,
             borderWidth: 3
         }
     });

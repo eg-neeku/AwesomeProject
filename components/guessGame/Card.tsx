@@ -1,13 +1,14 @@
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import Colors from "../../constants/colors";
 import React from "react";
 
 const Card = ({ children }: { children: React.ReactNode }) => {
+    const deviceHeight = Dimensions.get("window").height;
     const styles = StyleSheet.create({
         inputContainer: {
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '15%',
+            marginTop: deviceHeight < 480 ? 40 : '15%',
             marginHorizontal: '10%',
             padding: '6%',
             backgroundColor: Colors.primary600,
@@ -17,7 +18,7 @@ const Card = ({ children }: { children: React.ReactNode }) => {
             shadowOffset: { width: 2, height: 2 },
             shadowOpacity: 0.75,
             shadowRadius: 5,
-            flex:1
+            flex: 1
         },
     });
 

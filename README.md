@@ -170,4 +170,5 @@ Handling Events:
 10. Icons:
     Command: npm i --save-dev @types/react-native-vector-icons
     
+11. Adaptive Responsive UIs
     
