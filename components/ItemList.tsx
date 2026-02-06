@@ -40,9 +40,11 @@ const ItemList = () => {
             // backgroundColor: '#cccccc',
             marginBottom: '5%',
         },
+        //for flatitems design
         items: {
-            padding: '1%',
+            padding: 16,
             marginTop: '5%',
+            flex:1
         },
         itemsValue: {
             fontFamily: 'cursive',

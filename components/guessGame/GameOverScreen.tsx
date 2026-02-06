@@ -1,10 +1,11 @@
 import { Text, View, StyleSheet, Image } from "react-native"
 import Colors from "../../constants/colors";
 import Card from "./Card";
+import PrimaryButton from "./PrimaryButton";
 
 type StatusProp = { trails: number, status: boolean };
-type GameStatusProp = { trailStatus: StatusProp, userNumber: number }
-const GameOverScreen = ({ trailStatus, userNumber }: GameStatusProp) => {
+type GameStatusProp = { trailStatus: StatusProp, userNumber: number, onStartNewGame: () => void }
+const GameOverScreen = ({ trailStatus, userNumber, onStartNewGame }: GameStatusProp) => {
     const styles = StyleSheet.create({
         title: {
             fontSize: 24,
@@ -37,6 +38,7 @@ const GameOverScreen = ({ trailStatus, userNumber }: GameStatusProp) => {
                 <Text style={[styles.outputMessage, styles.test]}>Total {trailStatus.trails} trails took to guess the number {userNumber}</Text>
             </View> : <></>}
             <Image source={require('../../assets/images/goal.png')} style={styles.goalImage} />
+            <PrimaryButton onPress={onStartNewGame}>Start new Game</PrimaryButton>
         </Card>
     )
 }

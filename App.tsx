@@ -45,6 +45,11 @@ function App() {
     setTrailStatus(newTrailStatus);
   } 
 
+  const startNewGameHandler = ()=>{
+    setUserNumber(NaN);
+    setGameIsOver(false);
+  }
+
   let screen = <GameStartScreen onPickNumber={pickedNumberHandler} />
   if (!Number.isNaN(userNumber)) {
     screen = (
@@ -52,7 +57,7 @@ function App() {
     );
   }
   if (gameIsOver && trialStatus.status) {
-    screen = <GameOverScreen trailStatus={trialStatus} userNumber={userNumber}/>
+    screen = <GameOverScreen trailStatus={trialStatus} userNumber={userNumber} onStartNewGame={startNewGameHandler}/>
   }
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View, StyleSheet, Alert } from "react-native"
 import PrimaryButton from "./PrimaryButton";
 import Colors from "../../constants/colors";
@@ -48,9 +48,13 @@ const OpponentScreen = ({ userNumber, onGameOver }: OpponentScreenProps) => {
 
     let minBoundary = 1, maxBoundary = 100
     const initialGuess = generateRandomBetween(1, 100, userNumber);
-    const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    const [currentGuess, setCurrentGuess] = useState(initialGuess);// below trailStatus thing can be modified if you use a array store all the guessed number.
     const [trialStatus, setTrailStatus] = useState<StatusProp>({ trails: 0, status: false });
     const [screenMessage, setScreenMessage] = useState("");
+
+    useEffect(()=>{
+        minBoundary = 1; maxBoundary=100;
+    },[]);
 
     const nextGuessHandler = (direction: string) => {
         if ((direction === 'lower' && currentGuess < userNumber)
@@ -93,6 +97,7 @@ const OpponentScreen = ({ userNumber, onGameOver }: OpponentScreenProps) => {
                         </PrimaryButton>
                     </View>
                 </View>
+
             </View>
         </Card>
     )
