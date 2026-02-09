@@ -16,6 +16,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MealsOverviewScreen from './components/mealNavigation/screens/MealsOverviewScreen';
 import { CATEGORIES } from './components/mealNavigation/dummyData';
+import MealDetailScreen from './components/mealNavigation/screens/MealDetailScreen';
 // import CommUI from './components/CommUI';
 // import ItemList from './components/ItemList'
 
@@ -98,14 +99,15 @@ function App() {
               title: 'All Categories',
             }} />
           <Stack.Screen name="MealsOverview" component={MealsOverviewScreen}
-            options={({ route, navigation }: any): any => {
-              const mealsCategoryId = route.params.categoryId;
-              const objTitle = CATEGORIES.find(item => item.id === mealsCategoryId)?.foodType;
-              return {
-                title: objTitle
-              }
-            }}
+            // options={({ route, navigation }: any): any => {
+            //   const mealsCategoryId = route.params.categoryId;
+            //   const objTitle = CATEGORIES.find(item => item.id === mealsCategoryId)?.foodType;
+            //   return {
+            //     title: objTitle
+            //   }
+            // }}
           />
+          <Stack.Screen name="MealDetail" component={MealDetailScreen} />
         </Stack.Navigator>
         {/* <CategoryScreen /> */}
       </NavigationContainer>

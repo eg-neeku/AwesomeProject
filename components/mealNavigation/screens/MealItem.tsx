@@ -1,7 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
 import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import MealItemDetails from "./MealItemDetails";
 
 type MealProp = {
-    id?: string, categoryIds?: string[]
+    id: string, categoryIds?: string[]
     title?: string, affordability?: string,
     complexity?: string, imageUrl?: string,
     duration?: number, ingredients?: string[],
@@ -10,21 +12,20 @@ type MealProp = {
     isVegetarian?: boolean, isLactosFree?: boolean
 }
 
+
 const MealItem = ({ item }: { item: MealProp }) => {
+    const navigation: any = useNavigation();
+
+    const handlePress = () => {
+        navigation.navigate('MealDetail', { mealId: item.id });
+    }
     return (
         <View style={styles.mealItem}>
             <Pressable android_ripple={{ color: '#ccc' }}
                 style={({ pressed }) => pressed ? [{ flex: 1, opacity: 0.25 }] : null}
+                onPress={handlePress}
             >
-                <View>
-                    <Image style={styles.image} source={{ uri: item.imageUrl }} />
-                    <Text style={styles.title}>{item.title}</Text>
-                </View>
-                <View style={styles.details}>
-                    <Text>{item.duration}min</Text>
-                    <Text>{item.complexity?.toLocaleUpperCase()}</Text>
-                    <Text>{item.affordability?.toUpperCase()}</Text>
-                </View>
+                <MealItemDetails item={item} />
             </Pressable>
         </View >
     )
@@ -41,23 +42,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 8
-    },
-    image: {
-        width: '100%',
-        height: 200,
-    },
-    title: {
-        fontWeight: 'bold',
-        textAlign: 'center',
-        fontSize: 18,
-        margin: 8
-    },
-    details: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 8,
-        justifyContent: 'space-around',
-        flexWrap: 'wrap'
     }
 });
 

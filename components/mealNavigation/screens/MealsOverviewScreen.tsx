@@ -1,17 +1,24 @@
 import { Text, View, StyleSheet, FlatList, ListRenderItemInfo, Pressable, Image } from "react-native";
-import { MEALS } from "../dummyData";
+import { CATEGORIES, MEALS } from "../dummyData";
 import Meal from "../models/meal";
 import MealItem from "./MealItem";
+import { useEffect } from "react";
 
 const renderMealsItem = (itemData: ListRenderItemInfo<Meal>) => {
     return <MealItem item={itemData.item} />
 }
 
-const MealsOverviewScreen = ({ route }: any) => {
-    const mealsCategoryId = route.params.categoryId;
+const MealsOverviewScreen = ({ route, navigation }: any) => {
+    const categoryId = route.params.categoryId;
+    useEffect(() => {
+        const categoryTitle = CATEGORIES.find(mealItem => mealItem.id === categoryId)?.foodType;
+        navigation.setOptions({
+            title: categoryTitle
+        });
+    }, [categoryId, navigation]);
 
     const displayedMeals = MEALS.filter((mealItem) => {
-        return mealItem.categoryIds.indexOf(mealsCategoryId) >= 0;
+        return mealItem.categoryIds.indexOf(categoryId) >= 0;
     })
 
     return (

@@ -132,6 +132,11 @@ To fix the ADB thing:
 ``` bash
     npm run android
 ```
+    5.1. Whenever there is some error occurs, even if your app is not showing any error then: Remove the app cache and build cache
+        ``` bash
+            $ npx react-native start --reset-cache
+            $ cd android && gradlew clean && cd ..
+        ``` . Then go to the above step 5.
 
 6. Dont run the 4,5 simultaneously. Run 4 to build the project and 5 to see the output.
 
@@ -172,7 +177,7 @@ Handling Events:
     
 11. Adaptive Responsive UIs: colors.android.js, colors.ios.js; So jus do normally task. The platform itself detects what type of file UI has to be attached and use.
 
-12: Navigation: npm install @react-navigation/native
+12. Navigation: npm install @react-navigation/native
                 npm install react-native-screens react-native-safe-area-context
                 npm install @react-navigation/native-stack
                 npm install @react-navigation/elements
