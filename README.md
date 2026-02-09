@@ -178,3 +178,8 @@ Handling Events:
                 npm install @react-navigation/elements
 
                 useNavigation(), useRoute(). instead of using the props params to get the value.
+                Stack.Screen: options:{}. Here there are many options.
+                    title:'' any name rather than the name  
+                    headerStyle:{backgroundColor:'#fff'}
+                    headerTintColor:'#000'
+                    contentStyle={} // this like styling the background color of the screen, now if we want same style to apply on all screens, in that case we would use Stack.Screen having screenOptions={{}}
