@@ -171,3 +171,10 @@ Handling Events:
     Command: npm i --save-dev @types/react-native-vector-icons
     
 11. Adaptive Responsive UIs: colors.android.js, colors.ios.js; So jus do normally task. The platform itself detects what type of file UI has to be attached and use.
+
+12: Navigation: npm install @react-navigation/native
+                npm install react-native-screens react-native-safe-area-context
+                npm install @react-navigation/native-stack
+                npm install @react-navigation/elements
+
+                useNavigation(), useRoute(). instead of using the props params to get the value.

@@ -11,6 +11,10 @@ import {
   SafeAreaProvider,
   SafeAreaView
 } from 'react-native-safe-area-context';
+import CategoryScreen from './components/mealNavigation/screens/CategoryScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MealsOverviewScreen from './components/mealNavigation/screens/MealsOverviewScreen';
 // import CommUI from './components/CommUI';
 // import ItemList from './components/ItemList'
 
@@ -25,11 +29,14 @@ type StatusProp = { trails: number, status: boolean };
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
   const styles = StyleSheet.create({
-    rootStyle: {
-      flex: 1
-    },
-    bgImgStyle: {
-      opacity: 0.25,
+    // rootStyle: {
+    //   flex: 1
+    // },
+    // bgImgStyle: {
+    //   opacity: 0.25,
+    // }
+    container: {
+
     }
   });
 
@@ -61,6 +68,8 @@ function App() {
   //   screen = <GameOverScreen trailStatus={trialStatus} userNumber={userNumber} onStartNewGame={startNewGameHandler}/>
   // }
 
+  const Stack = createNativeStackNavigator();
+
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -76,6 +85,13 @@ function App() {
           </SafeAreaView>
         </ImageBackground>
       </LinearGradient> */}
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='MealsCategories'>
+          <Stack.Screen name="MealsCategories" component={CategoryScreen} />
+          <Stack.Screen name="MealsOverview" component={MealsOverviewScreen} />
+        </Stack.Navigator>
+        {/* <CategoryScreen /> */}
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }
