@@ -17,6 +17,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MealsOverviewScreen from './components/mealNavigation/screens/MealsOverviewScreen';
 // import { CATEGORIES } from './components/mealNavigation/dummyData';
 import MealDetailScreen from './components/mealNavigation/screens/MealDetailScreen';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import WelcomeScreen from './components/drawerScreen/WelcomeScreen';
+import UserScreen from './components/drawerScreen/UserScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
 // import CommUI from './components/CommUI';
 // import ItemList from './components/ItemList'
 
@@ -70,7 +74,6 @@ function App() {
   //   screen = <GameOverScreen trailStatus={trialStatus} userNumber={userNumber} onStartNewGame={startNewGameHandler}/>
   // }
 
-  const Stack = createNativeStackNavigator();
 
   return (
     <SafeAreaProvider>
@@ -79,46 +82,87 @@ function App() {
       {/* <ItemList /> */}
       {/* <LinearGradient colors={[Colors.primary600, Colors.accent500]} style={styles.rootStyle}>
         <ImageBackground source={require('./assets/images/background.png')}
-          resizeMode='cover' style={styles.rootStyle} imageStyle={styles.bgImgStyle}>
-          <SafeAreaView>
-            <ScrollView>
-              {screen}
-            </ScrollView>
-          </SafeAreaView>
+        resizeMode='cover' style={styles.rootStyle} imageStyle={styles.bgImgStyle}>
+        <SafeAreaView>
+        <ScrollView>
+        {screen}
+        </ScrollView>
+        </SafeAreaView>
         </ImageBackground>
-      </LinearGradient> */}
+        </LinearGradient> */}
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='MealsCategories'
-          screenOptions={{
-            headerStyle: { backgroundColor: '#351401' },
-            headerTintColor: '#fff',
-            contentStyle: { backgroundColor: '#3f2f25' }
-          }}>
-          <Stack.Screen name="MealsCategories" component={CategoryScreen}
-            options={{
-              title: 'All Categories',
-            }} />
-          <Stack.Screen name="MealsOverview" component={MealsOverviewScreen}
-            // options={({ route, navigation }: any): any => {
-            //   const mealsCategoryId = route.params.categoryId;
-            //   const objTitle = CATEGORIES.find(item => item.id === mealsCategoryId)?.foodType;
-            //   return {
-            //     title: objTitle
-            //   }
-            // }}
-          />
-          <Stack.Screen name="MealDetail" component={MealDetailScreen} 
-          // options={{
-          //   headerRight: ()=>{
-          //     return <Button title='Tap me' />
-          //   }
-          // }}
-          />
-        </Stack.Navigator>
-        {/* <CategoryScreen /> */}
+        <DrawerNavigator />
       </NavigationContainer>
     </SafeAreaProvider>
   );
 }
 
 export default App;
+
+const DrawerNavigator = () => {
+  const Drawer = createDrawerNavigator();
+  return (
+    <Drawer.Navigator initialRouteName="User"
+      screenOptions={{
+        headerStyle: { backgroundColor: "#3c0a6b" },
+        headerTintColor: "#fff",
+        drawerActiveBackgroundColor: "#f0e1ff",
+        drawerActiveTintColor: "#3c0a6b",
+        drawerStyle: { backgroundColor: "#ccc" },
+      }}>
+      <Drawer.Screen name="Welcome" component={WelcomeScreen}
+        options={{
+          drawerLabel: "Welcome Screen",
+          drawerIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={size} />
+          )
+        }} />
+      <Drawer.Screen name="User" component={UserScreen}
+        options={{
+          drawerIcon: ({ color, size })=>(
+            <Icon name="user" color={color} size={size} />
+          )
+        }} />
+      <Drawer.Screen name="Meals" component={StackNavigator} 
+        options={{
+          drawerLabel: "Meal Category Lists",
+          drawerIcon: ({ color, size })=>(
+            <Icon name="food" color={color} size={size} />
+          )
+        }} />
+    </Drawer.Navigator>
+  )
+}
+
+const StackNavigator = () => {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator initialRouteName='MealsCategories'
+      screenOptions={{
+        headerStyle: { backgroundColor: '#351401' },
+        headerTintColor: '#fff',
+        contentStyle: { backgroundColor: '#3f2f25' }
+      }}>
+      <Stack.Screen name="MealsCategories" component={CategoryScreen}
+        options={{
+          title: 'All Categories',
+        }} />
+      <Stack.Screen name="MealsOverview" component={MealsOverviewScreen}
+      // options={({ route, navigation }: any): any => {
+      //   const mealsCategoryId = route.params.categoryId;
+      //   const objTitle = CATEGORIES.find(item => item.id === mealsCategoryId)?.foodType;
+      //   return {
+      //     title: objTitle
+      //   }
+      // }}
+      />
+      <Stack.Screen name="MealDetail" component={MealDetailScreen}
+      // options={{
+      //   headerRight: ()=>{
+      //     return <Button title='Tap me' />
+      //   }
+      // }}
+      />
+    </Stack.Navigator>
+  )
+}

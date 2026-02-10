@@ -194,3 +194,12 @@ Handling Events:
                     or else using navigation.setOptions({
                         headerRight: ()=>{} returns the Component. and here you can perform CRUD op
                     })
+        12.1. Different Navigations are:
+            (createNativeStackNavigator())NativeStack: as name as browser type
+            (createDrawerNavigator())Drawer: in Gmail their is a side bar that displays the options
+            (createNativeBottomTabNavigator())NativeBottomTabs
+            
+            Each of these has Navigator and Screen etc
+    
+    # Always refer documentation.
+
