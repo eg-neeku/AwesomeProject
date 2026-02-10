@@ -6,7 +6,7 @@
  */
 
 // import { NewAppScreen } from '@react-native/new-app-screen';
-import { ImageBackground, ScrollView, StatusBar, StyleSheet, useColorScheme } from 'react-native';
+import { Button, ImageBackground, ScrollView, StatusBar, StyleSheet, useColorScheme } from 'react-native';
 import {
   SafeAreaProvider,
   SafeAreaView
@@ -15,7 +15,7 @@ import CategoryScreen from './components/mealNavigation/screens/CategoryScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MealsOverviewScreen from './components/mealNavigation/screens/MealsOverviewScreen';
-import { CATEGORIES } from './components/mealNavigation/dummyData';
+// import { CATEGORIES } from './components/mealNavigation/dummyData';
 import MealDetailScreen from './components/mealNavigation/screens/MealDetailScreen';
 // import CommUI from './components/CommUI';
 // import ItemList from './components/ItemList'
@@ -107,7 +107,13 @@ function App() {
             //   }
             // }}
           />
-          <Stack.Screen name="MealDetail" component={MealDetailScreen} />
+          <Stack.Screen name="MealDetail" component={MealDetailScreen} 
+          // options={{
+          //   headerRight: ()=>{
+          //     return <Button title='Tap me' />
+          //   }
+          // }}
+          />
         </Stack.Navigator>
         {/* <CategoryScreen /> */}
       </NavigationContainer>

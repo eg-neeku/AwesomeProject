@@ -142,7 +142,7 @@ To fix the ADB thing:
 
 7. Here why three terminals have been launched?
 
-8. Elements are: View, Text, Image, Button, TextInput.
+8. Elements/Componenets are: View, Text, Image, Button, TextInput.
 Style can : 
     8.1. Text
     8.2. View: So by default what ever you add inside this say if it exceed you screen size, it is not scrollable. So to fix it ScrollView is used.
@@ -188,3 +188,9 @@ Handling Events:
                     headerStyle:{backgroundColor:'#fff'}
                     headerTintColor:'#000'
                     contentStyle={} // this like styling the background color of the screen, now if we want same style to apply on all screens, in that case we would use Stack.Screen having screenOptions={{}}
+                    options:{{
+                        headerRight: ()=>{} returns the Component. and here you can perform CRUD op
+                    }}
+                    or else using navigation.setOptions({
+                        headerRight: ()=>{} returns the Component. and here you can perform CRUD op
+                    })
