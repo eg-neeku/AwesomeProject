@@ -203,3 +203,9 @@ Handling Events:
     
     # Always refer documentation.
 
+To globally set the icon use the following method:
+Make sure the icons are in square shaped only, as android and ios will auto create and set the roundness.
+``` bash
+    $ npm install react-native-set-icon --save-dev
+    $ npx react-native-set-icon --path ./assets/image/icon.png
+```

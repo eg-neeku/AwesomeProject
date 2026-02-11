@@ -21,6 +21,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import WelcomeScreen from './components/drawerScreen/WelcomeScreen';
 import UserScreen from './components/drawerScreen/UserScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Favourites from './components/mealNavigation/screens/Favourites';
+import { FavoritesContextProvider } from './components/mealNavigation/store/context/favorites-context';
+
 // import CommUI from './components/CommUI';
 // import ItemList from './components/ItemList'
 
@@ -90,9 +93,12 @@ function App() {
         </SafeAreaView>
         </ImageBackground>
         </LinearGradient> */}
-      <NavigationContainer>
-        <DrawerNavigator />
-      </NavigationContainer>
+      <FavoritesContextProvider>
+        <NavigationContainer>
+          <DrawerNavigator />
+        </NavigationContainer>
+      </FavoritesContextProvider>
+
     </SafeAreaProvider>
   );
 }
@@ -119,15 +125,22 @@ const DrawerNavigator = () => {
         }} />
       <Drawer.Screen name="User" component={UserScreen}
         options={{
-          drawerIcon: ({ color, size })=>(
+          drawerIcon: ({ color, size }) => (
             <Icon name="user" color={color} size={size} />
           )
         }} />
-      <Drawer.Screen name="Meals" component={StackNavigator} 
+      <Drawer.Screen name="Meals" component={StackNavigator}
         options={{
           drawerLabel: "Meal Category Lists",
-          drawerIcon: ({ color, size })=>(
+          drawerIcon: ({ color, size }) => (
             <Icon name="food" color={color} size={size} />
+          )
+        }} />
+      <Drawer.Screen name="Favourites" component={Favourites}
+        options={{
+          drawerLabel: "Favourites Lists",
+          drawerIcon: ({ color, size }) => (
+            <Icon name="star" color={color} size={size} />
           )
         }} />
     </Drawer.Navigator>

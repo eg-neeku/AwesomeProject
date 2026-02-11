@@ -17,7 +17,12 @@ const MealItem = ({ item }: { item: MealProp }) => {
     const navigation: any = useNavigation();
 
     const handlePress = () => {
-        navigation.navigate('MealDetail', { mealId: item.id });
+        // navigation.navigate('MealDetail', { mealId: item.id });
+        navigation.navigate('Meals' as never, {
+            screen: 'MealDetail',
+            params: { mealId: item.id }
+        } as never);
+
     }
     return (
         <View style={styles.mealItem}>
