@@ -12,15 +12,15 @@ type MealProp = {
 
 const MealItemDetails = ({ item }: { item: MealProp }) => {
     return (
-        <View style={{backgroundColor: '#fff'}}>
+        <View style={{ backgroundColor: '#fff' }}>
             <View>
                 <Image style={styles.image} source={{ uri: item.imageUrl }} />
                 <Text style={styles.title}>{item.title}</Text>
             </View>
             <View style={styles.details}>
-                <Text>{item.duration}min</Text>
-                <Text>{item.complexity?.toLocaleUpperCase()}</Text>
-                <Text>{item.affordability?.toUpperCase()}</Text>
+                <Text style={styles.subdetails}>{item.duration}min</Text>
+                <Text style={styles.subdetails}>{item.complexity?.toLocaleUpperCase()}</Text>
+                <Text style={styles.subdetails}>{item.affordability?.toUpperCase()}</Text>
             </View>
         </View>
     )
@@ -43,6 +43,9 @@ const styles = StyleSheet.create({
         padding: 8,
         justifyContent: 'space-around',
         flexWrap: 'wrap'
+    },
+    subdetails: {
+        margin: 8
     }
 });
 

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { StyleSheet,View, Text, TextInput, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Button, Alert } from 'react-native';
 
 const CommUI = () => {
-    const [text, setText] = useState("")
-    const [hide, setHide] = useState(true)
+    const [text, setText] = useState("");
+    const [hide, setHide] = useState(true);
     return (
         <View style={styles.container}>
             <Text style={{ fontSize: 25, fontWeight: "bold" }}>😊Login Page</Text>
@@ -27,13 +27,19 @@ const CommUI = () => {
                 </TouchableOpacity>
             </View>
             <TextInput
-                style={styles.feedBack}
+                style={styles.textInput}
                 editable multiline
                 numberOfLines={4}
                 maxLength={250}
                 placeholder='Enter your Feedback'
             />
-            <Button title='Login' />
+            <TextInput
+                keyboardType="number-pad"
+                placeholder='Enter the date'
+                style={styles.textInput}
+            />
+            <Button title='Login' onPress={() => Alert.alert("Hello User", "Logged In",
+                [{ text: "Okay", style:"destructive" }])} />
             <Text>Don't have an account Click here</Text>
         </View>
     )
@@ -61,13 +67,6 @@ const styles = StyleSheet.create({
         padding: 1,
         borderRadius: 12,
         height: 45
-    },
-    feedBack: {
-        borderColor: "aqua",
-        margin: 12,
-        padding: 10,
-        borderWidth: 1,
-        width: 300
     },
     passwordBox: {
         display: "flex",

@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Colors from "../../constants/colors";
+import React from "react";
 
-const NumberContainer = ({ children }: any) => {
+const NumberContainer = ({ children }: { children: React.ReactNode }) => {
     const deviceWidth = Dimensions.get("window").width;
     const styles = StyleSheet.create({
         container: {

@@ -3,10 +3,7 @@ import { Alert, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from "
 import PrimaryButton from "./PrimaryButton";
 import Colors from "../../constants/colors";
 import Card from "./Card";
-
-type GameStartScreenProps = {
-    onPickNumber: (val: number) => void
-}
+import { GameStartScreenProps } from "./commonGG";
 
 const GameStartScreen = ({ onPickNumber }: GameStartScreenProps) => {
     const styles = StyleSheet.create({

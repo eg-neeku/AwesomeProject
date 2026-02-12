@@ -5,17 +5,12 @@ import Colors from "../../constants/colors";
 import NumberContainer from "./NumberContainer";
 import Card from "./Card";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { OpponentScreenProps, StatusProp } from "./commonGG";
 
 const generateRandomBetween = (min: number, max: number, exclude: number) => {
     const rndNum = Math.floor(Math.random() * (max - min)) + min;
     if (rndNum === exclude) return generateRandomBetween(min, max, exclude);
     else return rndNum;
-}
-
-type StatusProp = { trails: number, status: boolean };
-type OpponentScreenProps = {
-    userNumber: number,
-    onGameOver: (statusProp: StatusProp) => void
 }
 
 const OpponentScreen = ({ userNumber, onGameOver }: OpponentScreenProps) => {

@@ -1,10 +1,6 @@
-import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Colors from '../../constants/colors'
-
-type PrimaryButtonProp = {
-    children: React.ReactNode,
-    onPress?: ((event: GestureResponderEvent) => void) | (() => void)
-}
+import { PrimaryButtonProp } from "./commonGG";
 
 const PrimaryButton = ({ children, onPress }: PrimaryButtonProp) => {
     const styles = StyleSheet.create({
