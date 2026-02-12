@@ -11,18 +11,26 @@ import {
   SafeAreaProvider,
   SafeAreaView
 } from 'react-native-safe-area-context';
-import CategoryScreen from './components/mealNavigation/screens/CategoryScreen';
+// import CategoryScreen from './components/mealNavigation/screens/CategoryScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MealsOverviewScreen from './components/mealNavigation/screens/MealsOverviewScreen';
+// import MealsOverviewScreen from './components/mealNavigation/screens/MealsOverviewScreen';
 // import { CATEGORIES } from './components/mealNavigation/dummyData';
-import MealDetailScreen from './components/mealNavigation/screens/MealDetailScreen';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import WelcomeScreen from './components/drawerScreen/WelcomeScreen';
-import UserScreen from './components/drawerScreen/UserScreen';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Favourites from './components/mealNavigation/screens/Favourites';
-import { FavoritesContextProvider } from './components/mealNavigation/store/context/favorites-context';
+// import MealDetailScreen from './components/mealNavigation/screens/MealDetailScreen';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+// import WelcomeScreen from './components/drawerScreen/WelcomeScreen';
+// import UserScreen from './components/drawerScreen/UserScreen';
+// import Icon from 'react-native-vector-icons/FontAwesome';
+// import Favourites from './components/mealNavigation/screens/Favourites';
+// import { FavoritesContextProvider } from './components/mealNavigation/store/context/favorites-context';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons';
+import AllExpenses from './components/expenseTracker/screen/AllExpenses';
+import RecentExpenses from './components/expenseTracker/screen/RecentExpenses';
+import ManageExpenses from './components/expenseTracker/screen/ManageExpenses';
+import Colors from './constants/colors';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { IconButton } from './components/expenseTracker/screen/expensecommon';
 
 // import CommUI from './components/CommUI';
 // import ItemList from './components/ItemList'
@@ -44,9 +52,6 @@ function App() {
     // bgImgStyle: {
     //   opacity: 0.25,
     // }
-    container: {
-
-    }
   });
 
   // const [userNumber, setUserNumber] = useState(NaN);
@@ -93,11 +98,17 @@ function App() {
         </SafeAreaView>
         </ImageBackground>
         </LinearGradient> */}
-      <FavoritesContextProvider>
+      {/* <FavoritesContextProvider>
         <NavigationContainer>
           <DrawerNavigator />
         </NavigationContainer>
-      </FavoritesContextProvider>
+      </FavoritesContextProvider> */}
+
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <StackNavigator />
+        </NavigationContainer>
+      </GestureHandlerRootView>
 
     </SafeAreaProvider>
   );
@@ -105,6 +116,51 @@ function App() {
 
 export default App;
 
+const BottomTabNavigator = () => {
+  const BottomTab = createBottomTabNavigator();
+  return (
+    <BottomTab.Navigator
+      screenOptions={({ navigation }) => (
+        {
+          headerStyle: { backgroundColor: Colors.primary500 },
+          headerTintColor: "#fff",
+          tabBarStyle: { backgroundColor: Colors.primary500 },
+          tabBarActiveTintColor: Colors.accent500,
+          headerRight: ({ tintColor }) => <IconButton iconname="add" size={24} color={tintColor ? tintColor : "#fff"}
+            onPress={() => { navigation.navigate("ManageExpense") }} />
+        }
+      )}
+    >
+      <BottomTab.Screen name="RecentExpenses" component={RecentExpenses}
+        options={{
+          headerTitle: "Recent Expenses",
+          tabBarIcon: ({ color, size }) => (<Icon name="calendar" color={color} size={size} />)
+        }}
+      />
+      <BottomTab.Screen name="AllExpenses" component={AllExpenses}
+        options={{
+          headerTitle: "All Expenses",
+          tabBarIcon: ({ color, size }) => (<Icon name="hourglass-outline" color={color} size={size} />)
+        }}
+      />
+    </BottomTab.Navigator>
+  )
+}
+
+const StackNavigator = () => {
+  const Stack = createNativeStackNavigator();
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="ExpensesOverview" component={BottomTabNavigator}
+        options={{
+          headerShown: false
+        }} />
+      <Stack.Screen name="ManageExpense" component={ManageExpenses} />
+    </Stack.Navigator>
+  )
+}
+
+{/*
 const DrawerNavigator = () => {
   const Drawer = createDrawerNavigator();
   return (
@@ -134,7 +190,8 @@ const DrawerNavigator = () => {
           drawerLabel: "Meal Category Lists",
           drawerIcon: ({ color, size }) => (
             <Icon name="food" color={color} size={size} />
-          )
+          ),
+          // headerShown : false
         }} />
       <Drawer.Screen name="Favourites" component={Favourites}
         options={{
@@ -178,4 +235,6 @@ const StackNavigator = () => {
       />
     </Stack.Navigator>
   )
-}
+} 
+
+*/}

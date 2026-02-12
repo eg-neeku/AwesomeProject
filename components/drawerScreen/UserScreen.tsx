@@ -3,7 +3,7 @@ import { Text, View } from "react-native"
 const UserScreen = ()=>{
     return(
         <View>
-            <Text>Hello User Please login</Text>
+            <Text>Hello User Welcome Home</Text>
         </View>
     )
 }
