@@ -46,7 +46,9 @@ const renderExpenseItem = (itemData: ListRenderItemInfo<ExpenseProp>, navigation
     });
 
     const expensePressHandler = () => {
-        navigation.navigate("ManageExpense");
+        navigation.navigate("ManageExpense", {
+            expenseId: itemData.item.id
+        });
     }
 
     return (
@@ -106,18 +108,28 @@ const ExpensesSummary = ({ expenses, periodName }: ExpenseParamsProp) => {
     )
 }
 
-const ExpensesOutput = ({ expenses = DUMMY_EXPENSES, periodName }: ExpenseParamsProp) => {
+const ExpensesOutput = ({ expenses = DUMMY_EXPENSES, periodName, fallbackText }: ExpenseParamsProp) => {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
             padding: 24,
             backgroundColor: Colors.primary700
+        },
+        infotext: {
+            color: "#fff",
+            textAlign: "center",
+            fontSize: 16,
+            marginTop: 32
         }
     });
+
+    let screen = <Text style={styles.infotext}>{fallbackText}</Text>
+    if (expenses.length > 0) screen = <ExpensesList expenses={expenses} />
+
     return (
         <View style={styles.container}>
-            <ExpensesSummary expenses={expenses} periodName={periodName} />
-            <ExpensesList expenses={expenses} />
+            <ExpensesSummary expenses={expenses} periodName={periodName} fallbackText={fallbackText} />
+            {screen}
         </View>
     )
 }

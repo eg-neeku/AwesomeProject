@@ -154,7 +154,14 @@ Style can :
         8.5.3. keyExtractor = acts like adding unique key props to each UI element. If data has id and is of type string then directly can be used else needs to be typecasted. example: keyExtractor={(item, index) => index.toString()}
         8.5.4: By default(vertical) has scrolling feature.
         8.5.4 ScrollView: Same as FlatList, but useful for article type contents. For list it is more memory consumption(i.e why we use FlatList).
-    8.6: Pressable>View>Text =>Button with user defined features and styles
+    8.6: SectionList:
+        8.6.1. sections={[
+            {title:'',data:[]},
+            .....
+            {title:'',data:[]},
+        ]} just like data in FlatList but it gives the headerTitle for segrgating the list items based on title
+        
+    8.7: Pressable>View>Text =>Button with user defined features and styles
 
 
 Style cannot: Button,
@@ -173,27 +180,32 @@ Handling Events:
     So where refering the js function. If we add parenthesis the function would be executed as soom as it is parsed and rendered on screen. 
 
 10. Icons:
-    Command: npm i --save-dev @types/react-native-vector-icons
+``` bash 
+        npm i --save-dev @types/react-native-vector-icons
+```
     
 11. Adaptive Responsive UIs: colors.android.js, colors.ios.js; So jus do normally task. The platform itself detects what type of file UI has to be attached and use.
 
-12. Navigation: npm install @react-navigation/native
-                npm install react-native-screens react-native-safe-area-context
-                npm install @react-navigation/native-stack
-                npm install @react-navigation/elements
+12. Navigation: 
+``` bash 
+        npm install @react-navigation/native
+        npm install react-native-screens react-native-safe-area-context
+        npm install @react-navigation/native-stack
+        npm install @react-navigation/elements
+```
 
-                useNavigation(), useRoute(). instead of using the props params to get the value.
-                Stack.Screen: options:{}. Here there are many options.
-                    title:'' any name rather than the name  
-                    headerStyle:{backgroundColor:'#fff'}
-                    headerTintColor:'#000'
-                    contentStyle={} // this like styling the background color of the screen, now if we want same style to apply on all screens, in that case we would use Stack.Screen having screenOptions={{}}
-                    options:{{
-                        headerRight: ()=>{} returns the Component. and here you can perform CRUD op
-                    }}
-                    or else using navigation.setOptions({
-                        headerRight: ()=>{} returns the Component. and here you can perform CRUD op
-                    })
+        useNavigation(), useRoute(). instead of using the props params to get the value.
+        Stack.Screen: options:{}. Here there are many options.
+            title:'' any name rather than the name  
+            headerStyle:{backgroundColor:'#fff'}
+            headerTintColor:'#000'
+            contentStyle={} // this like styling the background color of the screen, now if we want same style to apply on all screens, in that case we would use Stack.Screen having screenOptions={{}}
+            options:{{
+                headerRight: ()=>{} returns the Component. and here you can perform CRUD op
+            }}
+            or else using navigation.setOptions({
+                headerRight: ()=>{} returns the Component. and here you can perform CRUD op
+            })
         12.1. Different Navigations are:
             (createNativeStackNavigator())NativeStack: as name as browser type
             (createDrawerNavigator())Drawer: in Gmail their is a side bar that displays the options
@@ -209,3 +221,7 @@ Make sure the icons are in square shaped only, as android and ios will auto crea
     $ npm install react-native-set-icon --save-dev
     $ npx react-native-set-icon --path ./assets/image/icon.png
 ```
+
+Typescript: 
+Omit is used to remove some properties inorder to get extract properties from the parent type
+Extract no idea?

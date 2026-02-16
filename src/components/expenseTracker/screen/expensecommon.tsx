@@ -8,7 +8,9 @@ type ExpenseProp = {
     date: Date
 }
 
-type ExpenseParamsProp = { expenses: ExpenseProp[], periodName: string }
+type ExpensePropDTO = Omit<ExpenseProp, "id">
+
+type ExpenseParamsProp = { expenses: ExpenseProp[], periodName: string, fallbackText :string }
 
 const DUMMY_EXPENSES: ExpenseProp[] = [
     {
@@ -33,13 +35,13 @@ const DUMMY_EXPENSES: ExpenseProp[] = [
         id: 'e4',
         description: 'A book',
         amount: 14.99,
-        date: new Date('2022-02-19')
+        date: new Date('2026-02-11')
     },
     {
         id: 'e5',
         description: 'Another book',
         amount: 18.59,
-        date: new Date('2022-02-18')
+        date: new Date('2026-02-12')
     },
     {
         id: 'e6',
@@ -63,21 +65,24 @@ const DUMMY_EXPENSES: ExpenseProp[] = [
         id: 'e9',
         description: 'A book',
         amount: 14.99,
-        date: new Date('2022-02-19')
+        date: new Date('2026-02-13')
     },
     {
         id: 'e10',
         description: 'Another book',
         amount: 18.59,
-        date: new Date('2022-02-18')
+        date: new Date('2026-02-11')
     },
 ]
 
 enum MONTHS { JAN = 1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC };
 
 export function getFormattedDate(date: Date) {
-    console.log(``);
     return `${date.getDate()}-${date.getMonth() + 1}(${MONTHS[date.getMonth() + 1]})-${date.getFullYear()}`;
+}
+
+export function getDateMinusDays(date: Date, days: number) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() - days);
 }
 
 type IconButtonProps = { iconname: string, size: number, color: string, onPress?: () => void }
@@ -87,8 +92,8 @@ export const IconButton = ({ iconname, size, color, onPress }: IconButtonProps) 
         buttonContainer: {
             borderRadius: 24,
             padding: 6,
-            marginHorizontal:8,
-            marginVertical:2
+            marginHorizontal: 8,
+            marginVertical: 2
         }
     });
     return (
@@ -100,5 +105,5 @@ export const IconButton = ({ iconname, size, color, onPress }: IconButtonProps) 
     )
 }
 
-export type { ExpenseParamsProp, ExpenseProp, }
+export type { ExpenseParamsProp, ExpenseProp, ExpensePropDTO }
 export { DUMMY_EXPENSES }

@@ -24,6 +24,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { IconButton } from './src/components/expenseTracker/screen/expensecommon';
 
 import MealDrawerNavigatorScreen from './src/components/mealNavigation/MealDrawerNavigatorScreen';
+import ItemList from './src/components/ItemList';
+import ExpensesContextProvider from './src/components/expenseTracker/store/expenses-context';
 // import ItemList from './components/ItemList'
 
 function App() {
@@ -33,16 +35,18 @@ function App() {
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <GestureHandlerRootView style={{ flex: 1 }}>
-        {/* <ItemList /> */}  {/* <Text>This Thing UPDATE LOgin has to be implmented </Text> */}
-        <FavoritesContextProvider>
+        {/* <ItemList /><Text>This Thing UPDATE LOgin has to be implmented </Text> */}
+        {/* <FavoritesContextProvider>
           <NavigationContainer>
             <MealDrawerNavigatorScreen />
           </NavigationContainer>
-        </FavoritesContextProvider>
+        </FavoritesContextProvider> */}
 
-        {/* <NavigationContainer>
-          <StackNavigator />
-          </NavigationContainer> */}
+        <ExpensesContextProvider>
+          <NavigationContainer>
+            <StackNavigator />
+          </NavigationContainer>
+        </ExpensesContextProvider>
 
       </GestureHandlerRootView>
     </SafeAreaProvider>
@@ -85,12 +89,19 @@ const BottomTabNavigator = () => {
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+      headerStyle: { backgroundColor: Colors.primary500 },
+      headerTintColor: "#fff"
+    }}>
       <Stack.Screen name="ExpensesOverview" component={BottomTabNavigator}
         options={{
           headerShown: false
         }} />
-      <Stack.Screen name="ManageExpense" component={ManageExpenses} />
+      <Stack.Screen name="ManageExpense" component={ManageExpenses}
+        options={{
+          presentation: 'modal',
+          title: 'Manage Expense'
+        }} />
     </Stack.Navigator>
   )
 }
