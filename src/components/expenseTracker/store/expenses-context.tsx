@@ -10,12 +10,14 @@ type ExpensesContextProp = {
 
 export const ExpensesContext = createContext<ExpensesContextProp>({
     expenses: [],
-    addExpense: ({ description, amount, date }) => { },
-    deleteExpense: (id) => { },
-    updateExpense: (id, { description, amount, date }) => { },
+    // here you enter parameters or not it still works, because fn() are loosely than stricter
+    addExpense: () => { },
+    deleteExpense: () => { },
+    updateExpense: () => { },
 })
 
-type ActionProp = { type: 'ADD', payload: ExpensePropDTO }
+type ActionProp =
+    | { type: 'ADD', payload: ExpensePropDTO }
     | {
         type: 'UPDATE', payload: {
             id: ExpenseProp['id']

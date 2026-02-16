@@ -1,4 +1,4 @@
-import { KeyboardTypeOptions, Platform, Pressable, StyleProp, StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
+import { Alert, KeyboardTypeOptions, Platform, Pressable, StyleProp, StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
 import Colors from "../../../constants/colors";
 import { useState } from "react";
 import { ExpensePropDTO, getFormattedDate } from "./expensecommon";
@@ -109,7 +109,16 @@ export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm, se
             date: new Date(inputValues.date),
             description: inputValues.description
         }
-        // if(isNaN(date.getTime()))
+
+        const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
+        const dateIsValid = !isNaN(expenseData.date.getTime()) && expenseData.date.toString() !== "Invalid Date";
+        const descriptionIsValid = expenseData.description.trim().length > 0;
+
+        if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
+            Alert.alert("Invalid Input", "You know this is wrong!!",
+                [{ text: "Sorry", style: "cancel", }]);
+            return;
+        }
         onConfirm(expenseData);
     }
 
