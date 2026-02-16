@@ -7,8 +7,10 @@ import ExpenseForm from "./ExpenseForm";
 
 const ManageExpenses = ({ route, navigation }: any) => {
     const expenseCtx = useContext(ExpensesContext);
-    const editedExpenseId = route.params?.expenseId;
+    const editedExpenseId = route.params?.expenseId; //here routing means useful for updating
     const isEditing = !!editedExpenseId;
+
+    const selectedExpense = expenseCtx.expenses.find(expense=> expense.id === editedExpenseId);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -25,7 +27,6 @@ const ManageExpenses = ({ route, navigation }: any) => {
     const cancelHandler = () => {
         // navigation.navigate("ExpensesOverview");
         navigation.goBack();
-
     }
 
     const confirmHandler = (expenseData: ExpensePropDTO) => {
@@ -54,7 +55,9 @@ const ManageExpenses = ({ route, navigation }: any) => {
 
     return (
         <View style={styles.container}>
-            <ExpenseForm onCancel={cancelHandler} onConfirm={confirmHandler} submitButtonLabel={isEditing ? "Update" : "Add"} />
+            <ExpenseForm onCancel={cancelHandler} 
+            onConfirm={confirmHandler} submitButtonLabel={isEditing ? "Update" : "Add"}
+            selectedExpense={selectedExpense} />
 
             {isEditing && <View style={styles.deleteContainer}>
                 <IconButton iconname="trash" size={36} color={Colors.error500}

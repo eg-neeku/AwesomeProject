@@ -1,7 +1,7 @@
 import { KeyboardTypeOptions, Platform, Pressable, StyleProp, StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
 import Colors from "../../../constants/colors";
 import { useState } from "react";
-import { ExpensePropDTO } from "./expensecommon";
+import { ExpensePropDTO, getFormattedDate } from "./expensecommon";
 
 type TextInputProps = {
     keyboardType: KeyboardTypeOptions,
@@ -56,8 +56,14 @@ function Input({ label, textInputConfig, style }: InputProps) {
 }
 
 
-export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm }: any) {
-    const [inputValues, setInputValues] = useState({ amount: "", date: "", description: "" });
+export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm, selectedExpense }: any) {
+    const [inputValues, setInputValues] = useState(
+        {
+            amount: selectedExpense ? selectedExpense.amount.toString() : "",
+            date: selectedExpense ? getFormattedDate(selectedExpense.date) : "",
+            description: selectedExpense ? selectedExpense.description.toString() : ""
+        }
+    );
 
     const styles = StyleSheet.create({
         forms: {
@@ -98,8 +104,8 @@ export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm }: 
     }
 
     const onSubmitHandler = () => {
-        const expenseData : ExpensePropDTO = {
-            amount:+inputValues.amount, //converts to number
+        const expenseData: ExpensePropDTO = {
+            amount: +inputValues.amount, //converts to number
             date: new Date(inputValues.date),
             description: inputValues.description
         }

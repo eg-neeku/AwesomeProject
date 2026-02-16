@@ -78,7 +78,8 @@ const DUMMY_EXPENSES: ExpenseProp[] = [
 enum MONTHS { JAN = 1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC };
 
 export function getFormattedDate(date: Date) {
-    return `${date.getDate()}-${date.getMonth() + 1}(${MONTHS[date.getMonth() + 1]})-${date.getFullYear()}`;
+    // return `${date.getDate()}-${date.getMonth() + 1}(${MONTHS[date.getMonth() + 1]})-${date.getFullYear()}`;
+    return date.toISOString().slice(0,10);
 }
 
 export function getDateMinusDays(date: Date, days: number) {
