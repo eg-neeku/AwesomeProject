@@ -1,4 +1,4 @@
-import { Alert, KeyboardTypeOptions, Platform, Pressable, StyleProp, StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
+import { KeyboardTypeOptions, Platform, Pressable, StyleProp, StyleSheet, Text, TextInput, View, ViewStyle } from "react-native";
 import Colors from "../../../constants/colors";
 import { useState } from "react";
 import { ExpensePropDTO, getFormattedDate } from "./expensecommon";
@@ -16,10 +16,11 @@ type TextInputProps = {
 type InputProps = {
     label: string,
     textInputConfig?: Partial<TextInputProps>,
-    style?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>,
+    inValid: boolean
 }
 
-function Input({ label, textInputConfig, style }: InputProps) {
+function Input({ label, textInputConfig, style, inValid }: InputProps) {
 
     const styles = StyleSheet.create({
         inputContainer: {
@@ -41,15 +42,24 @@ function Input({ label, textInputConfig, style }: InputProps) {
         inputMulitline: {
             minHeight: 100,
             textAlignVertical: "top"
+        },
+        errorlabel: {
+            color: Colors.error500
+        },
+        errortextinput: {
+            borderColor: Colors.error500,
+            backgroundColor: Colors.error50,
+            borderWidth: 1
         }
     });
 
     const inputStyles: any = [styles.input];
-    if (textInputConfig && textInputConfig.multiline) inputStyles.push(styles.inputMulitline)
+    if (textInputConfig && textInputConfig.multiline) inputStyles.push(styles.inputMulitline);
+    if (inValid) inputStyles.push(styles.errortextinput)
 
     return (
         <View style={[styles.inputContainer, style]}>
-            <Text style={styles.label}>{label}</Text>
+            <Text style={[styles.label, inValid && styles.errorlabel]}>{label}</Text>
             <TextInput style={inputStyles} {...textInputConfig} />
         </View>
     )
@@ -59,9 +69,18 @@ function Input({ label, textInputConfig, style }: InputProps) {
 export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm, selectedExpense }: any) {
     const [inputValues, setInputValues] = useState(
         {
-            amount: selectedExpense ? selectedExpense.amount.toString() : "",
-            date: selectedExpense ? getFormattedDate(selectedExpense.date) : "",
-            description: selectedExpense ? selectedExpense.description.toString() : ""
+            amount: {
+                value: selectedExpense ? selectedExpense.amount.toString() : "",
+                isValid: true
+            },
+            date: {
+                value: selectedExpense ? getFormattedDate(selectedExpense.date) : "",
+                isValid: true
+            },
+            description: {
+                value: selectedExpense ? selectedExpense.description.toString() : "",
+                isValid: true
+            }
         }
     );
 
@@ -91,6 +110,12 @@ export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm, se
         buttons: {
             minWidth: 120,
             marginHorizontal: 8
+        },
+        errortext: {
+            color: Colors.error500,
+            margin: 8,
+            fontSize: 12,
+            textAlign: "center"
         }
     });
 
@@ -98,16 +123,18 @@ export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm, se
         setInputValues(prevInput => {
             return {
                 ...prevInput,
-                [inputIdentifier]: enteredValue
+                [inputIdentifier]: {
+                    value: enteredValue, isValid: true
+                }
             }
         })
     }
 
     const onSubmitHandler = () => {
         const expenseData: ExpensePropDTO = {
-            amount: +inputValues.amount, //converts to number
-            date: new Date(inputValues.date),
-            description: inputValues.description
+            amount: +inputValues.amount.value, //converts to number
+            date: new Date(inputValues.date.value),
+            description: inputValues.description.value
         }
 
         const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
@@ -115,12 +142,21 @@ export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm, se
         const descriptionIsValid = expenseData.description.trim().length > 0;
 
         if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
-            Alert.alert("Invalid Input", "You know this is wrong!!",
-                [{ text: "Sorry", style: "cancel", }]);
+            setInputValues(prevInputs => {
+                return {
+                    amount: { value: prevInputs.amount.value, isValid: amountIsValid },
+                    date: { value: prevInputs.date.value, isValid: dateIsValid },
+                    description: { value: prevInputs.description.value, isValid: descriptionIsValid },
+                }
+            })
+            // Alert.alert("Invalid Input", "You know this is wrong!!",
+            //     [{ text: "Sorry", style: "cancel", }]);
             return;
         }
         onConfirm(expenseData);
     }
+
+    const formIsInValid = !inputValues.amount.isValid || !inputValues.date.isValid || !inputValues.description.isValid
 
     return (
         <View style={styles.forms}>
@@ -129,24 +165,29 @@ export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm, se
                 <Input label="Amount" textInputConfig={{
                     keyboardType: "decimal-pad",
                     onChangeText: (enteredAmount) => inputHandlerChange("amount", enteredAmount),
-                    value: inputValues.amount
+                    value: inputValues.amount.value
                 }}
                     style={styles.myRowStyle}
+                    inValid={!inputValues.amount.isValid}
                 />
                 <Input label="Date" textInputConfig={{
                     placeholder: "YYYY-MM-DD",
                     maxLength: 10,
                     onChangeText: (enteredDate) => inputHandlerChange("date", enteredDate),
-                    value: inputValues.date
+                    value: inputValues.date.value
                 }}
                     style={styles.myRowStyle}
+                    inValid={!inputValues.date.isValid}
                 />
             </View>
             <Input label="Description" textInputConfig={{
                 multiline: true,
                 onChangeText: (enteredDescrp) => inputHandlerChange("description", enteredDescrp),
-                value: inputValues.description
-            }} />
+                value: inputValues.description.value
+            }}
+                inValid={!inputValues.description.isValid}
+            />
+            {formIsInValid && <Text style={styles.errortext}>Invalid Input values - please check you entered data!</Text>}
             <View style={styles.buttonsContainer}>
                 <Button style={styles.buttons} mode="flat" onPress={onCancel}>Cancel</Button>
                 <Button style={styles.buttons} mode="flat" onPress={onSubmitHandler}>{submitButtonLabel}</Button>
