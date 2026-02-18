@@ -1,16 +1,21 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { ExpensePropDTO, IconButton } from "./expensecommon";
 import Colors from "../../../constants/colors";
 import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "./ExpenseForm";
+import { deleteExpenses, storeExpense, updateExpenses } from "../backend/http";
+import LoadingOverlay from "./LoadingOverlay";
+import ErrorOverlay from "./ErrorOverlay";
 
 const ManageExpenses = ({ route, navigation }: any) => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>("");
     const expenseCtx = useContext(ExpensesContext);
     const editedExpenseId = route.params?.expenseId; //here routing means useful for updating
     const isEditing = !!editedExpenseId;
 
-    const selectedExpense = expenseCtx.expenses.find(expense=> expense.id === editedExpenseId);
+    const selectedExpense = expenseCtx.expenses.find(expense => expense.id === editedExpenseId);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -18,10 +23,17 @@ const ManageExpenses = ({ route, navigation }: any) => {
         });
     }, [navigation, isEditing]);
 
-    const deleteExpenseHandler = () => {
+    const deleteExpenseHandler = async () => {
         // navigation.navigate("ExpensesOverview"); // this is used to navigate to the particular screen.
-        expenseCtx.deleteExpense(editedExpenseId);
-        navigation.goBack(); // but this ensures that it go back to where this UI screen was invoked
+        setIsSubmitting(true);
+        try {
+            await deleteExpenses(editedExpenseId);
+            expenseCtx.deleteExpense(editedExpenseId);
+            navigation.goBack(); // but this ensures that it go back to where this UI screen was invoked
+        } catch (error) {
+            setError("Could not delete expense - please try again later");
+            setIsSubmitting(false);
+        }
     }
 
     const cancelHandler = () => {
@@ -29,14 +41,21 @@ const ManageExpenses = ({ route, navigation }: any) => {
         navigation.goBack();
     }
 
-    const confirmHandler = (expenseData: ExpensePropDTO) => {
-        // navigation.navigate("ExpensesOverview");
-        if (isEditing) {
-            expenseCtx.updateExpense(editedExpenseId, expenseData);
-        } else {
-            expenseCtx.addExpense(expenseData);
+    const confirmHandler = async (expenseData: ExpensePropDTO) => {
+        setIsSubmitting(true);
+        try {
+            if (isEditing) {
+                expenseCtx.updateExpense(editedExpenseId, expenseData);
+                await updateExpenses(editedExpenseId, expenseData);
+            } else {
+                const id = await storeExpense(expenseData);
+                expenseCtx.addExpense({ ...expenseData, id: id });
+            }
+            navigation.goBack();
+        } catch (error) {
+            setError("Could not save data - please try again later!");
+            setIsSubmitting(false);
         }
-        navigation.goBack();
     }
 
     const styles = StyleSheet.create({
@@ -53,11 +72,15 @@ const ManageExpenses = ({ route, navigation }: any) => {
         },
     });
 
+    if (error && !isSubmitting) return <ErrorOverlay message={error} />
+
+    if (isSubmitting) return <LoadingOverlay />
+
     return (
         <View style={styles.container}>
-            <ExpenseForm onCancel={cancelHandler} 
-            onConfirm={confirmHandler} submitButtonLabel={isEditing ? "Update" : "Add"}
-            selectedExpense={selectedExpense} />
+            <ExpenseForm onCancel={cancelHandler}
+                onConfirm={confirmHandler} submitButtonLabel={isEditing ? "Update" : "Add"}
+                selectedExpense={selectedExpense} />
 
             {isEditing && <View style={styles.deleteContainer}>
                 <IconButton iconname="trash" size={36} color={Colors.error500}

@@ -197,7 +197,7 @@ export default function ExpenseForm({ submitButtonLabel, onCancel, onConfirm, se
 }
 
 
-const Button = ({ children, onPress, mode, style }: { children: React.ReactNode, onPress: () => void, mode: string, style: StyleProp<ViewStyle> }) => {
+export const Button = ({ children, onPress, mode, style }: { children: React.ReactNode, onPress: () => void, mode: string, style: StyleProp<ViewStyle> }) => {
     const styles = StyleSheet.create({
         button: {
             borderRadius: 4,

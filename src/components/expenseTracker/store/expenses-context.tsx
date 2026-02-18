@@ -3,21 +3,24 @@ import { DUMMY_EXPENSES, ExpensePropDTO, ExpenseProp } from "../screen/expenseco
 
 type ExpensesContextProp = {
     expenses: ExpenseProp[],
-    addExpense: ({ description, amount, date }: ExpensePropDTO) => void
-    deleteExpense: (id: ExpenseProp['id']) => void
+    setExpenses: (expenses: ExpenseProp[]) => void,
+    addExpense: ({ description, amount, date, id }: ExpenseProp) => void,
+    deleteExpense: (id: ExpenseProp['id']) => void,
     updateExpense: (id: ExpenseProp['id'], { description, amount, date }: ExpensePropDTO) => void
 }
 
 export const ExpensesContext = createContext<ExpensesContextProp>({
     expenses: [],
     // here you enter parameters or not it still works, because fn() are loosely than stricter
+    setExpenses: () => { },
     addExpense: () => { },
     deleteExpense: () => { },
     updateExpense: () => { },
 })
 
 type ActionProp =
-    | { type: 'ADD', payload: ExpensePropDTO }
+    | { type: 'ADD', payload: ExpenseProp }
+    | { type: 'SET', payload: ExpenseProp[] }
     | {
         type: 'UPDATE', payload: {
             id: ExpenseProp['id']
@@ -29,13 +32,17 @@ type ActionProp =
 const expensesReducer = (state: ExpenseProp[], action: ActionProp): ExpenseProp[] => {
     switch (action.type) {
         case 'ADD':
-            const id = new Date().toString() + Math.random().toString();
-            return [{ ...action.payload, id: id }, ...state]
+            // const id = new Date().toString() + Math.random().toString();
+            return [action.payload, ...state];
+        case 'SET': // this like get all data
+            // return action.payload; // here the datas will be displayed in chronological order, that is recently added append at end. 
+            // but if we want it at top, then do this.
+            return action.payload.reverse() ;
         case 'UPDATE':
-            const updatableExpenseIndex = state.findIndex(expense => expense.id === action.payload.id)
+            const updatableExpenseIndex = state.findIndex(expense => expense.id === action.payload.id);
             const updatableExpense = state[updatableExpenseIndex];
-            const updatedItem = { ...updatableExpense, ...action.payload.data }
-            const updatedExpenses = [...state]
+            const updatedItem = { ...updatableExpense, ...action.payload.data };
+            const updatedExpenses = [...state];
             updatedExpenses[updatableExpenseIndex] = updatedItem;
             return updatedExpenses;
         case 'DELETE':
@@ -46,9 +53,12 @@ const expensesReducer = (state: ExpenseProp[], action: ActionProp): ExpenseProp[
 }
 
 const ExpensesContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
-    const addExpense = (expenseData: ExpensePropDTO) => {
+    const [expensesState, dispatch] = useReducer(expensesReducer, []);
+    const addExpense = (expenseData: ExpenseProp) => {
         dispatch({ type: 'ADD', payload: expenseData });
+    }
+    const setExpenses = (expenses: ExpenseProp[]) => {
+        dispatch({ type: 'SET', payload: expenses });
     }
     const deleteExpense = (id: string) => {
         dispatch({ type: 'DELETE', payload: id });
@@ -63,6 +73,7 @@ const ExpensesContextProvider = ({ children }: { children: React.ReactNode }) =>
 
     const values = {
         expenses: expensesState,
+        setExpenses: setExpenses,
         addExpense: addExpense,
         deleteExpense: deleteExpense,
         updateExpense: updateExpense

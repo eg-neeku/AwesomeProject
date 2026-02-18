@@ -222,6 +222,17 @@ Make sure the icons are in square shaped only, as android and ios will auto crea
     $ npx react-native-set-icon --path ./assets/image/icon.png
 ```
 
+
+Database REST API operations:
+1. Setup the database(Firebase is used here). Here in realtime data make sure to set the read and write to true(risky but for real-time db and free purpose this is needed)
+2. Install packages:
+``` bash
+    npm i axios
+```
+
+
 Typescript: 
 Omit is used to remove some properties inorder to get extract properties from the parent type
 Extract no idea?
+Never turn useEffect function into async function becaue it is discouraged by React team.
+Instead we need to use the create a function inside the useEffect.
