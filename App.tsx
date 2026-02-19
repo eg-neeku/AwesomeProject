@@ -18,6 +18,7 @@ import MealDrawerNavigatorScreen from './src/components/mealNavigation/MealDrawe
 import ItemList from './src/components/ItemList';
 import ExpensesContextProvider from './src/components/expenseTracker/store/expenses-context';
 import ExpenseAppStackNavigator from './src/components/expenseTracker/ExpenseAppStackNavigator';
+import TestComponent from './src/trials/TestComponent';
 // import ItemList from './components/ItemList'
 
 function App() {
@@ -34,11 +35,13 @@ function App() {
           </NavigationContainer>
         </FavoritesContextProvider> */}
 
-        <ExpensesContextProvider>
+        {/* <ExpensesContextProvider>
           <NavigationContainer>
             <ExpenseAppStackNavigator />
           </NavigationContainer>
-        </ExpensesContextProvider>
+        </ExpensesContextProvider> */}
+
+        <TestComponent />
 
       </GestureHandlerRootView>
     </SafeAreaProvider>
