@@ -18,71 +18,9 @@ import MealDrawerNavigatorScreen from './src/components/mealNavigation/MealDrawe
 import ItemList from './src/components/ItemList';
 import ExpensesContextProvider from './src/components/expenseTracker/store/expenses-context';
 import ExpenseAppStackNavigator from './src/components/expenseTracker/ExpenseAppStackNavigator';
+import MainAuthStack from './src/components/demologreg/MainAuthStack';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Login } from './src/components/demologreg/screen/Login';
-import { Signup } from './src/components/demologreg/screen/Signup';
-// import Colors from './src/constants/colors';
-import WelcomeScreen from './src/components/drawerScreen/WelcomeScreen';
-import { AuthContext, AuthContextProvider } from './src/components/demologreg/store/auth-context';
-import { useContext, useEffect } from 'react';
-import IconButton from './src/components/demologreg/ui/IconButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Stack = createNativeStackNavigator();
-
-function AuthStack() {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: "#62036b" },
-        headerTintColor: "#fff",
-        contentStyle: { backgroundColor: "#d000dd", }
-      }}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Signup" component={Signup} />
-    </Stack.Navigator>
-  )
-}
-
-function AuthenticatedStack() {
-  const authCtx = useContext(AuthContext);
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: "#62036b" },
-        headerTintColor: "#fff",
-        contentStyle: { backgroundColor: "#d000dd", }
-      }}>
-      <Stack.Screen name="Welcome" component={WelcomeScreen}
-        options={{
-          headerRight: ({ tintColor }) => (
-            <IconButton icon='exit' color={tintColor} size={24} onPress={authCtx.logout} />
-          )
-        }} />
-    </Stack.Navigator>
-  )
-}
-
-function Navigation() {
-  const authCtx = useContext(AuthContext);
-
-  useEffect(() => {
-    async function fetchToken() {
-      const storedToken = await AsyncStorage.getItem("token");
-      if (storedToken) {
-        authCtx.authenticate(storedToken);
-      }
-    }
-    fetchToken();
-  }, []);
-
-  return (
-    <NavigationContainer>
-      {authCtx.isAuthenticated ? <AuthenticatedStack /> : <AuthStack />}
-    </NavigationContainer>
-  )
-}
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -104,10 +42,7 @@ function App() {
           </NavigationContainer>
           </ExpensesContextProvider> */}
 
-        <AuthContextProvider>
-          <Navigation />
-        </AuthContextProvider>
-
+        <MainAuthStack />
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );

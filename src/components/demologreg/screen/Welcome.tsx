@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native"
 
-export const Signup = () => {
+export const Welcome = () => {
     const styles = StyleSheet.create({
         welcomeContainer: {
             flex: 1,
