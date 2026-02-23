@@ -222,12 +222,18 @@ Make sure the icons are in square shaped only, as android and ios will auto crea
     $ npx react-native-set-icon --path ./assets/image/icon.png
 ```
 
+In jsx or TSX if a boolean value is invoked without assigning value it is same as asying it is true
+<Input secure={true} /> is same as <Input secure />
 
 Database REST API operations:
 1. Setup the database(Firebase is used here). Here in realtime data make sure to set the read and write to true(risky but for real-time db and free purpose this is needed)
 2. Install packages:
 ``` bash
     npm i axios
+```
+3. To store the data in phone: using the key value pair approach just like ocalstorage in browser:
+``` bash
+    npm install @react-native-async-storage/async-storage@next
 ```
 
 
