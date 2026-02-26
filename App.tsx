@@ -19,7 +19,7 @@ import ItemList from './src/components/ItemList';
 import ExpensesContextProvider from './src/components/expenseTracker/store/expenses-context';
 import ExpenseAppStackNavigator from './src/components/expenseTracker/ExpenseAppStackNavigator';
 import MainAuthStack from './src/components/demologreg/MainAuthStack';
-
+import CamLocNavigator from './src/components/camlocapp/CamLocNavigator';
 
 
 function App() {
@@ -42,11 +42,12 @@ function App() {
           </NavigationContainer>
           </ExpensesContextProvider> */}
 
-        <MainAuthStack />
+        {/* <MainAuthStack /> */}
+
+        <CamLocNavigator />
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }
 
 export default App;
-
