@@ -9,23 +9,24 @@ const getBackgroundColor = (variant?: string) => {
         case "secondary": return "#0ff";
         case "success": return "#28a745";
         case "dark": return "#000";
-        default: return "#ccc";
+        default: return "#000";
     }
 }
 
 type BaseButtonProps = {
     variant?: string,
-    title: string,
     onPress?: () => any,
 }
 
 type TextProps = {
+    title: string,
     isIcon?: false,
     iconSize?: never,
     iconColor?: never
 }
 
 type IconProps = {
+    title: string,
     isIcon: boolean,
     iconSize: number,
     iconColor: string
@@ -33,7 +34,7 @@ type IconProps = {
 
 type MyButtonProps = BaseButtonProps & (TextProps | IconProps);
 
-export const MyButton = ({ variant, title, onPress, isIcon = false, iconSize, iconColor }: MyButtonProps) => {
+export const MyButton = ({ variant, title, onPress, isIcon = false, iconSize, iconColor="#000" }: MyButtonProps) => {
     const styles = StyleSheet.create({
         outerbuttoncontainer: {
             margin: 8,
@@ -67,8 +68,8 @@ export const MyButton = ({ variant, title, onPress, isIcon = false, iconSize, ic
             <Pressable onPress={onPress}>
                 {({ pressed }) => (
                     <View style={[styles.innerbuttonContainer, pressed && styles.pressed]}>
-                        {isIcon && <Icon name="" size={iconSize} color={iconColor} />}
-                        <Text style={pressed ? styles.afterpressbuttontext : styles.buttonText}>{title}</Text>
+                        {isIcon && <Icon name={title} size={iconSize} color={getBackgroundColor(iconColor)} />}
+                        {!isIcon && <Text style={pressed ? styles.afterpressbuttontext : styles.buttonText}>{title}</Text>}
                     </View>
                 )}
             </Pressable>

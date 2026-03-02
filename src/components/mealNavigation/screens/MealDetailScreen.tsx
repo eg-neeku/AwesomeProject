@@ -39,18 +39,20 @@ const MealDetailScreen = ({ route, navigation }: any) => {
         }
     }
 
-    useEffect(() => {
-        navigation.setOptions({
-            headerRight: () => {
-                return <IconButton onPress={changeFavoriteStatusHandler}
-                    icon={mealIsFavorite ? "star" : "star-o"}
-                    color="#fff" />
-            }
-        });
-    }, [navigation, changeFavoriteStatusHandler]);
+    // useEffect(() => {
+    //     navigation.setOptions({
+    //         headerRight: () => {
+    //             return <IconButton onPress={changeFavoriteStatusHandler}
+    //                 icon={mealIsFavorite ? "star" : "star-o"}
+    //                 color="#fff" />
+    //         }
+    //     });
+    // }, [navigation, changeFavoriteStatusHandler]);
 
     return (
         <ScrollView style={{ marginHorizontal: 20, marginVertical: 20 }}>
+            <IconButton onPress={changeFavoriteStatusHandler}
+                icon={mealIsFavorite ? "star" : "star-o"} color="#fff" />
             <MealItemDetails item={selectedMeal as MealProp} />
             <View style={styles.subContainer}>
                 <Text style={styles.subtitle}>Ingredients: </Text>

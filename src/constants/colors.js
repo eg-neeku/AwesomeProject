@@ -1,6 +1,5 @@
 // const Colors = {
 //     // primary500:'#72063c',
-//     primary600:'#4e0328',
 //     // accent500:'#ddb52f'
 //     primary50: "#e4d9fd",
 //     primary100: "#c6affc",
@@ -12,7 +11,6 @@
 //     accent500: "#f7bc0c",
 //     error50: "#fcc4e4",
 //     error500: "#9b095c",
-//     gray500: "#39324a",
 //     gray700: "#221c30",
 // }
 
@@ -22,12 +20,13 @@ export const Colors = {
     primary200: "#77cff8",
     primary400: "#44bdf5",
     primary500: "#1aacf0",
+    primary600:'#4e0328',
     primary700: "#0570c9",
     primary800: "#003b88",
     accent500: "#e6b30b",
     gray700: "#221c30",
-    error500:"#f00",
+    error500: "#f00",
+    gray500: "#39324a",
 }
 
 export default Colors;
-

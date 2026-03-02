@@ -17,7 +17,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MealDrawerNavigatorScreen from './src/components/mealNavigation/MealDrawerNavigatorScreen';
 import ItemList from './src/components/ItemList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import BusDrawerScreen from './src/busApp/screen/BusDrawerScreen';
+import Feature from './src/Feature';
 
 
 function App() {
@@ -29,15 +29,13 @@ function App() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         {/* <ItemList /><Text>This Thing UPDATE LOgin has to be implmented </Text> */}
         <NavigationContainer>
-          <MealDrawerNavigatorScreen />
-        </NavigationContainer>
+          <Feature />
 
-        {/* <NavigationContainer>
-          <BusDrawerScreen />
-        </NavigationContainer> */}
+        {/* <BusDrawerScreen />*/}
 
         {/* <TestThis /> */}
 
+          </NavigationContainer>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );

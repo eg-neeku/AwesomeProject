@@ -11,68 +11,32 @@ import CommUI from "../CommUI";
 import MealDetailScreen from "./screens/MealDetailScreen";
 import ExpenseAppStackNavigator from "../expenseTracker/ExpenseAppStackNavigator";
 import { FavoritesContextProvider } from "./store/context/favorites-context";
+import { createNativeBottomTabNavigator } from "@react-navigation/bottom-tabs/unstable";
 
 
 export default function MealDrawerNavigatorScreen() {
-    const Drawer = createDrawerNavigator();
+const BottomTab = createNativeBottomTabNavigator();
     return (
         <FavoritesContextProvider>
-            <Drawer.Navigator initialRouteName="User"
-                screenOptions={{
-                    headerStyle: { backgroundColor: "#3c0a6b" },
-                    headerTintColor: "#fff",
-                    drawerActiveBackgroundColor: "#f0e1ff",
-                    drawerActiveTintColor: "#3c0a6b",
-                    drawerStyle: { backgroundColor: "#ccc" },
-                }}>
-                <Drawer.Screen name="Welcome" component={WelcomeScreen}
-                    options={{
-                        drawerLabel: "Welcome Screen",
-                        drawerIcon: ({ color, size }) => (
-                            <Icon name="home" color={color} size={size} />
-                        )
-                    }} />
-                <Drawer.Screen name="User" component={UserScreen}
-                    options={{
-                        drawerIcon: ({ color, size }) => (
-                            <Icon name="person" color={color} size={size} />
-                        )
-                    }} />
-                <Drawer.Screen name="Meals" component={MealStackNavigatorScreen}
-                    options={{
-                        drawerLabel: "Meal Category Lists",
-                        drawerIcon: ({ color, size }) => (
-                            <Icon name="fast-food-outline" color={color} size={size} />
-                        ),
-                    }} />
-                <Drawer.Screen name="ExpenseApp" component={ExpenseAppStackNavigator}
-                    options={{
-                        drawerLabel: "Expense Management",
-                        drawerIcon: ({ color, size }) => (
-                            <Icon name="fast-food-outline" color={color} size={size} />
-                        ),
-                    }} />
-                <Drawer.Screen name="Favourites" component={Favourites}
-                    options={{
-                        drawerLabel: "Favourites Lists",
-                        drawerIcon: ({ color, size }) => (
-                            <Icon name="star" color={color} size={size} />
-                        )
-                    }} />
-                <Drawer.Screen name="GameGuess" component={MainScreen}
-                    options={{
-                        drawerLabel: "Guess Game",
-                        drawerIcon: ({ size, color }) => (<Icon name="trail-sign" size={size} color={color} />)
-                    }} />
-                <Drawer.Screen name="UIElements" component={CommUI}
-                    options={{
-                        drawerLabel: "UI Elements",
-                        drawerIcon: ({ size, color }) => (<Icon name="build-sharp" color={color} size={size} />)
-                    }} />
-            </Drawer.Navigator>
+            <BottomTab.Navigator>
+                <BottomTab.Screen name="Meals" component={MealStackNavigatorScreen} />
+                <BottomTab.Screen name="Favourites" component={Favourites} />
+            </BottomTab.Navigator>
         </FavoritesContextProvider>
     )
 }
+
+// const MainMealBottomTabNavigator = () => {
+//     const BottomTab = createNativeBottomTabNavigator();
+//     return (
+//         <FavoritesContextProvider>
+//             <BottomTab.Navigator>
+//                 <BottomTab.Screen name="Meals" component={MealStackNavigatorScreen} />
+//                 <BottomTab.Screen name="Favourites" component={Favourites} />
+//             </BottomTab.Navigator>
+//         </FavoritesContextProvider>
+//     )
+// }
 
 const MealStackNavigatorScreen = () => {
     const Stack = createNativeStackNavigator();
@@ -81,11 +45,12 @@ const MealStackNavigatorScreen = () => {
             screenOptions={{
                 headerStyle: { backgroundColor: '#351401' },
                 headerTintColor: '#fff',
-                contentStyle: { backgroundColor: '#3f2f25' }
+                contentStyle: { backgroundColor: '#3f2f25', paddingBottom: 100, },
+                headerShown: false
             }}>
             <Stack.Screen name="MealsCategories" component={CategoryScreen}
                 options={{
-                    title: 'All Categories',
+                    title: 'All Categories'
                 }} />
             <Stack.Screen name="MealsOverview" component={MealsOverviewScreen}
             // options={({ route, navigation }: any): any => {

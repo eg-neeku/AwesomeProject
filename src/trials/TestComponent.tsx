@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { MyButton } from "../busApp/UI/MyButton";
+import { MyButton } from "../components/busApp/UI/MyButton";
 import { Myflex } from "./Myflex";
 
 const TestComponent = () => {
