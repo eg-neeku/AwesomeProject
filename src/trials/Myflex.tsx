@@ -1,5 +1,6 @@
 import { View, StyleSheet, Pressable } from "react-native";
-import Colors from "../constants/colors";
+import { Colors } from "../constants/colors";
+// import Colors from "../constants/colors";
 
 const BOX_BASE = {
     width: 100,
@@ -29,7 +30,7 @@ export const Myflex = () => {
             ...BOX_BASE
         },
         box4: {
-            backgroundColor: Colors.primary600,
+            backgroundColor: Colors.primary500,
             ...BOX_BASE
         },
         box5: {

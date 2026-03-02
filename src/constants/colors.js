@@ -16,8 +16,6 @@
 //     gray700: "#221c30",
 // }
 
-// export default Colors;
-
 export const Colors = {
     primary50: "#cfeffd",
     primary100: "#a0defb",
@@ -27,5 +25,9 @@ export const Colors = {
     primary700: "#0570c9",
     primary800: "#003b88",
     accent500: "#e6b30b",
-    gray700: "#221c30"
+    gray700: "#221c30",
+    error500:"#f00",
 }
+
+export default Colors;
+

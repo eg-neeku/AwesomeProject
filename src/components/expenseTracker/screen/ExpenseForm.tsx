@@ -48,7 +48,7 @@ function Input({ label, textInputConfig, style, inValid }: InputProps) {
         },
         errortextinput: {
             borderColor: Colors.error500,
-            backgroundColor: Colors.error50,
+            backgroundColor: Colors.error500,
             borderWidth: 1
         }
     });

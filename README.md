@@ -242,3 +242,26 @@ Omit is used to remove some properties inorder to get extract properties from th
 Extract no idea?
 Never turn useEffect function into async function becaue it is discouraged by React team.
 Instead we need to use the create a function inside the useEffect.
+
+
+To build .apk file: 
+1. Run the following command:
+``` bash
+    $cd Project && cd android
+    $gradlew clean
+    $gradlew assembleRelease
+```
+
+2. Navigate to android/app/build/outputs/apk/release folder. Under this the app-release.apk file will be created.
+For Android Devices
+Connect your phone via USB
+Verify device is detected:
+adb devices
+Your device should appear in the list.
+Start Metro Bundler (in project root):
+npx react-native start
+Run the app on your connected device:
+npx react-native run-android
+Notes:
+Make sure your phone’s screen is unlocked.
+If you encounter permission issues, try adb kill-server then adb start-server.

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Button } from "react-native"
+import { Pressable, StyleSheet, Text, View } from "react-native"
 import Icon from "react-native-vector-icons/Ionicons"
 
 const getBackgroundColor = (variant?: string) => {

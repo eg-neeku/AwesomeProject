@@ -6,7 +6,7 @@
  */
 
 // import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, useColorScheme, Text } from 'react-native';
+import { StatusBar, useColorScheme, Text, View } from 'react-native';
 import {
   SafeAreaProvider,
   SafeAreaView
@@ -20,6 +20,9 @@ import ExpensesContextProvider from './src/components/expenseTracker/store/expen
 import ExpenseAppStackNavigator from './src/components/expenseTracker/ExpenseAppStackNavigator';
 import MainAuthStack from './src/components/demologreg/MainAuthStack';
 import CamLocNavigator from './src/components/camlocapp/CamLocNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BusDrawerScreen from './src/busApp/screen/BusDrawerScreen';
+import { MyButton } from './src/busApp/UI/MyButton';
 
 
 function App() {
@@ -36,18 +39,33 @@ function App() {
           </NavigationContainer>
           </FavoritesContextProvider> */}
 
-        {/* <ExpensesContextProvider>
+        <ExpensesContextProvider>
           <NavigationContainer>
           <ExpenseAppStackNavigator />
           </NavigationContainer>
-          </ExpensesContextProvider> */}
+          </ExpensesContextProvider>
 
         {/* <MainAuthStack /> */}
 
-        <CamLocNavigator />
+        {/* <CamLocNavigator /> */}
+
+        {/* <NavigationContainer>
+          <BusDrawerScreen />
+        </NavigationContainer> */}
+
+        {/* <MyButton variant="primary" title="" /> */}
+
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }
 
 export default App;
+
+const TestThis = () => {
+  return (
+    <View style={{ justifyContent: "center", alignItems: "center", padding: 2, marginVertical: 45 }}>
+      <Text style={{ color: "#000", fontSize:45 }}>Does this works </Text>
+    </View>
+  )
+}
