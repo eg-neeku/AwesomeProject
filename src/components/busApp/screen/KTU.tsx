@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Platform, FlatList, Pressable, TextInput } from "react-native";
 import { MyButton } from "../UI/MyButton";
 import { BUS_DETAILS, BusProps } from "../common/common";
+import TextSearch from "../UI/TextSearch";
 
 
 export default function KTU() {
@@ -58,25 +59,44 @@ export default function KTU() {
                 <Text style={styles.headerText2}>Bus Detail from Udupi to K</Text>
             </View>
             <View style={styles.main}>
-                <View style={styles.subMain}>
+                {/* <View style={styles.subMain}>
                     <TextInput style={styles.textinput}
                         placeholder="Search Bus name:"
                         value={searchBy.busName}
                         onChangeText={(enteredBusName) => setSearchBy({ ...searchBy, busName: enteredBusName })}
                         onFocus={() => { setShow(false) }}
-                    />
-                    <MyButton isIcon={true} variant="secondary" title="search" iconColor="" iconSize={24} onPress={handleBusNamePress} />
-                </View>
-                <View style={styles.subMain}>
+                        />
+                        <MyButton isIcon={true} variant="secondary" title="search" iconColor="" iconSize={24} onPress={handleBusNamePress} />
+                        </View> */}
+                <TextSearch placeholder="Search Bus name:"
+                    value={searchBy.busName}
+                    onChangeText={(enteredBusName) => setSearchBy({ ...searchBy, busName: enteredBusName })}
+                    onFocus={() => { setShow(false) }}
+                    variant="secondary"
+                    title="search"
+                    isIcon
+                    onPress={handleBusNamePress}
+                />
+                {/* <View style={styles.subMain}>
                     <TextInput style={styles.textinput}
-                        placeholder="Search Bus timings(Format: HR:MM[am/pm])"
-                        value={searchBy.timings}
-                        onChangeText={(enteredTimings) => setSearchBy({ ...searchBy, timings: enteredTimings })}
-                        onFocus={() => { setShow(false) }}
-                        maxLength={5}
+                    placeholder="Search Bus timings(Format: HR:MM[am/pm])"
+                    value={searchBy.timings}
+                    onChangeText={(enteredTimings) => setSearchBy({ ...searchBy, timings: enteredTimings })}
+                    onFocus={() => { setShow(false) }}
+                    maxLength={5}
                     />
                     <MyButton isIcon={true} variant="secondary" title="search" iconColor="" iconSize={24} onPress={handleTimingsPress} />
-                </View>
+                    </View> */}
+                <TextSearch placeholder="Search Bus timings(Format: HR:MM[am/pm])"
+                    value={searchBy.timings}
+                    onChangeText={(enteredTimings) => setSearchBy({ ...searchBy, timings: enteredTimings })}
+                    onFocus={() => { setShow(false) }}
+                    variant="secondary"
+                    maxLength={5}
+                    isIcon
+                    title="search"
+                    onPress={handleTimingsPress}
+                />
                 {show && <Text style={{ fontSize: 10, color: "#f00", textAlign: "center" }}>Please enter time in HH:MM format only(example: 07:29)</Text>}
                 {busDetail.length !== 0 ? <FlatList
                     data={busDetail}

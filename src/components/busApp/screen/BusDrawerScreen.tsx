@@ -1,4 +1,3 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import UTK from "./UTK";
 import KTU from "./KTU";
 import { createNativeBottomTabNavigator } from "@react-navigation/bottom-tabs/unstable";
