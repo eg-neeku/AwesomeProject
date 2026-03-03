@@ -2,12 +2,22 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Platform, FlatList, Pressable } from "react-native";
 import { BUS_DETAILS_KTU, BusProps } from "../common/common";
 import InputWithSearch from "../UI/TextSearch";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function KTU() {
     const [searchBy, setSearchBy] = useState<BusProps>({ busName: "", timings: "" });
     const [busDetail, setBusDetail] = useState<BusProps[]>(BUS_DETAILS_KTU);
     const [show, setShow] = useState(true);
+
+    useEffect(()=>{
+        async function details() {
+            const data = await AsyncStorage.getItem("BUS_DETAILS_KTU") || "";
+            const result = JSON.parse(data);
+            setBusDetail(result);
+        }
+        details();
+    },[]);
 
     useEffect(() => {
         const busNow = searchBy.busName.toLocaleLowerCase();
