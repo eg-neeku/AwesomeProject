@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Platform, FlatList, Pressable } from "react-native";
-import { BUS_DETAILS, BusProps } from "../common/common";
+import { BUS_DETAILS_UTK, BusProps } from "../common/common";
 import InputWithSearch from "../UI/TextSearch";
 
 
 export default function UTK() {
     const [searchBy, setSearchBy] = useState<BusProps>({ busName: "", timings: "" });
-    const [busDetail, setBusDetail] = useState<BusProps[]>(BUS_DETAILS);
+    const [busDetail, setBusDetail] = useState<BusProps[]>(BUS_DETAILS_UTK);
     const [show, setShow] = useState(true);
 
     useEffect(() => {
         const busNow = searchBy.busName.toLocaleLowerCase();
         const timeNow = searchBy.timings;
         if (busNow === "" && timeNow === "") {
-            setBusDetail(BUS_DETAILS);
+            setBusDetail(BUS_DETAILS_UTK);
             return;
         }
-        const hasBus = BUS_DETAILS.some(bus => bus.busName.toLowerCase().startsWith(busNow));
+        const hasBus = BUS_DETAILS_UTK.some(bus => bus.busName.toLowerCase().startsWith(busNow));
         if (!hasBus) {
-            setBusDetail(BUS_DETAILS);
+            setBusDetail(BUS_DETAILS_UTK);
             return;
         }
     }, [searchBy.busName]);
@@ -59,7 +59,7 @@ export default function UTK() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText1}>(Please be 5min before the timings in the bus stand for safety)</Text>
+                <Text style={styles.headerText1}>(From KTU assume 30min before)</Text>
                 <Text style={styles.headerText2}>Bus Detail from Udupi to K</Text>
             </View>
             <View style={styles.main}>
@@ -91,7 +91,7 @@ export default function UTK() {
                     data={busDetail}
                     keyExtractor={(_, index) => `${index}`}
                     renderItem={(itemData) => { return <BusItem busdata={itemData.item} /> }}
-                /> : <Text>No Bus found</Text>}
+                /> : <Text style={{ textAlign: "center" }}>No Bus found!</Text>}
             </View>
         </View>
     )

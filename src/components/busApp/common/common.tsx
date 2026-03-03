@@ -4,22 +4,44 @@ export type BusProps = {
     timings: string
 }
 
-export const BUS_DETAILS: BusProps[] = [
+export const BUS_DETAILS_UTK: BusProps[] = [];
+
+export const BUS_DETAILS_KTU: BusProps[] = [
     {
         busName: "LULU",
         timings: "07:05am"
     },
     {
         busName: "LULU",
-        timings: "06:05am"
+        timings: "06:50pm"
     },
     {
         busName: "Kadiyali",
         timings: "07:40am"
     },
     {
+        busName: "Kadiyali",
+        timings: "02:25pm"
+    },
+    {
+        busName: "Kadiyali",
+        timings: "07:00pm"
+    },
+    {
         busName: "Sri Ganesh",
         timings: "08:20am"
+    },
+    {
+        busName: "Sri Ganesh",
+        timings: "09:15am"
+    },
+    {
+        busName: "Sri Ganesh",
+        timings: "01:40pm"
+    },
+    {
+        busName: "Sri Ganesh",
+        timings: "07:25pm"
     },
     {
         busName: "Sathyanath",
@@ -28,6 +50,10 @@ export const BUS_DETAILS: BusProps[] = [
     {
         busName: "Krishna Prasad",
         timings: "08:45am"
+    },
+    {
+        busName: "Krishna Prasad",
+        timings: "02:00pm"
     },
     {
         busName: "SVT",

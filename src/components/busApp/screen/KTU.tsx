@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Platform, FlatList, Pressable } from "react-native";
-import { BUS_DETAILS, BusProps } from "../common/common";
+import { BUS_DETAILS_KTU, BusProps } from "../common/common";
 import InputWithSearch from "../UI/TextSearch";
 
 
 export default function KTU() {
     const [searchBy, setSearchBy] = useState<BusProps>({ busName: "", timings: "" });
-    const [busDetail, setBusDetail] = useState<BusProps[]>(BUS_DETAILS);
+    const [busDetail, setBusDetail] = useState<BusProps[]>(BUS_DETAILS_KTU);
     const [show, setShow] = useState(true);
 
     useEffect(() => {
         const busNow = searchBy.busName.toLocaleLowerCase();
         const timeNow = searchBy.timings;
         if (busNow === "" && timeNow === "") {
-            setBusDetail(BUS_DETAILS);
+            setBusDetail(BUS_DETAILS_KTU);
             return;
         }
-        const hasBus = BUS_DETAILS.some(bus => bus.busName.toLowerCase().startsWith(busNow));
+        const hasBus = BUS_DETAILS_KTU.some(bus => bus.busName.toLowerCase().startsWith(busNow));
         if (!hasBus) {
-            setBusDetail(BUS_DETAILS);
+            setBusDetail(BUS_DETAILS_KTU);
             return;
         }
     }, [searchBy.busName]);
@@ -36,11 +36,11 @@ export default function KTU() {
         let time2 = time1.split(":");
         if (time1.trim() === "" || time2.length > 2) {
             return;
-        } // "@react-native-community/datetimepicker": "6.7.5", "react-native-modal-datetime-picker": "^15.0.0", "mockdate": "^3.0.5",
-        if (time2.length==2 && time2[0].length==1){
-            time2[0] = "0"+time2[0];
-            setBusDetail(busDetail.filter((bus) => bus.timings.startsWith(time2[0]+":"+time2[1])));
-        }else{
+        }
+        if (time2.length == 2 && time2[0].length == 1) {
+            time2[0] = "0" + time2[0];
+            setBusDetail(busDetail.filter((bus) => bus.timings.startsWith(time2[0] + ":" + time2[1])));
+        } else {
             time1 = time1.length === 1 ? "0" + time1 : time1;
             setBusDetail(busDetail.filter((bus) => bus.timings.startsWith(time1)));
         }
@@ -60,7 +60,7 @@ export default function KTU() {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText1}>(Please be 5min before the timings in the bus stand for safety)</Text>
-                <Text style={styles.headerText2}>Bus Detail from Udupi to K</Text>
+                <Text style={styles.headerText2}>Bus Detail from K to Udupi</Text>
             </View>
             <View style={styles.main}>
                 <InputWithSearch placeholder="Bus name:"
@@ -91,7 +91,7 @@ export default function KTU() {
                     data={busDetail}
                     keyExtractor={(_, index) => `${index}`}
                     renderItem={(itemData) => { return <BusItem busdata={itemData.item} /> }}
-                /> : <Text>No Bus found</Text>}
+                /> : <Text style={{ textAlign: "center" }}>No Bus found!</Text>}
             </View>
         </View>
     )
