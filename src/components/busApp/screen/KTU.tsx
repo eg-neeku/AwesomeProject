@@ -7,27 +7,30 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function KTU() {
     const [searchBy, setSearchBy] = useState<BusProps>({ busName: "", timings: "" });
-    const [busDetail, setBusDetail] = useState<BusProps[]>(BUS_DETAILS_KTU);
+    const [busDetail, setBusDetail] = useState<BusProps[]>([]);
     const [show, setShow] = useState(true);
 
-    useEffect(()=>{
+    useEffect(() => {
         async function details() {
-            const data = await AsyncStorage.getItem("BUS_DETAILS_KTU") || "";
-            const result = JSON.parse(data);
-            setBusDetail(result);
+            try {
+                const data = await AsyncStorage.getItem("BUS_DETAILS_KTU");
+                if (data !== null) {
+                    const result = JSON.parse(data) as BusProps[];
+                    setBusDetail(result);
+                } else {
+                    setBusDetail(BUS_DETAILS_KTU)
+                }
+            } catch (error) {
+                setBusDetail(BUS_DETAILS_KTU)
+            }
         }
         details();
-    },[]);
+    }, []);
 
     useEffect(() => {
         const busNow = searchBy.busName.toLocaleLowerCase();
         const timeNow = searchBy.timings;
         if (busNow === "" && timeNow === "") {
-            setBusDetail(BUS_DETAILS_KTU);
-            return;
-        }
-        const hasBus = BUS_DETAILS_KTU.some(bus => bus.busName.toLowerCase().startsWith(busNow));
-        if (!hasBus) {
             setBusDetail(BUS_DETAILS_KTU);
             return;
         }
@@ -44,7 +47,7 @@ export default function KTU() {
         // "/^\d{2}:\d{2}$/".match(searchBy.timings.trim()) for valid time
         let time1 = searchBy.timings;
         let time2 = time1.split(":");
-        if (time1.trim() === "" || time2.length > 2) {
+        if (time1.trim() === "" || time2.length > 2 || isNaN(Number(time1))) {
             return;
         }
         if (time2.length == 2 && time2[0].length == 1) {

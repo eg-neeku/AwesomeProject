@@ -25,6 +25,10 @@ export const BUS_DETAILS_KTU: BusProps[] = [
     },
     {
         busName: "Kadiyali",
+        timings: "04:45pm"
+    },
+    {
+        busName: "Kadiyali",
         timings: "07:00pm"
     },
     {
@@ -34,6 +38,18 @@ export const BUS_DETAILS_KTU: BusProps[] = [
     {
         busName: "Sri Ganesh",
         timings: "09:15am"
+    },
+    {
+        busName: "Sima",
+        timings: "09:30am"
+    },
+    {
+        busName: "Sima",
+        timings: "12:50pm"
+    },
+    {
+        busName: "Sima",
+        timings: "3:50pm"
     },
     {
         busName: "Sri Ganesh",

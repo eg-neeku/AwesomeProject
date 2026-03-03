@@ -23,7 +23,7 @@ import { BUS_DETAILS_KTU } from './src/components/busApp/common/common';
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
-  // as soon as app loads execute this data
+  // as soon as app loads, execute this data
   useEffect(()=>{
     async function getBusData() {
       await AsyncStorage.setItem("BUS_DETAILS_KTU",JSON.stringify(BUS_DETAILS_KTU));
