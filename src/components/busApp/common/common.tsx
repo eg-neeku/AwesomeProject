@@ -10,6 +10,10 @@ export const BUS_DETAILS: BusProps[] = [
         timings: "07:05am"
     },
     {
+        busName: "LULU",
+        timings: "06:05am"
+    },
+    {
         busName: "Kadiyali",
         timings: "07:40am"
     },
@@ -22,7 +26,32 @@ export const BUS_DETAILS: BusProps[] = [
         timings: "08:25am"
     },
     {
-        busName: "LULU",
-        timings: "06:50pm"
+        busName: "Krishna Prasad",
+        timings: "08:45am"
+    },
+    {
+        busName: "SVT",
+        timings: "09:04am"
     },
 ]
+
+export type BaseButtonProps = {
+    variant?: string,
+    onPress?: () => any,
+}
+
+export type TextProps = {
+    title: string,
+    isIcon?: false,
+    iconSize?: never,
+    iconColor?: never
+}
+
+export type IconProps = {
+    title: string,
+    isIcon: boolean,
+    iconSize: number,
+    iconColor: string
+}
+
+export type MyButtonProps = BaseButtonProps & (TextProps | IconProps);

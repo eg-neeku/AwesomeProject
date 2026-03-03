@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Platform, FlatList, Pressable, TextInput } from "react-native";
-import { MyButton } from "../UI/MyButton";
+import { View, Text, StyleSheet, Platform, FlatList, Pressable } from "react-native";
 import { BUS_DETAILS, BusProps } from "../common/common";
-import TextSearch from "../UI/TextSearch";
+import InputWithSearch from "../UI/TextSearch";
 
 
 export default function KTU() {
@@ -33,13 +32,18 @@ export default function KTU() {
 
     const handleTimingsPress = () => {
         // "/^\d{2}:\d{2}$/".match(searchBy.timings.trim()) for valid time
-        let time = searchBy.timings;
-        if (time.trim() === "") {
+        let time1 = searchBy.timings;
+        let time2 = time1.split(":");
+        if (time1.trim() === "" || time2.length > 2) {
             return;
+        } // "@react-native-community/datetimepicker": "6.7.5", "react-native-modal-datetime-picker": "^15.0.0", "mockdate": "^3.0.5",
+        if (time2.length==2 && time2[0].length==1){
+            time2[0] = "0"+time2[0];
+            setBusDetail(busDetail.filter((bus) => bus.timings.startsWith(time2[0]+":"+time2[1])));
+        }else{
+            time1 = time1.length === 1 ? "0" + time1 : time1;
+            setBusDetail(busDetail.filter((bus) => bus.timings.startsWith(time1)));
         }
-        time = time.length === 1 ? "0" + time : time;
-        setBusDetail(busDetail.filter((bus) => bus.timings.startsWith(time)));
-        console.log("What?");
     }
 
     const BusItem = ({ busdata }: { busdata: BusProps }) => {
@@ -59,16 +63,7 @@ export default function KTU() {
                 <Text style={styles.headerText2}>Bus Detail from Udupi to K</Text>
             </View>
             <View style={styles.main}>
-                {/* <View style={styles.subMain}>
-                    <TextInput style={styles.textinput}
-                        placeholder="Search Bus name:"
-                        value={searchBy.busName}
-                        onChangeText={(enteredBusName) => setSearchBy({ ...searchBy, busName: enteredBusName })}
-                        onFocus={() => { setShow(false) }}
-                        />
-                        <MyButton isIcon={true} variant="secondary" title="search" iconColor="" iconSize={24} onPress={handleBusNamePress} />
-                        </View> */}
-                <TextSearch placeholder="Search Bus name:"
+                <InputWithSearch placeholder="Bus name:"
                     value={searchBy.busName}
                     onChangeText={(enteredBusName) => setSearchBy({ ...searchBy, busName: enteredBusName })}
                     onFocus={() => { setShow(false) }}
@@ -76,18 +71,10 @@ export default function KTU() {
                     title="search"
                     isIcon
                     onPress={handleBusNamePress}
+                    iconColor=""
+                    iconSize={22}
                 />
-                {/* <View style={styles.subMain}>
-                    <TextInput style={styles.textinput}
-                    placeholder="Search Bus timings(Format: HR:MM[am/pm])"
-                    value={searchBy.timings}
-                    onChangeText={(enteredTimings) => setSearchBy({ ...searchBy, timings: enteredTimings })}
-                    onFocus={() => { setShow(false) }}
-                    maxLength={5}
-                    />
-                    <MyButton isIcon={true} variant="secondary" title="search" iconColor="" iconSize={24} onPress={handleTimingsPress} />
-                    </View> */}
-                <TextSearch placeholder="Search Bus timings(Format: HR:MM[am/pm])"
+                <InputWithSearch placeholder="Bus timings(example: HR:MM[am/pm])"
                     value={searchBy.timings}
                     onChangeText={(enteredTimings) => setSearchBy({ ...searchBy, timings: enteredTimings })}
                     onFocus={() => { setShow(false) }}
@@ -96,6 +83,8 @@ export default function KTU() {
                     isIcon
                     title="search"
                     onPress={handleTimingsPress}
+                    iconColor=""
+                    iconSize={22}
                 />
                 {show && <Text style={{ fontSize: 10, color: "#f00", textAlign: "center" }}>Please enter time in HH:MM format only(example: 07:29)</Text>}
                 {busDetail.length !== 0 ? <FlatList
@@ -134,12 +123,6 @@ const styles = StyleSheet.create({
         padding: 10,
         flex: 1,
         gap: 5,
-    },
-    subMain: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        alignItems: "center"
     },
     textinput: {
         flex: 1,

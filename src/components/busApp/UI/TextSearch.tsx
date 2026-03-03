@@ -1,32 +1,44 @@
 import { View, TextInput, StyleSheet, StyleProp } from "react-native"
 import { MyButton } from "./MyButton"
-import { BusProps } from "../common/common"
+import { BusProps, MyButtonProps } from "../common/common"
 
 type TextInputProps = {
     value: BusProps["busName"],
     onChangeText?: ((text: string) => void) | undefined,
     onFocus?: ((e: FocusEvent) => void) | undefined,
-    onPress?: (() => any) | undefined,
+    onPress?: (() => any),
     placeholder?: string | undefined,
-    variant: string,
-    title: string,
     maxLength?: number | undefined,
-    isIcon: boolean
 }
 
-export default function TextSearch({ value, placeholder, maxLength, onChangeText = () => { }, onFocus = () => { }, isIcon, variant, title, onPress }: TextInputProps) {
+type InputWithSearchProps = TextInputProps & MyButtonProps;
+
+export function Input({ placeholder, value, onChangeText, onFocus, maxLength, onPress }: TextInputProps) {
+    return <TextInput style={styles.textinput}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        onFocus={onFocus}
+        maxLength={maxLength}
+        onSubmitEditing={onPress}
+        returnKeyType="search"
+    />
+}
+
+export default function InputWithSearch({ value, placeholder, maxLength,
+    onChangeText = () => { }, onFocus = () => { }, isIcon = false, variant,
+    title, onPress, iconSize = 20, iconColor = "" }: InputWithSearchProps) {
     return (
         <View style={styles.subMain}>
-            <TextInput style={styles.textinput}
+            <Input
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChangeText}
                 onFocus={onFocus}
                 maxLength={maxLength}
-                onSubmitEditing={onPress}
-                returnKeyType="search"
+                onPress={onPress}
             />
-            <MyButton isIcon={isIcon} variant={variant} title={title} iconColor="" iconSize={20} onPress={onPress} />
+            <MyButton isIcon={isIcon} variant={variant} title={title} iconColor={iconColor} iconSize={iconSize} onPress={onPress} />
         </View>
     )
 }

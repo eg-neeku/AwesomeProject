@@ -6,8 +6,8 @@ export default function BusDrawerScreen(){
     const BottomTab = createNativeBottomTabNavigator();
     return(
         <BottomTab.Navigator>
-            <BottomTab.Screen name="UTK" component={UTK} />
             <BottomTab.Screen name="KTU" component={KTU} />
+            <BottomTab.Screen name="UTK" component={UTK} />
         </BottomTab.Navigator>
     )
 }

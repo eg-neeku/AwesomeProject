@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native"
 import Icon from "react-native-vector-icons/Ionicons"
+import { MyButtonProps } from "../common/common";
 
 const getBackgroundColor = (variant?: string) => {
     switch (variant) {
@@ -12,27 +13,6 @@ const getBackgroundColor = (variant?: string) => {
         default: return "#000";
     }
 }
-
-type BaseButtonProps = {
-    variant?: string,
-    onPress?: () => any,
-}
-
-type TextProps = {
-    title: string,
-    isIcon?: false,
-    iconSize?: never,
-    iconColor?: never
-}
-
-type IconProps = {
-    title: string,
-    isIcon: boolean,
-    iconSize: number,
-    iconColor: string
-}
-
-type MyButtonProps = BaseButtonProps & (TextProps | IconProps);
 
 export const MyButton = ({ variant, title, onPress, isIcon = false, iconSize, iconColor="#000" }: MyButtonProps) => {
     const styles = StyleSheet.create({
