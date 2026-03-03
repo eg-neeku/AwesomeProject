@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ExpenseProp, getDateMinusDays } from "./expensecommon";
+import { getDateMinusDays } from "./expensecommon";
 import ExpensesOutput from "./ExpensesOutput";
 import { ExpensesContext } from "../store/expenses-context";
 import { fetchExpenses } from "../backend/http";

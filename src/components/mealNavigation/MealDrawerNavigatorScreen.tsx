@@ -1,15 +1,8 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CategoryScreen from "./screens/CategoryScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
-import WelcomeScreen from "../drawerScreen/WelcomeScreen";
-import Icon from "react-native-vector-icons/Ionicons";
-import UserScreen from "../drawerScreen/UserScreen";
 import Favourites from "./screens/Favourites";
-import MainScreen from "../guessGame/MainScreen";
-import CommUI from "../CommUI";
 import MealDetailScreen from "./screens/MealDetailScreen";
-import ExpenseAppStackNavigator from "../expenseTracker/ExpenseAppStackNavigator";
 import { FavoritesContextProvider } from "./store/context/favorites-context";
 import { createNativeBottomTabNavigator } from "@react-navigation/bottom-tabs/unstable";
 
@@ -25,18 +18,6 @@ const BottomTab = createNativeBottomTabNavigator();
         </FavoritesContextProvider>
     )
 }
-
-// const MainMealBottomTabNavigator = () => {
-//     const BottomTab = createNativeBottomTabNavigator();
-//     return (
-//         <FavoritesContextProvider>
-//             <BottomTab.Navigator>
-//                 <BottomTab.Screen name="Meals" component={MealStackNavigatorScreen} />
-//                 <BottomTab.Screen name="Favourites" component={Favourites} />
-//             </BottomTab.Navigator>
-//         </FavoritesContextProvider>
-//     )
-// }
 
 const MealStackNavigatorScreen = () => {
     const Stack = createNativeStackNavigator();

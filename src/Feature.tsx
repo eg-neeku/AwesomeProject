@@ -1,7 +1,6 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import WelcomeScreen from "./components/drawerScreen/WelcomeScreen";
 import Icon from "react-native-vector-icons/Ionicons";
-import UserScreen from "./components/drawerScreen/UserScreen";
 import MealDrawerNavigatorScreen from "./components/mealNavigation/MealDrawerNavigatorScreen";
 import ExpenseAppStackNavigator from "./components/expenseTracker/ExpenseAppStackNavigator";
 import MainScreen from "./components/guessGame/MainScreen";
@@ -24,12 +23,6 @@ export default function Feature() {
                     drawerLabel: "Welcome Screen",
                     drawerIcon: ({ color, size }) => (
                         <Icon name="home" color={color} size={size} />
-                    )
-                }} />
-            <Drawer.Screen name="User" component={UserScreen}
-                options={{
-                    drawerIcon: ({ color, size }) => (
-                        <Icon name="person" color={color} size={size} />
                     )
                 }} />
             <Drawer.Screen name="MealsApp" component={MealDrawerNavigatorScreen}

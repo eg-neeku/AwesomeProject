@@ -38,9 +38,7 @@ function App() {
         {/* <ItemList /><Text>This Thing UPDATE LOgin has to be implmented </Text> */}
         <NavigationContainer>
           <Feature />
-
-        {/* <BusDrawerScreen />*/}
-
+          
         {/* <TestThis /> */}
 
           </NavigationContainer>
