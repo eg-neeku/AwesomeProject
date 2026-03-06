@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import EditBuilding from "../screen/EditBuilding";
+import RegisterProblem from "../screen/RegisterProblem";
 import Icon from "react-native-vector-icons/Ionicons";
 import CDrawerScreen from "./CDrawerScreen";
 
@@ -11,9 +11,9 @@ export default function StackScreenCRUD() {
             options={{
                 headerShown:false
             }}/>
-            <Stack.Screen name="Edit" component={EditBuilding}
+            <Stack.Screen name="complaintbuilding" component={RegisterProblem}
                 options={({ navigation }) => ({
-                    title:"Edit Building",
+                    title:"Complaint",
                     headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={navigation.goBack} style={{marginRight:15}}/>)
                 })} />
         </Stack.Navigator>
