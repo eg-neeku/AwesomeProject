@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import Input from "../UI/Input";
 import Slider from "@react-native-community/slider";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 type TaskProps = {
     name: string,
@@ -12,7 +13,9 @@ type TaskProps = {
     startDate: Date
 };
 
-export default function EditBuilding() {
+export default function RegisterProblem() {
+    const route: any = useRoute();
+    const navigation: any = useNavigation();
     const [task, setTask] = useState<TaskProps>({ name: "", description: "", comment: "", priority: 0, startDate: new Date() });
     const [datepick, setDatePick] = useState(false);
 
@@ -28,9 +31,14 @@ export default function EditBuilding() {
         }
     }
 
+    const handleComplaintPress = ()=>{
+        console.log("Form Submitted");
+        navigation.goBack();
+    }
+
     return (
         <View style={styles.container}>
-            {/* <BuildingItem item={route.params.item} /> */}
+            <Text style={styles.headerText}>Building Name : {route.params.buildingName}</Text>
             <Input label="Name">
                 <TextInput style={styles.textinput} value={task.name}
                     onChangeText={(enteredValue) => setTask({ ...task, name: enteredValue })}
@@ -63,12 +71,14 @@ export default function EditBuilding() {
                     onChange={handleDateChange}
                 />
             }
+            <Button title="Submit" onPress={handleComplaintPress}/>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex:1,
         backgroundColor: "#fff",
         margin: 5,
         padding: 5,
@@ -76,10 +86,13 @@ const styles = StyleSheet.create({
     pressed: {
         opacity: 0.35
     },
+    headerText:{
+        textAlign:"center",
+        fontSize:20,
+        paddingVertical:10
+    },
     textinput: {
-        flex: 1,
         borderBottomWidth: 1,
         height: 50,
-        lineHeight: 2
     },
 });
