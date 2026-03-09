@@ -3,6 +3,7 @@ import Colors from "../../../constants/colors";
 import { useState } from "react";
 import { BuildingDetailsDTO } from "../database/model";
 import Input from "../UI/Input";
+import MyButton from "../UI/MyButton";
 
 export default function BuildingForm({ submitButtonLabel, onCancel, onConfirm, selectedBuilding }: any) {
     const [inputValues, setInputValues] = useState(
@@ -108,8 +109,8 @@ export default function BuildingForm({ submitButtonLabel, onCancel, onConfirm, s
             </Input>
             {formIsInValid && <Text style={styles.errortext}>Invalid Input values - please check you entered data!</Text>}
             <View style={styles.buttonsContainer}>
-                <Button title="Cancel" onPress={onCancel} />
-                <Button title={`${submitButtonLabel}`} onPress={onSubmitHandler} />
+                <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Cancel" onPress={onCancel} beforeTextColor="#fff" afterTextColor="#000"/>
+                <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title={`${submitButtonLabel}`} onPress={onSubmitHandler} beforeTextColor="#fff" afterTextColor="#000"/>
             </View>
         </View>
     )

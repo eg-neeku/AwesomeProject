@@ -1,4 +1,6 @@
 export type TaskProps = {
+    id: string,
+    buildingId: string,
     name: string,
     description: string,
     comment: string,
@@ -13,16 +15,17 @@ export type BuildingDetailsProp = {
 }
 
 export type BuildingDetailsDTO = Omit<BuildingDetailsProp, "id">
+export type TaskPropsDTO = Omit<TaskProps, "id">
 
 export const BUILDING_DATA: BuildingDetailsProp[] = [
     {
         id: "a",
         name: "BuildingA",
-        location:"Mangaluru"
+        location: "Mangaluru"
     },
     {
         id: "b",
         name: "BuildingB",
-        location:"Bengaluru"
+        location: "Bengaluru"
     }
 ];

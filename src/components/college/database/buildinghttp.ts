@@ -2,10 +2,11 @@ import axios from "axios";
 import { BuildingDetailsDTO, BuildingDetailsProp } from "./model";
 
 const DB_URL = "https://react-native-course-5d92a-default-rtdb.firebaseio.com";
+const DB_NAME = "COLLEGEAPP";
 
 export const storeBuildingData = async (buildingData: BuildingDetailsDTO) => {
     try {
-        const response = await axios.post(`${DB_URL}/building.json`, buildingData);
+        const response = await axios.post(`${DB_URL}/${DB_NAME}/building.json`, buildingData);
         const id = response.data.name;
         return id;
     } catch (error) {
@@ -14,7 +15,7 @@ export const storeBuildingData = async (buildingData: BuildingDetailsDTO) => {
 }
 
 export const fetchBuildingData = async () => {
-    const response = await axios.get(`${DB_URL}/building.json`);
+    const response = await axios.get(`${DB_URL}/${DB_NAME}/building.json`);
     const buildingData: BuildingDetailsProp[] = [];
     for (const key in response.data) {
         const buildingItem: BuildingDetailsProp = {
@@ -28,9 +29,9 @@ export const fetchBuildingData = async () => {
 }
 
 export const updateBuildingData = async (id: string, newbuilding: BuildingDetailsDTO) => {
-    return await axios.put(`${DB_URL}/building/${id}.json`, newbuilding);
+    return await axios.put(`${DB_URL}/${DB_NAME}/building/${id}.json`, newbuilding);
 }
 
 export const deleteBuildingData = async (id: string) => {
-    return await axios.delete(`${DB_URL}/building/${id}.json`);
+    return await axios.delete(`${DB_URL}/${DB_NAME}/building/${id}.json`);
 }

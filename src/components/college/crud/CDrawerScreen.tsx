@@ -3,6 +3,8 @@ import Home from "../screen/Home";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Image, View, StyleSheet } from "react-native";
+import About from "../screen/About";
+import PrivacyPolicy from "../screen/PrivacyPolicy";
 
 export default function CDrawerScreen() {
     const Drawer = createDrawerNavigator();
@@ -37,12 +39,12 @@ export default function CDrawerScreen() {
                     drawerIcon: ({ color, size }) => <IonIcons name="person-sharp" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name="About" component={Home}
+            <Drawer.Screen name="About" component={About}
                 options={{
                     drawerIcon: ({ color, size }) => <IonIcons name="information-circle-sharp" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name="PrivacyPolicy" component={Home}
+            <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy}
                 options={{
                     title: "Privacy Policy",
                     drawerIcon: ({ color, size }) => <MaterialIcons name="book" color={color} size={size} />

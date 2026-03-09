@@ -1,12 +1,14 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { Alert, Button, StyleSheet, View } from "react-native";
 import Colors from "../../../constants/colors";
 import BuildingForm from "./BuildingForm";
-import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../database/http"
+import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../database/buildinghttp"
 import LoadingOverlay from "./LoadingOverlay";
 import ErrorOverlay from "./ErrorOverlay";
 import { BuildingContext } from "../database/BuildingContextProvider";
-import { BuildingDetailsDTO } from "../database/model";
+import { BuildingDetailsDTO, TaskProps } from "../database/model";
+import MyButton from "../UI/MyButton";
+import { deleteComplaint, fetchComplaintData, fetchComplaintDataByBuilding } from "../database/complainthttp";
 
 export default function ManageBuilding({ route, navigation }: any) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,16 +25,44 @@ export default function ManageBuilding({ route, navigation }: any) {
         });
     }, [navigation, isEditing]);
 
-    const deleteExpenseHandler = async () => {
-        setIsSubmitting(true);
+    const deleteComplaintAssociatedToBuilding = async (complaintList: TaskProps[], concurrency = 10) => {
+        if (complaintList.length <= 0) return;
+        // typically safe for large set of data
         try {
-            await deleteBuildingData(editedBuildingId);
-            buildingCtx.removeBuilding(editedBuildingId);
-            navigation.goBack(); // but this ensures that it go back to where this UI screen was invoked
+            for (let i = 0; i < complaintList.length; i += concurrency) {
+                const batches = complaintList.slice(i, i + concurrency);
+                await Promise.all(batches.map(complaintItem => deleteComplaint(complaintItem.id)))
+            }
         } catch (error) {
-            setError("Could not delete building - please try again later");
-            setIsSubmitting(false);
+            console.log("Something went wrong", "May be internet/server is down/slow?");
         }
+    }
+
+    const deleteBuildingHandler = async () => {
+        Alert.alert("Delete Building", "Are you sure? This will also delete comaplaints associated to each building that have not been resolved", [
+            {
+                text: "Cancel",
+                onPress: () => { return; },
+                style: "cancel"
+            },
+            {
+                text: "Okay",
+                onPress: async () => {
+                    setIsSubmitting(true);
+                    try {
+                        const complaintList = await fetchComplaintDataByBuilding(editedBuildingId);
+                        deleteComplaintAssociatedToBuilding(complaintList);
+                        await deleteBuildingData(editedBuildingId);
+                        buildingCtx.removeBuilding(editedBuildingId);
+                        navigation.goBack(); // but this ensures that it go back to where this UI screen was invoked
+                    } catch (error) {
+                        setError("Could not delete building - please try again later");
+                        setIsSubmitting(false);
+                    }
+                },
+                style: 'destructive'
+            }
+        ])
     }
 
     const cancelHandler = () => {
@@ -81,7 +111,7 @@ export default function ManageBuilding({ route, navigation }: any) {
                 selectedBuilding={selectedBuilding} />
 
             {isEditing && <View style={styles.deleteContainer}>
-                <Button title="Delete" color={"#f00"} onPress={deleteExpenseHandler} />
+                <MyButton beforeBgColor={Colors.danger} afterBgColor={"#da4343"} title="Delete" onPress={deleteBuildingHandler} beforeTextColor="#fff" afterTextColor="#000" />
             </View>
             }
         </View>

@@ -1,12 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
-import { BUILDING_DATA, BuildingDetailsProp } from "../database/model";
+import { BuildingDetailsProp } from "../database/model";
 import { BuildingContext } from "../database/BuildingContextProvider";
-import { fetchBuildingData } from "../database/http";
+import { fetchBuildingData } from "../database/buildinghttp";
 import Icon from "react-native-vector-icons/Ionicons";
 
-export function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
+function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
     const handlePress = () => {
         navigation.navigate("ManageBuilding", {
             buildingId: item.id

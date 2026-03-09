@@ -4,12 +4,13 @@ import Input from "../UI/Input";
 import Slider from "@react-native-community/slider";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { TaskProps } from "../database/model";
+import { TaskProps, TaskPropsDTO } from "../database/model";
+import { storeComplaintData } from "../database/complainthttp";
 
 export default function RegisterProblem() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
-    const [task, setTask] = useState<TaskProps>({ name: "", description: "", comment: "", priority: 0, startDate: new Date() });
+    const [task, setTask] = useState<TaskPropsDTO>({buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date() });
     const [datepick, setDatePick] = useState(false);
 
     const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date): void => {
@@ -24,7 +25,12 @@ export default function RegisterProblem() {
         }
     }
 
-    const handleComplaintSubmit = () => {
+    const handleComplaintSubmit = async () => {
+        try {
+            await storeComplaintData(task);
+        } catch (error) {
+            console.log(error);
+        }
         console.log("Form Submitted");
         navigation.goBack();
     }
@@ -35,7 +41,7 @@ export default function RegisterProblem() {
         //     buildingName:"",
         //     complaintList:[{}:TaskProps]
 
-        navigation.navigate("ComplaintLog",{
+        navigation.navigate("ComplaintLog", {
             buildingId: route.params.buildingId
         });
     }
@@ -104,9 +110,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         height: 50,
     },
-    buttonContainer:{
-        flexDirection:"row",
-        flexWrap:"wrap",
-        justifyContent:"space-around"
+    buttonContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-around"
     }
 });
