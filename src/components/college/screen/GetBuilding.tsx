@@ -5,6 +5,7 @@ import { BuildingDetailsProp } from "../database/model";
 import { BuildingContext } from "../database/BuildingContextProvider";
 import { fetchBuildingData } from "../database/buildinghttp";
 import Icon from "react-native-vector-icons/Ionicons";
+import MyIcon from "../UI/MyIcon";
 
 function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
     const handlePress = () => {
@@ -26,10 +27,9 @@ function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigat
             <View style={styles.buildItemContainer}>
                 <Text style={styles.textColor}>{item.name} - {item.location}</Text>
             </View>
-            <Pressable style={({ pressed }) => [styles.iconcontainer, pressed && styles.afterPressed]}
-                onPress={handleComplaintPress} >
+            <MyIcon onPress={handleComplaintPress}>
                 <Icon name="pencil-sharp" size={24} color="#000" />
-            </Pressable>
+            </MyIcon>
         </Pressable>
     )
 }
@@ -72,17 +72,4 @@ const styles = StyleSheet.create({
         opacity: 0.35,
         backgroundColor: "#ff0"
     },
-    iconcontainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 800,
-        backgroundColor: "#f1a9f1",
-        padding: 12,
-        margin: 2
-        // position: "absolute",
-        // bottom: 0,
-        // left: 0,
-        // right: 0,
-        // zIndex: 2,
-    }
 });

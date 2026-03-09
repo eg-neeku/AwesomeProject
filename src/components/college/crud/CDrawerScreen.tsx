@@ -5,6 +5,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Image, View, StyleSheet } from "react-native";
 import About from "../screen/About";
 import PrivacyPolicy from "../screen/PrivacyPolicy";
+import MyIcon from "../UI/MyIcon";
 
 export default function CDrawerScreen() {
     const Drawer = createDrawerNavigator();
@@ -13,7 +14,7 @@ export default function CDrawerScreen() {
             <Drawer.Screen name="Home" component={Home}
                 options={({ navigation }) => ({
                     drawerIcon: ({ color, size }) => <IonIcons name="home" color={color} size={size} />,
-                    headerRight: ({ tintColor }) => <IonIcons name="add" style={{ marginRight: 15 }} color={tintColor} size={20} onPress={() => navigation.navigate("ManageBuilding")} />
+                    headerRight: ({ tintColor }) => (<MyIcon onPress={() => navigation.navigate("ManageBuilding")}><IonIcons name="add" color={tintColor} size={20} /></MyIcon>)
                 })}
             />
             <Drawer.Screen name="FacilitySearch" component={Home}

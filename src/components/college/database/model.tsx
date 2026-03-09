@@ -1,4 +1,4 @@
-export type TaskProps = {
+export type ComplaintProps = {
     id: string,
     buildingId: string,
     name: string,
@@ -15,17 +15,4 @@ export type BuildingDetailsProp = {
 }
 
 export type BuildingDetailsDTO = Omit<BuildingDetailsProp, "id">
-export type TaskPropsDTO = Omit<TaskProps, "id">
-
-export const BUILDING_DATA: BuildingDetailsProp[] = [
-    {
-        id: "a",
-        name: "BuildingA",
-        location: "Mangaluru"
-    },
-    {
-        id: "b",
-        name: "BuildingB",
-        location: "Bengaluru"
-    }
-];
+export type ComplaintPropsDTO = Omit<ComplaintProps, "id">

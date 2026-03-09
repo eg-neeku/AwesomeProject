@@ -4,13 +4,15 @@ import Input from "../UI/Input";
 import Slider from "@react-native-community/slider";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { TaskProps, TaskPropsDTO } from "../database/model";
+import { ComplaintPropsDTO } from "../database/model";
 import { storeComplaintData } from "../database/complainthttp";
+import MyButton from "../UI/MyButton";
+import Colors from "../../../constants/colors";
 
 export default function RegisterProblem() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
-    const [task, setTask] = useState<TaskPropsDTO>({buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date() });
+    const [task, setTask] = useState<ComplaintPropsDTO>({buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date() });
     const [datepick, setDatePick] = useState(false);
 
     const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date): void => {
@@ -36,11 +38,6 @@ export default function RegisterProblem() {
     }
 
     const handleComplaintList = () => {
-        // for the building:
-        //  let the structure be:
-        //     buildingName:"",
-        //     complaintList:[{}:TaskProps]
-
         navigation.navigate("ComplaintLog", {
             buildingId: route.params.buildingId
         });
@@ -83,8 +80,8 @@ export default function RegisterProblem() {
                 </Input>
             </Pressable>
             <View style={styles.buttonContainer}>
-                <Button title="Submit" onPress={handleComplaintSubmit} />
-                <Button title="Complaint Log" onPress={handleComplaintList} />
+                <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Submit" onPress={handleComplaintSubmit} beforeTextColor="#fff" afterTextColor="#000"/>
+                <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Complaint Log" onPress={handleComplaintList} beforeTextColor="#fff" afterTextColor="#000"/>
             </View>
         </View>
     )
@@ -113,6 +110,6 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-around"
+        justifyContent: "space-around",
     }
 });

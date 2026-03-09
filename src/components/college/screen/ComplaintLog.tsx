@@ -1,29 +1,51 @@
 import { useEffect, useState } from "react";
-import { Button, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { deleteComplaint, fetchComplaintDataByBuilding } from "../database/complainthttp";
-import { TaskProps } from "../database/model";
+import { ComplaintProps } from "../database/model";
 import Colors from "../../../constants/colors";
 import MyButton from "../UI/MyButton";
+import LoadingOverlay from "./LoadingOverlay";
 
-function ComplaintItem({ item }: { item: TaskProps }) {
+function ComplaintItem({ item, onDeleted }: { item: ComplaintProps, onDeleted: () => void }) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const deleleComplaintHandler = async () => {
-        try {
-            await deleteComplaint(item.id);
-        } catch (error) {
-            console.log("Unable to delete the complaint data");
-        }
+    const deleleComplaintHandler = () => {
+        Alert.alert("Delete Complaint!", "Are you sure? you want to delete it?", [
+            {
+                text: "Okay",
+                onPress: async () => {
+                    setIsSubmitting(true);
+                    try {
+                        await deleteComplaint(item.id);
+                        onDeleted();
+                    } catch (error) {
+                        console.log("Unable to delete the complaint data");
+                    } finally {
+                        setIsSubmitting(false);
+                    }
+                },
+                style: "destructive"
+            },
+            {
+                text: "Cancel",
+                style: "cancel"
+            }
+        ]);
+    }
+
+    if (isSubmitting) {
+        return <LoadingOverlay />
     }
 
     return (
         <Pressable onPress={() => { }}
             style={({ pressed }) => [styles.beforePressed, pressed && styles.afterPressed]}>
             <View style={styles.complaintInnerContainer}>
-                <Text style={styles.textColor}>ComplaintId:{item.id}</Text>
-                <Text style={styles.textColor}>Person Name:{item.name}</Text>
-                <Text style={styles.textColor}>Description{item.description}</Text>
+                <Text style={styles.textColor}>ComplaintId: {item.id}</Text>
+                <Text style={styles.textColor}>Person Name: {item.name}</Text>
+                <Text style={styles.textColor}>Description: {item.description}</Text>
                 <Text style={styles.textColor}>Comment: {item.comment}</Text>
-                <Text style={styles.textColor}>Priority{item.priority}</Text>
+                <Text style={styles.textColor}>Priority: {item.priority}</Text>
                 <Text style={styles.textColor}>Date of complaint registered: {item.startDate?.toDateString()}</Text>
             </View>
             <View style={{ padding: 10 }}>
@@ -34,17 +56,20 @@ function ComplaintItem({ item }: { item: TaskProps }) {
 }
 
 export default function ComplaintLog({ route }: any) {
-    const [demo, setDemo] = useState<TaskProps[]>([]);
+    const [demo, setDemo] = useState<ComplaintProps[]>([]);
+
     useEffect(() => {
-        (async function getComplaintData() {
-            try {
-                const res = await fetchComplaintDataByBuilding(route.params.buildingId);
-                setDemo(res);
-            } catch (error) {
-                console.log("Could fetch data", error);
-            }
-        })()
-    }, [demo]);
+        getrefreshList();
+    }, [route.params.buildingId]);
+
+    const getrefreshList = async () => {
+        try {
+            const res = await fetchComplaintDataByBuilding(route.params.buildingId);
+            setDemo(res);
+        } catch (error) {
+            console.log("Could fetch data", error);
+        }
+    }
 
     if (demo.length > 0) {
         return (
@@ -52,13 +77,13 @@ export default function ComplaintLog({ route }: any) {
                 <Text style={styles.complaintHeader}>List of the complaint details</Text>
                 <FlatList data={demo}
                     keyExtractor={(item) => item.id}
-                    renderItem={(itemData) => { return <ComplaintItem item={itemData.item} /> }}
+                    renderItem={(itemData) => { return <ComplaintItem item={itemData.item} onDeleted={getrefreshList} /> }}
                 />
             </View>
         )
     }
     return (
-        <View>
+        <View style={styles.complaintOuterContainer}>
             <Text>No Complaint found</Text>
         </View>
     )
@@ -69,6 +94,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15
     },
     complaintInnerContainer: {
+        flex:1,
         padding: 16
     },
     complaintHeader: {
@@ -81,11 +107,12 @@ const styles = StyleSheet.create({
         color: "#000"
     },
     beforePressed: {
-        backgroundColor: "#ccc",
+        backgroundColor: "#fff",
         padding: 5,
         marginVertical: 5,
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        borderRadius: 8
     },
     afterPressed: {
         opacity: 0.35,

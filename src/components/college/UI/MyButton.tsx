@@ -9,10 +9,10 @@ type MyButtonProps = {
     onPress?: ((event: GestureResponderEvent) => void) | null | undefined;
 };
 
-export default function MyButton({title,
-    beforeBgColor = "#1e40af",   afterBgColor = "#1e3a8a",
+export default function MyButton({ title,
+    beforeBgColor = "#1e40af", afterBgColor = "#1e3a8a",
     beforeTextColor = "#ffffff", afterTextColor = "#e5e7eb",
-    onPress}: MyButtonProps) {
+    onPress }: MyButtonProps) {
     const styles = StyleSheet.create({
         containerBase: {
             padding: 5,

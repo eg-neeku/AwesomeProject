@@ -6,7 +6,7 @@ import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../da
 import LoadingOverlay from "./LoadingOverlay";
 import ErrorOverlay from "./ErrorOverlay";
 import { BuildingContext } from "../database/BuildingContextProvider";
-import { BuildingDetailsDTO, TaskProps } from "../database/model";
+import { BuildingDetailsDTO, ComplaintProps } from "../database/model";
 import MyButton from "../UI/MyButton";
 import { deleteComplaint, fetchComplaintData, fetchComplaintDataByBuilding } from "../database/complainthttp";
 
@@ -25,7 +25,7 @@ export default function ManageBuilding({ route, navigation }: any) {
         });
     }, [navigation, isEditing]);
 
-    const deleteComplaintAssociatedToBuilding = async (complaintList: TaskProps[], concurrency = 10) => {
+    const deleteComplaintAssociatedToBuilding = async (complaintList: ComplaintProps[], concurrency = 10) => {
         if (complaintList.length <= 0) return;
         // typically safe for large set of data
         try {
@@ -38,11 +38,10 @@ export default function ManageBuilding({ route, navigation }: any) {
         }
     }
 
-    const deleteBuildingHandler = async () => {
+    const deleteBuildingHandler = () => {
         Alert.alert("Delete Building", "Are you sure? This will also delete comaplaints associated to each building that have not been resolved", [
             {
                 text: "Cancel",
-                onPress: () => { return; },
                 style: "cancel"
             },
             {
@@ -62,7 +61,7 @@ export default function ManageBuilding({ route, navigation }: any) {
                 },
                 style: 'destructive'
             }
-        ])
+        ]);
     }
 
     const cancelHandler = () => {

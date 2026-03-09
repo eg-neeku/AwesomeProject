@@ -1,4 +1,4 @@
-import { Button, Platform, StyleSheet, Text, TextInput, View } from "react-native";
+import { Platform, StyleSheet, Text, TextInput, View } from "react-native";
 import Colors from "../../../constants/colors";
 import { useState } from "react";
 import { BuildingDetailsDTO } from "../database/model";

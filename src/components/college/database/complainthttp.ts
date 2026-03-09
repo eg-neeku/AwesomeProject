@@ -1,18 +1,18 @@
 import axios from "axios";
-import { TaskProps, TaskPropsDTO } from "./model";
+import { ComplaintProps, ComplaintPropsDTO } from "./model";
 
 const DB_URL = "https://react-native-course-5d92a-default-rtdb.firebaseio.com";
 const DB_NAME = "COLLEGEAPP";
 
-export const storeComplaintData = async (complaintData: TaskPropsDTO) => {
+export const storeComplaintData = async (complaintData: ComplaintPropsDTO) => {
     await axios.post(`${DB_URL}/${DB_NAME}/complaint.json`, complaintData);
 }
 
 export const fetchComplaintData = async () => {
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
-    let complaintList: TaskProps[] = [];
+    let complaintList: ComplaintProps[] = [];
     for (const key in response.data) {
-        const complaintItem: TaskProps = {
+        const complaintItem: ComplaintProps = {
             id: key,
             buildingId: response.data[key].buildingId,
             name: response.data[key].name,
@@ -32,10 +32,10 @@ export const deleteComplaint = async (complaintId: string) => {
 
 export const fetchComplaintDataByBuilding = async (buildingId: string) => {
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
-    let complaintList: TaskProps[] = [];
+    let complaintList: ComplaintProps[] = [];
     for (const key in response.data) {
         if (response.data[key].buildingId === buildingId) {
-            const complaintItem: TaskProps = {
+            const complaintItem: ComplaintProps = {
                 id: key,
                 buildingId: response.data[key].buildingId,
                 name: response.data[key].name,
