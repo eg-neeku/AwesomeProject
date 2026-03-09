@@ -1,14 +1,15 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Colors from "../../../constants/colors";
 
 type InputProps = {
     label: string,
-    children: React.ReactNode
+    children: React.ReactNode,
 }
 
 export default function Input({ label, children }: InputProps) {
     return (
-        <View style={styles.inputTextContainer}>
+        <View style={styles.inputContainer}>
             <Text style={styles.labelText}>{label}</Text>
             {children}
         </View>
@@ -16,11 +17,15 @@ export default function Input({ label, children }: InputProps) {
 }
 
 const styles = StyleSheet.create({
-    inputTextContainer: {
-        marginVertical: 25,
-        marginHorizontal: 15
+    inputContainer: {
+        marginHorizontal: 4,
+        marginVertical: 8
     },
     labelText: {
-        marginBottom:15
+        fontSize: 14,
+        marginBottom: 4
+    },
+    errorlabel: {
+        color: Colors.error500
     }
 });

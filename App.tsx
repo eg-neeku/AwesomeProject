@@ -11,10 +11,11 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Feature from './src/Feature';
+// import Feature from './src/Feature';
+// import { BUS_DETAILS_KTU } from './src/components/busApp/common/common';
 import { useEffect } from 'react';
-import { BUS_DETAILS_KTU } from './src/components/busApp/common/common';    
 import StackScreenCRUD from './src/components/college/crud/StackScreenCRUD';
+import BuildingContextProvider from './src/components/college/database/BuildingContextProvider';
 
 
 function App() {
@@ -36,7 +37,9 @@ function App() {
           <Feature />
         </NavigationContainer> */}
         <NavigationContainer>
-          <StackScreenCRUD />
+          <BuildingContextProvider>
+            <StackScreenCRUD />
+          </BuildingContextProvider>
         </NavigationContainer>
       </GestureHandlerRootView>
     </SafeAreaProvider>

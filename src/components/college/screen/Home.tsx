@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import GetBuilding from "./GetBuilding";
 
-// { navigation }: any
 export default function Home() {
     return (
         <View style={styles.container}>
@@ -9,7 +8,6 @@ export default function Home() {
                 <Text style={styles.headertext}>Displaying the list of buildings</Text>
                 <GetBuilding />
             </View>
-            
         </View>
     )
 }
@@ -30,5 +28,4 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 15
     },
-    
 });

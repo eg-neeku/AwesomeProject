@@ -4,14 +4,7 @@ import Input from "../UI/Input";
 import Slider from "@react-native-community/slider";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
-type TaskProps = {
-    name: string,
-    description: string,
-    comment: string,
-    priority: number,
-    startDate: Date
-};
+import { TaskProps } from "../database/model";
 
 export default function RegisterProblem() {
     const route: any = useRoute();
@@ -27,13 +20,24 @@ export default function RegisterProblem() {
         }
         setDatePick(false); // user has selected the date
         if (datepick) {
-            setTask({ ...task, startDate: selectedDate ?? task.startDate })
+            setTask({ ...task, startDate: selectedDate ?? task.startDate });
         }
     }
 
-    const handleComplaintPress = ()=>{
+    const handleComplaintSubmit = () => {
         console.log("Form Submitted");
         navigation.goBack();
+    }
+
+    const handleComplaintList = () => {
+        // for the building:
+        //  let the structure be:
+        //     buildingName:"",
+        //     complaintList:[{}:TaskProps]
+
+        navigation.navigate("ComplaintLog",{
+            buildingId: route.params.buildingId
+        });
     }
 
     return (
@@ -62,37 +66,47 @@ export default function RegisterProblem() {
                     onValueChange={(selectedValue) => setTask({ ...task, priority: Math.round(selectedValue) })}
                 />
             </Input>
-            <Pressable style={({ pressed }) => [pressed && styles.pressed]} onPress={() => setDatePick(true)}>
-                <Input label={`Start Date: ${task.startDate.toDateString()}`}><></></Input>
+            <Pressable style={({ pressed }) => [{ paddingVertical: 15 }, pressed && styles.pressed]} onPress={() => setDatePick(true)}>
+                <Input label={`Start Date: ${task.startDate.toDateString()}`}>
+                    {
+                        datepick &&
+                        <DateTimePicker mode="date" value={task.startDate} minimumDate={new Date()}
+                            onChange={handleDateChange}
+                        />
+                    }
+                </Input>
             </Pressable>
-            {
-                datepick &&
-                <DateTimePicker mode="date" value={task.startDate} minimumDate={new Date()}
-                    onChange={handleDateChange}
-                />
-            }
-            <Button title="Submit" onPress={handleComplaintPress}/>
+            <View style={styles.buttonContainer}>
+                <Button title="Submit" onPress={handleComplaintSubmit} />
+                <Button title="Complaint Log" onPress={handleComplaintList} />
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         backgroundColor: "#fff",
         margin: 5,
         padding: 5,
+        justifyContent: "center"
     },
     pressed: {
         opacity: 0.35
     },
-    headerText:{
-        textAlign:"center",
-        fontSize:20,
-        paddingVertical:10
+    headerText: {
+        textAlign: "center",
+        fontSize: 20,
+        paddingVertical: 10
     },
     textinput: {
         borderBottomWidth: 1,
         height: 50,
     },
+    buttonContainer:{
+        flexDirection:"row",
+        flexWrap:"wrap",
+        justifyContent:"space-around"
+    }
 });

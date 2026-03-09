@@ -7,46 +7,45 @@ import { Image, View, StyleSheet } from "react-native";
 export default function CDrawerScreen() {
     const Drawer = createDrawerNavigator();
     return (
-        <Drawer.Navigator
-            drawerContent={(props) => <CustomDrawerContent {...props} />}
-        >
+        <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />} >
             <Drawer.Screen name="Home" component={Home}
-                options={{
-                    drawerIcon: ({ color, focused, size }) => <IonIcons name="home" color={color} size={size} />
-                }}
+                options={({ navigation }) => ({
+                    drawerIcon: ({ color, size }) => <IonIcons name="home" color={color} size={size} />,
+                    headerRight: ({ tintColor }) => <IonIcons name="add" style={{ marginRight: 15 }} color={tintColor} size={20} onPress={() => navigation.navigate("ManageBuilding")} />
+                })}
             />
             <Drawer.Screen name="FacilitySearch" component={Home}
                 options={{
                     title: "Facility Search",
-                    drawerIcon: ({ color, focused, size }) => <IonIcons name="search" color={color} size={size} />
+                    drawerIcon: ({ color, size }) => <IonIcons name="search" color={color} size={size} />
                 }}
             />
             <Drawer.Screen name="Message" component={Home}
                 options={{
-                    drawerIcon: ({ color, focused, size }) => <MaterialIcons name="message" color={color} size={size} />
+                    drawerIcon: ({ color, size }) => <MaterialIcons name="message" color={color} size={size} />
                 }}
             />
             <Drawer.Screen name="NotificationHistory" component={Home}
                 options={{
                     title: "Notification History",
-                    drawerIcon: ({ color, focused, size }) => <MaterialIcons name="notifications-active" color={color} size={size} />
+                    drawerIcon: ({ color, size }) => <MaterialIcons name="notifications-active" color={color} size={size} />
                 }}
             />
             <Drawer.Screen name="UserPreference" component={Home}
                 options={{
                     title: "User Preference",
-                    drawerIcon: ({ color, focused, size }) => <IonIcons name="person-sharp" color={color} size={size} />
+                    drawerIcon: ({ color, size }) => <IonIcons name="person-sharp" color={color} size={size} />
                 }}
             />
             <Drawer.Screen name="About" component={Home}
                 options={{
-                    drawerIcon: ({ color, focused, size }) => <IonIcons name="information-circle-sharp" color={color} size={size} />
+                    drawerIcon: ({ color, size }) => <IonIcons name="information-circle-sharp" color={color} size={size} />
                 }}
             />
             <Drawer.Screen name="PrivacyPolicy" component={Home}
                 options={{
                     title: "Privacy Policy",
-                    drawerIcon: ({ color, focused, size }) => <MaterialIcons name="book" color={color} size={size} />
+                    drawerIcon: ({ color, size }) => <MaterialIcons name="book" color={color} size={size} />
                 }}
             />
         </Drawer.Navigator>
@@ -69,17 +68,17 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1
+    container: {
+        flex: 1
     },
     logo: {
         width: 200,
         height: 100,
         opacity: 0.9
     },
-    footer:{
-        justifyContent:"center",
-        alignItems:"center",
-        paddingTop:45
+    footer: {
+        justifyContent: "center",
+        alignItems: "center",
+        paddingTop: 45
     }
 })
