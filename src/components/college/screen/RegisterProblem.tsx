@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Alert, Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { useContext, useState } from "react";
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import Input from "../UI/Input";
 import Slider from "@react-native-community/slider";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
@@ -8,11 +8,13 @@ import { ComplaintPropsDTO } from "../database/model";
 import { storeComplaintData } from "../database/complainthttp";
 import MyButton from "../UI/MyButton";
 import Colors from "../../../constants/colors";
+import { AppContext } from "../database/AppContextProvider";
 
 export default function RegisterProblem() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
-    const [task, setTask] = useState<ComplaintPropsDTO>({buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date() });
+    const deviceData = useContext(AppContext);
+    const [task, setTask] = useState<ComplaintPropsDTO>({ buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date() });
     const [datepick, setDatePick] = useState(false);
 
     const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date): void => {
@@ -29,9 +31,9 @@ export default function RegisterProblem() {
 
     const handleComplaintSubmit = async () => {
         try {
-            if(task.comment.length===0 || task.description.length===0 || task.name.length===0){
-                Alert.alert("","Please fill out the necessary field");
-                return ;
+            if (task.comment.length === 0 || task.description.length === 0 || task.name.length === 0) {
+                Alert.alert("", "Please fill out the necessary field");
+                return;
             }
             await storeComplaintData(task);
         } catch (error) {
@@ -47,47 +49,55 @@ export default function RegisterProblem() {
         });
     }
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.headerText}>Building Name : {route.params.buildingName}</Text>
-            <Input label="Name">
-                <TextInput style={styles.textinput} value={task.name}
-                    onChangeText={(enteredValue) => setTask({ ...task, name: enteredValue })}
-                />
+    let registerProblemScreen = <View style={styles.container}>
+        <Text style={styles.headerText}>Building Name : {route.params.buildingName}</Text>
+        <Input label="Name">
+            <TextInput style={styles.textinput} value={task.name}
+                onChangeText={(enteredValue) => setTask({ ...task, name: enteredValue })}
+            />
+        </Input>
+        <Input label="Description">
+            <TextInput style={styles.textinput} value={task.description}
+                onChangeText={(enteredValue) => setTask({ ...task, description: enteredValue })}
+            />
+        </Input>
+        <Input label="Comment">
+            <TextInput style={styles.textinput} value={task.comment}
+                onChangeText={(enteredValue) => setTask({ ...task, comment: enteredValue })}
+            />
+        </Input>
+        <Input label="Set Priority">
+            <Text style={{ textAlign: "center", fontSize: 12 }}>{task.priority}</Text>
+            <Slider style={{ outlineColor: "#f0f" }} value={task.priority}
+                minimumValue={0} maximumValue={6} step={0}
+                minimumTrackTintColor="#f00" maximumTrackTintColor="#0f0" thumbTintColor="#00f"
+                onValueChange={(selectedValue) => setTask({ ...task, priority: Math.round(selectedValue) })}
+            />
+        </Input>
+        <Pressable style={({ pressed }) => [{ paddingVertical: 15 }, pressed && styles.pressed]} onPress={() => setDatePick(true)}>
+            <Input label={`Start Date: ${task.startDate.toDateString()}`}>
+                {
+                    datepick &&
+                    <DateTimePicker mode="date" value={task.startDate} minimumDate={new Date()}
+                        onChange={handleDateChange}
+                    />
+                }
             </Input>
-            <Input label="Description">
-                <TextInput style={styles.textinput} value={task.description}
-                    onChangeText={(enteredValue) => setTask({ ...task, description: enteredValue })}
-                />
-            </Input>
-            <Input label="Comment">
-                <TextInput style={styles.textinput} value={task.comment}
-                    onChangeText={(enteredValue) => setTask({ ...task, comment: enteredValue })}
-                />
-            </Input>
-            <Input label="Set Priority">
-                <Text style={{ textAlign: "center", fontSize: 12 }}>{task.priority}</Text>
-                <Slider style={{ outlineColor: "#f0f" }} value={task.priority}
-                    minimumValue={0} maximumValue={6} step={0}
-                    minimumTrackTintColor="#f00" maximumTrackTintColor="#0f0" thumbTintColor="#00f"
-                    onValueChange={(selectedValue) => setTask({ ...task, priority: Math.round(selectedValue) })}
-                />
-            </Input>
-            <Pressable style={({ pressed }) => [{ paddingVertical: 15 }, pressed && styles.pressed]} onPress={() => setDatePick(true)}>
-                <Input label={`Start Date: ${task.startDate.toDateString()}`}>
-                    {
-                        datepick &&
-                        <DateTimePicker mode="date" value={task.startDate} minimumDate={new Date()}
-                            onChange={handleDateChange}
-                        />
-                    }
-                </Input>
-            </Pressable>
-            <View style={styles.buttonContainer}>
-                <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Submit" onPress={handleComplaintSubmit} beforeTextColor="#fff" afterTextColor="#000"/>
-                <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Complaint Log" onPress={handleComplaintList} beforeTextColor="#fff" afterTextColor="#000"/>
-            </View>
+        </Pressable>
+        <View style={styles.buttonContainer}>
+            <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Submit" onPress={handleComplaintSubmit} beforeTextColor="#fff" afterTextColor="#000" />
+            <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Complaint Log" onPress={handleComplaintList} beforeTextColor="#fff" afterTextColor="#000" />
         </View>
+    </View>;
+
+    return deviceData.isPotrait ? (
+        <>
+            {registerProblemScreen}
+        </>
+    ) : (
+        <ScrollView style={{marginBottom:25}}>
+            {registerProblemScreen}
+        </ScrollView>
     )
 }
 

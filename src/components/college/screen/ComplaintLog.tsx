@@ -5,6 +5,7 @@ import { ComplaintProps } from "../database/model";
 import LoadingOverlay from "./LoadingOverlay";
 import MyIcon from "../UI/MyIcon";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import ErrorOverlay from "./ErrorOverlay";
 
 function ComplaintItem({
     item,
@@ -40,7 +41,7 @@ function ComplaintItem({
     };
 
     if (isSubmitting) {
-        return <LoadingOverlay />;
+        return <LoadingOverlay color="#00f"/>;
     }
 
     return (
@@ -55,7 +56,7 @@ function ComplaintItem({
                 <Text>Comment: {item.comment}</Text>
                 <Text>Priority: {item.priority}</Text>
                 <Text>
-                    Date of complaint registered: 
+                    Date of complaint registered:
                     {item.startDate
                         ? (typeof item.startDate === "string"
                             ? new Date(item.startDate)
@@ -131,16 +132,15 @@ export default function ComplaintLog({ route }: any) {
     };
 
     if (loading) {
-        return <LoadingOverlay />;
+        return <LoadingOverlay color="#00f"/>;
     }
 
     return (
         <View style={styles.complaintOuterContainer}>
             <Text style={styles.complaintHeader}>List of the complaint details</Text>
-
             <View style={styles.complaintSearch}>
                 <View style={styles.searchRow}>
-                    <Icon name="magnify" size={22} color="#666" style={{ marginRight: 8 }} />
+                    <Icon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                     <TextInput
                         placeholder="Enter the complaint detail to be searched"
                         value={complaint}
@@ -179,21 +179,17 @@ export default function ComplaintLog({ route }: any) {
                     refreshing={refreshing}
                 />
             ) : (
-                <View style={styles.emptyState}>
-                    <Text style={styles.emptyText}>
-                        {complaint.trim()
-                            ? "No complaints match your search."
-                            : "No complaints found."}
-                    </Text>
-                </View>
+                <ErrorOverlay message={complaint.trim()
+                    ? "No complaints match your search."
+                    : "No complaints found."} />
             )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    complaintOuterContainer: { flex: 1, padding: 16},
-    complaintHeader: { fontSize: 18, fontWeight: "600", marginBottom: 12 },
+    complaintOuterContainer: { flex: 1, padding: 16 },
+    complaintHeader: { fontSize: 18, fontWeight: "600", marginBottom: 12, textAlign: "center" },
     complaintSearch: { marginBottom: 12 },
     searchRow: {
         flexDirection: "row",
@@ -201,12 +197,7 @@ const styles = StyleSheet.create({
         borderWidth: 1, borderColor: "#ddd", borderRadius: 8,
         paddingHorizontal: 10, paddingVertical: 8,
     },
-    input: { flex: 1, fontSize: 16, color: "#222" },
-    searchBtn: {
-        marginTop: 8, backgroundColor: "#0078D4",
-        alignSelf: "flex-start", paddingHorizontal: 12, paddingVertical: 8,
-        borderRadius: 6,
-    },
+    input: { flex: 1, fontSize: 16, color: "#222", backgroundColor: "#fff" },
     beforePressed: {
         backgroundColor: "#fff",
         padding: 5,
@@ -220,6 +211,4 @@ const styles = StyleSheet.create({
         backgroundColor: "#ff0"
     },
     complaintInnerContainer: { padding: 12 },
-    emptyState: { flex: 1, alignItems: "center", justifyContent: "center" },
-    emptyText: { color: "#666", textAlign:"center" },
 });

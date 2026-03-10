@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
-  useColorScheme,
   Linking,
 } from 'react-native';
+import { AppContext } from '../database/AppContextProvider';
 
 type Section = {
   title: string;
@@ -126,8 +126,8 @@ export default function PrivacyPolicy({
   lastUpdated = '2026-03-09',
   sectionsOverride,
 }: PrivacyPolicyScreenProps) {
-  const scheme = useColorScheme();
-  const isDark = scheme === 'dark';
+  const deviceData = useContext(AppContext);
+  const isDark = deviceData.isDarkMode;
   const styles = isDark ? darkStyles : lightStyles;
 
   const sections = sectionsOverride ?? defaultSections(appName, companyName, contactEmail);

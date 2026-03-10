@@ -6,6 +6,7 @@ import { BuildingContext } from "../database/BuildingContextProvider";
 import { fetchBuildingData } from "../database/buildinghttp";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyIcon from "../UI/MyIcon";
+import ErrorOverlay from "./ErrorOverlay";
 
 function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
     const handlePress = () => {
@@ -65,11 +66,7 @@ export default function GetBuilding() {
                     refreshing={refreshing}
                     onRefresh={getBuildingDetails}
                 /> :
-                <View style={styles.emptyState}>
-                    <Text style={styles.emptyText}>
-                        No building data found. Check you internet connection and try again later
-                    </Text>
-                </View>
+                <ErrorOverlay message="No building data found. Check you internet connection and try again later" />
             }
         </>
     )

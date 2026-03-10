@@ -10,37 +10,28 @@ import { StatusBar, useColorScheme, Text, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// import Feature from './src/Feature';
-// import { BUS_DETAILS_KTU } from './src/components/busApp/common/common';
-import { useEffect } from 'react';
 import StackScreenCRUD from './src/components/college/crud/StackScreenCRUD';
 import BuildingContextProvider from './src/components/college/database/BuildingContextProvider';
+import AppContextProvider, { AppContext } from './src/components/college/database/AppContextProvider';
+import { useContext } from 'react';
 
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  // as soon as app loads, execute this data
-  // useEffect(()=>{
-  //   async function getBusData() {
-  //     await AsyncStorage.setItem("BUS_DETAILS_KTU",JSON.stringify(BUS_DETAILS_KTU));
-  //   }
-  //   getBusData();
-  // },[])
-
+ const deviceData = useContext(AppContext);
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle={deviceData.isDarkMode ? 'light-content' : 'dark-content'} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         {/* <NavigationContainer>
           <Feature />
         </NavigationContainer> */}
-        <NavigationContainer>
-          <BuildingContextProvider>
-            <StackScreenCRUD />
-          </BuildingContextProvider>
-        </NavigationContainer>
+        <AppContextProvider>
+          <NavigationContainer>
+            <BuildingContextProvider>
+              <StackScreenCRUD />
+            </BuildingContextProvider>
+          </NavigationContainer>
+        </AppContextProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );

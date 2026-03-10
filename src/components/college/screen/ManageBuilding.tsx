@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
-import { Alert, Button, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import Colors from "../../../constants/colors";
 import BuildingForm from "./BuildingForm";
 import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../database/buildinghttp"
