@@ -1,6 +1,4 @@
 import { StyleSheet, Text, View } from "react-native";
-import Colors from "../../../constants/colors";
-
 
 const ErrorOverlay = ({ message}: { message: string }) => {
     return (
@@ -19,7 +17,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 24,
-        backgroundColor: Colors.primary700
     },
     text:{
         textAlign:"center",

@@ -107,7 +107,7 @@ export default function BuildingForm({ submitButtonLabel, onCancel, onConfirm, s
                     onChangeText={(enteredLocation) => inputHandlerChange("location", enteredLocation)}
                 />
             </Input>
-            {formIsInValid && <Text style={styles.errortext}>Invalid Input values - please check you entered data!</Text>}
+            {formIsInValid && <Text style={styles.errortext}>Invalid Input values - please check your entered data!</Text>}
             <View style={styles.buttonsContainer}>
                 <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Cancel" onPress={onCancel} beforeTextColor="#fff" afterTextColor="#000"/>
                 <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title={`${submitButtonLabel}`} onPress={onSubmitHandler} beforeTextColor="#fff" afterTextColor="#000"/>

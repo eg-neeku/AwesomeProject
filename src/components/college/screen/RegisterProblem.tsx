@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Button, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import Input from "../UI/Input";
 import Slider from "@react-native-community/slider";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
@@ -29,6 +29,10 @@ export default function RegisterProblem() {
 
     const handleComplaintSubmit = async () => {
         try {
+            if(task.comment.length===0 || task.description.length===0 || task.name.length===0){
+                Alert.alert("","Please fill out the necessary field");
+                return ;
+            }
             await storeComplaintData(task);
         } catch (error) {
             console.log(error);

@@ -28,6 +28,11 @@ export const fetchBuildingData = async () => {
     return buildingData;
 }
 
+export const fetchBuildingDataById = async (buildingId: string) => {
+    const response = await axios.get(`${DB_URL}/${DB_NAME}/building/${buildingId}.json`);
+    return response.data;
+}
+
 export const updateBuildingData = async (id: string, newbuilding: BuildingDetailsDTO) => {
     return await axios.put(`${DB_URL}/${DB_NAME}/building/${id}.json`, newbuilding);
 }

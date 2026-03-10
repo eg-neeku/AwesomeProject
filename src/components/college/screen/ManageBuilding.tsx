@@ -8,7 +8,7 @@ import ErrorOverlay from "./ErrorOverlay";
 import { BuildingContext } from "../database/BuildingContextProvider";
 import { BuildingDetailsDTO, ComplaintProps } from "../database/model";
 import MyButton from "../UI/MyButton";
-import { deleteComplaint, fetchComplaintData, fetchComplaintDataByBuilding } from "../database/complainthttp";
+import { deleteComplaint, fetchComplaintDataByBuilding } from "../database/complainthttp";
 
 export default function ManageBuilding({ route, navigation }: any) {
     const [isSubmitting, setIsSubmitting] = useState(false);

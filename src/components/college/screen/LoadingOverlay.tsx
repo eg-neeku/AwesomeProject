@@ -1,5 +1,4 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import Colors from "../../../constants/colors";
 
 export default function LoadingOverlay() {
     return (
@@ -15,6 +14,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 24,
-        backgroundColor: Colors.primary700
     }
 });
