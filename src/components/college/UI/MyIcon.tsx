@@ -27,7 +27,7 @@ export default function MyIcon({ children, onPress = () => { }, iconBgColor = "#
 
     return (
         <Pressable style={({ pressed }) => [styles.iconcontainer, pressed && styles.afterPressed]}
-            onPress={onPress} >
+            onPress={onPress}>
             {children}
         </Pressable>
     )

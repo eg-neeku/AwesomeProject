@@ -126,8 +126,8 @@ export default function PrivacyPolicy({
   lastUpdated = '2026-03-09',
   sectionsOverride,
 }: PrivacyPolicyScreenProps) {
-  const deviceData = useContext(AppContext);
-  const isDark = deviceData.isDarkMode;
+  const deviceCtx = useContext(AppContext);
+  const isDark = deviceCtx.isDarkMode;
   const styles = isDark ? darkStyles : lightStyles;
 
   const sections = sectionsOverride ?? defaultSections(appName, companyName, contactEmail);

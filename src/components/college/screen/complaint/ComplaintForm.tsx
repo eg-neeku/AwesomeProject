@@ -1,19 +1,19 @@
 import { useContext, useState } from "react";
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import Input from "../UI/Input";
+import {InputWithLabel} from "../../UI/Input";
 import Slider from "@react-native-community/slider";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ComplaintPropsDTO } from "../database/model";
-import { storeComplaintData } from "../database/complainthttp";
-import MyButton from "../UI/MyButton";
-import Colors from "../../../constants/colors";
-import { AppContext } from "../database/AppContextProvider";
+import { ComplaintPropsDTO, GOTO_S_COMPLAINT_LOG_PAGE } from "../../database/model";
+import { storeComplaintData } from "../../database/complainthttp";
+import MyButton from "../../UI/MyButton";
+import Colors from "../../../../constants/colors";
+import { AppContext } from "../../database/AppContextProvider";
 
-export default function RegisterProblem() {
+export default function ComplaintForm() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
-    const deviceData = useContext(AppContext);
+    const deviceCtx = useContext(AppContext);
     const [task, setTask] = useState<ComplaintPropsDTO>({ buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date() });
     const [datepick, setDatePick] = useState(false);
 
@@ -44,45 +44,45 @@ export default function RegisterProblem() {
     }
 
     const handleComplaintList = () => {
-        navigation.navigate("ComplaintLog", {
+        navigation.navigate(GOTO_S_COMPLAINT_LOG_PAGE, {
             buildingId: route.params.buildingId
         });
     }
 
     let registerProblemScreen = <View style={styles.container}>
         <Text style={styles.headerText}>Building Name : {route.params.buildingName}</Text>
-        <Input label="Name">
+        <InputWithLabel label="Name">
             <TextInput style={styles.textinput} value={task.name}
                 onChangeText={(enteredValue) => setTask({ ...task, name: enteredValue })}
             />
-        </Input>
-        <Input label="Description">
+        </InputWithLabel>
+        <InputWithLabel label="Description">
             <TextInput style={styles.textinput} value={task.description}
                 onChangeText={(enteredValue) => setTask({ ...task, description: enteredValue })}
             />
-        </Input>
-        <Input label="Comment">
+        </InputWithLabel>
+        <InputWithLabel label="Comment">
             <TextInput style={styles.textinput} value={task.comment}
                 onChangeText={(enteredValue) => setTask({ ...task, comment: enteredValue })}
             />
-        </Input>
-        <Input label="Set Priority">
+        </InputWithLabel>
+        <InputWithLabel label="Set Priority">
             <Text style={{ textAlign: "center", fontSize: 12 }}>{task.priority}</Text>
             <Slider style={{ outlineColor: "#f0f" }} value={task.priority}
                 minimumValue={0} maximumValue={6} step={0}
                 minimumTrackTintColor="#f00" maximumTrackTintColor="#0f0" thumbTintColor="#00f"
                 onValueChange={(selectedValue) => setTask({ ...task, priority: Math.round(selectedValue) })}
             />
-        </Input>
+        </InputWithLabel>
         <Pressable style={({ pressed }) => [{ paddingVertical: 15 }, pressed && styles.pressed]} onPress={() => setDatePick(true)}>
-            <Input label={`Start Date: ${task.startDate.toDateString()}`}>
+            <InputWithLabel label={`Start Date: ${task.startDate.toDateString()}`}>
                 {
                     datepick &&
                     <DateTimePicker mode="date" value={task.startDate} minimumDate={new Date()}
                         onChange={handleDateChange}
                     />
                 }
-            </Input>
+            </InputWithLabel>
         </Pressable>
         <View style={styles.buttonContainer}>
             <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Submit" onPress={handleComplaintSubmit} beforeTextColor="#fff" afterTextColor="#000" />
@@ -90,7 +90,7 @@ export default function RegisterProblem() {
         </View>
     </View>;
 
-    return deviceData.isPotrait ? (
+    return deviceCtx.isPotrait ? (
         <>
             {registerProblemScreen}
         </>

@@ -265,3 +265,22 @@ npx react-native run-android
 Notes:
 Make sure your phone’s screen is unlocked.
 If you encounter permission issues, try adb kill-server then adb start-server.
+
+
+Already done:
+    There is a list of Building.
+    Each Building is assigned with crud operation to modify the building details.
+    There is a search filter available in the Building details.
+    Each building has its own Complaint form.
+    The Complaint form is responsible to identify the problem associated to each building.
+    All the data is stored in the database.
+
+
+Needs to be done:
+So there will be a list of technician:(built-in):
+    onComplaint of each building thingy. It will be assigned to the technician.
+    So once the problem is resolved and noted by the person who complaint. Later complaint log can then be removed by that person.
+
+The actual automation of major things are already done is the existsing product. As part of this internship process I am only supposed
+to show those modification and specified in the synopsis. REST ARE GDPR.
+Thankyou.

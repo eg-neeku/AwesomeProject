@@ -1,51 +1,52 @@
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
-import Home from "../screen/Home";
+import Home from "../screen/building/Home";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Image, View, StyleSheet } from "react-native";
 import About from "../screen/About";
 import PrivacyPolicy from "../screen/PrivacyPolicy";
 import MyIcon from "../UI/MyIcon";
+import { GOTO_D_ABOUT_PAGE, GOTO_D_FACILITY_SEARCH_PAGE, GOTO_D_HOME_PAGE, GOTO_D_MESSAGE_PAGE, GOTO_D_NOTIFICATION_HISTORY_PAGE, GOTO_D_PRIVACY_POLICY_PAGE, GOTO_D_USER_PREFERNCE_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../database/model";
 
 export default function CDrawerScreen() {
     const Drawer = createDrawerNavigator();
     return (
         <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />} >
-            <Drawer.Screen name="Home" component={Home}
+            <Drawer.Screen name={GOTO_D_HOME_PAGE} component={Home}
                 options={({ navigation }) => ({
                     drawerIcon: ({ color, size }) => <IonIcons name="home" color={color} size={size} />,
-                    headerRight: ({ tintColor }) => (<MyIcon onPress={() => navigation.navigate("ManageBuilding")}><IonIcons name="add" color={tintColor} size={20} /></MyIcon>)
+                    headerRight: ({ tintColor }) => (<MyIcon onPress={() => navigation.navigate(GOTO_S_MANAGE_BUILDING_PAGE)}><IonIcons name="add" color={tintColor} size={20} /></MyIcon>)
                 })}
             />
-            <Drawer.Screen name="FacilitySearch" component={Home}
+            <Drawer.Screen name={GOTO_D_FACILITY_SEARCH_PAGE} component={Home}
                 options={{
                     title: "Facility Search",
                     drawerIcon: ({ color, size }) => <IonIcons name="search" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name="Message" component={Home}
+            <Drawer.Screen name={GOTO_D_MESSAGE_PAGE} component={Home}
                 options={{
                     drawerIcon: ({ color, size }) => <MaterialIcons name="message" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name="NotificationHistory" component={Home}
+            <Drawer.Screen name={GOTO_D_NOTIFICATION_HISTORY_PAGE} component={Home}
                 options={{
                     title: "Notification History",
                     drawerIcon: ({ color, size }) => <MaterialIcons name="notifications-active" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name="UserPreference" component={Home}
+            <Drawer.Screen name={GOTO_D_USER_PREFERNCE_PAGE} component={Home}
                 options={{
                     title: "User Preference",
                     drawerIcon: ({ color, size }) => <IonIcons name="person-sharp" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name="About" component={About}
+            <Drawer.Screen name={GOTO_D_ABOUT_PAGE} component={About}
                 options={{
                     drawerIcon: ({ color, size }) => <IonIcons name="information-circle-sharp" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name="PrivacyPolicy" component={PrivacyPolicy}
+            <Drawer.Screen name={GOTO_D_PRIVACY_POLICY_PAGE} component={PrivacyPolicy}
                 options={{
                     title: "Privacy Policy",
                     drawerIcon: ({ color, size }) => <MaterialIcons name="book" color={color} size={size} />

@@ -21,7 +21,12 @@ export const fetchBuildingData = async () => {
         const buildingItem: BuildingDetailsProp = {
             id: key,
             name: response.data[key].name,
-            location: response.data[key].location,
+            address: response.data[key].address,
+            city: response.data[key].city,
+            state: response.data[key].state,
+            pincode: response.data[key].pincode,
+            country: response.data[key].country,
+            floors: response.data[key].floors
         }
         buildingData.push(buildingItem);
     }

@@ -4,9 +4,9 @@ import { BuildingDetailsDTO, BuildingDetailsProp } from "./model";
 type BuildingContextProp = {
     buildingData: BuildingDetailsProp[],
     setBuildingData: (buildingData: BuildingDetailsProp[]) => void,
-    addBuilding: ({ id, name, location }: BuildingDetailsProp) => void,
+    addBuilding: ({ id, name, address, pincode, city, state, country, floors }: BuildingDetailsProp) => void,
     removeBuilding: (id: string) => void,
-    updateBuilding: (id: string, { name, location }: BuildingDetailsDTO) => void,
+    updateBuilding: (id: string, { name, address, pincode, city, state, country, floors }: BuildingDetailsDTO) => void,
 }
 
 export const BuildingContext = createContext<BuildingContextProp>({

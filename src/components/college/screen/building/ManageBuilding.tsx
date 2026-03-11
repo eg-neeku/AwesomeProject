@@ -1,19 +1,19 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
-import Colors from "../../../constants/colors";
+import { Alert, ScrollView, View } from "react-native";
 import BuildingForm from "./BuildingForm";
-import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../database/buildinghttp"
-import LoadingOverlay from "./LoadingOverlay";
-import ErrorOverlay from "./ErrorOverlay";
-import { BuildingContext } from "../database/BuildingContextProvider";
-import { BuildingDetailsDTO, ComplaintProps } from "../database/model";
-import MyButton from "../UI/MyButton";
-import { deleteComplaint, fetchComplaintDataByBuilding } from "../database/complainthttp";
+import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../../database/buildinghttp"
+import LoadingOverlay from "../../UI/LoadingOverlay";
+import ErrorOverlay from "../../UI/ErrorOverlay";
+import { BuildingContext } from "../../database/BuildingContextProvider";
+import { BuildingDetailsDTO, ComplaintProps } from "../../database/model";
+import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
+import { AppContext } from "../../database/AppContextProvider";
 
 export default function ManageBuilding({ route, navigation }: any) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>("");
     const buildingCtx = useContext(BuildingContext);
+    const deviceCtx = useContext(AppContext);
     const editedBuildingId = route.params?.buildingId; //here routing means useful for updating
     const isEditing = !!editedBuildingId;
 
@@ -86,33 +86,19 @@ export default function ManageBuilding({ route, navigation }: any) {
         }
     }
 
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            padding: 24,
-        },
-        deleteContainer: {
-            marginTop: 16,
-            paddingTop: 8,
-            borderTopColor: Colors.primary200,
-            alignItems: "center"
-        },
-    });
-
     if (error && !isSubmitting) return <ErrorOverlay message={error} />
 
-    if (isSubmitting) return <LoadingOverlay />
+    if (isSubmitting) return <LoadingOverlay color="#00f" />
 
-    return (
-        <View style={styles.container}>
-            <BuildingForm onCancel={cancelHandler}
-                onConfirm={confirmHandler} submitButtonLabel={isEditing ? "Update" : "Add"}
-                selectedBuilding={selectedBuilding} />
+    let screen = <View style={{flex:1}}>
+        <BuildingForm onCancel={cancelHandler}
+            onConfirm={confirmHandler}
+            selectedBuilding={selectedBuilding} isEditing={isEditing} deleteBuildingHandler={deleteBuildingHandler}/>
+    </View>;
 
-            {isEditing && <View style={styles.deleteContainer}>
-                <MyButton beforeBgColor={Colors.danger} afterBgColor={"#da4343"} title="Delete" onPress={deleteBuildingHandler} beforeTextColor="#fff" afterTextColor="#000" />
-            </View>
-            }
-        </View>
-    )
+    if (deviceCtx.isLandScape) {
+        screen = <ScrollView>{screen}</ScrollView>;
+    }
+
+    return screen;
 }
