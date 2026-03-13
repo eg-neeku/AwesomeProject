@@ -67,7 +67,7 @@ function ComplaintItem({
                 </Text>
             </View>
             <View style={{ paddingRight: 10 }}>
-                <MyIcon onPress={deleteComplaintHandler} iconBgColor="#fa8e8e">
+                <MyIcon onPress={deleteComplaintHandler} iconBgColor="#fa8e8e" paddingInsideIcon={8}>
                     <Icon name="delete" size={24} color="#fff" />
                 </MyIcon>
             </View>
