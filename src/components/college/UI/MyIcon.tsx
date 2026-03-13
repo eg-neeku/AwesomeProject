@@ -6,7 +6,7 @@ type MyIconProps = {
     onPress?: ((event: GestureResponderEvent) => void) | null | undefined,
     iconBgColor?: string,
     afterIconBgColor?: string,
-    paddingInsideIcon: number,
+    paddingInsideIcon?: number,
 }
 
 export default function MyIcon({ children, onPress = () => { }, iconBgColor = "#f1a9f1", afterIconBgColor = "#ff0", paddingInsideIcon = 10 }: MyIconProps) {
