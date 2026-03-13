@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { View, Text, FlatList, StyleSheet, Pressable, TextInput } from "react-native";
 import { BuildingDetailsProp, formatPostalAddress, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../../database/model";
 import { BuildingContext } from "../../database/BuildingContextProvider";
@@ -41,7 +41,7 @@ function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigat
     )
 }
 
-export default function GetBuilding() {
+export default function BuildingLog() {
     const buildingCtx = useContext(BuildingContext);
     const navigation: any = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
@@ -89,7 +89,7 @@ export default function GetBuilding() {
     }
 
     return (
-        <>
+        <View style={styles.container}>
             <InputWithSearch>
                 <MIcon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
@@ -125,11 +125,16 @@ export default function GetBuilding() {
                 /> :
                 <ErrorOverlay message={building.trim() ? "No building data found" : "No building data found. Check you internet connection and try again later"} />
             }
-        </>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginVertical: 15,
+        marginHorizontal: 15,
+        flex: 1,
+    },
     buildItemContainer: {
         padding: 16
     },
