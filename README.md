@@ -269,17 +269,25 @@ If you encounter permission issues, try adb kill-server then adb start-server.
 
 Already done:
     There is a list of Building.
-    Each Building is assigned with crud operation to modify the building details.
+    Each Building is assigned with CRUD operation to modify the building details.
     There is a search filter available in the Building details.
     Each building has its own Complaint form.
-    The Complaint form is responsible to identify the problem associated to each building.
-    All the data is stored in the database.
 
+    The Complaint form is responsible to identify the problem associated to each building.
+    There is a Complaint Log that is filtered out based on buildingId
+    There is a search filter available in the Complaint Log to find the complaint.
+    Each Complaint is assigned with CRD operation to ensure the complaint is legit.
+    
+    All the data is stored in the database.
+    
+    There is a Technician List.
+    Selecting complaint to assign it to Technician.
+
+Working On:
+    Assigning complaint to Technician(manually for now).
 
 Needs to be done:
-So there will be a list of technician:(built-in):
-    onComplaint of each building thingy. It will be assigned to the technician.
-    So once the problem is resolved and noted by the person who complaint. Later complaint log can then be removed by that person.
+    Receiving a email about the complaint to technician
 
 The actual automation of major things are already done is the existsing product. As part of this internship process I am only supposed
 to show those modification and specified in the synopsis. REST ARE GDPR.

@@ -1,53 +1,14 @@
 import { useEffect, useState } from "react";
 import { Alert, FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
-import { ComplaintProps, GOTO_S_COMPLAINT_ASSIGN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { deleteComplaint, fetchComplaintDataByBuilding, getAssignedComplaintToTechnician } from "../../database/complainthttp";
+import { ComplaintProps } from "../../database/model";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
-import { fetchTechnicianData } from "../../database/technicianhttp";
 
-function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: ComplaintProps, onRefresh: () => void, navigation: any, technicianList: TechnicianDetailsProps[] }) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const deleteComplaintHandler = () => {
-        Alert.alert("Delete Complaint!", "Are you sure you want to delete it?", [
-            {
-                text: "Okay",
-                onPress: async () => {
-                    setIsSubmitting(true);
-                    try {
-                        await deleteComplaint(item.id);
-                        onRefresh();
-                    } catch (error) {
-                        console.log("Unable to delete the complaint data", error);
-                    } finally {
-                        setIsSubmitting(false);
-                    }
-                },
-                style: "destructive",
-            },
-            {
-                text: "Cancel",
-                style: "cancel",
-            },
-        ]);
-    };
-
-    const handleAssignComplaint = () => {
-        navigation.navigate(GOTO_S_COMPLAINT_ASSIGN_PAGE, {
-            complaintId: item.id,
-            technicianList: technicianList,
-            status: "open"
-        })
-    }
-
-    if (isSubmitting) {
-        return <LoadingOverlay color="#00f" />;
-    }
-
+function AssingedComplaintItem({ item }: { item: ComplaintProps }) {
     return (
         <Pressable
             onPress={() => { }}
@@ -68,70 +29,43 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
                         )?.toDateString()
                         : "-"}
                 </Text>
-            </View>
-            <View>
-                <View>
-                    <MyIcon onPress={deleteComplaintHandler} iconBgColor="#fa8e8e" paddingInsideIcon={8}>
-                        <Icon name="delete" size={20} color="#fff" />
-                    </MyIcon>
-                </View>
-                <View>
-                    <MyIcon onPress={handleAssignComplaint} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
-                        <Icon name="location-exit" size={20} color="#fff" />
-                    </MyIcon>
-                </View>
+                <Text>{item.status}</Text>
             </View>
         </Pressable>
     );
 }
 
-export default function ComplaintLog({ navigation, route }: any) {
-    const buildingId: string = route?.params?.buildingId;
+export default function AssignedComplaint({ route }: any) {
+    const selectedTechnicianId: string = route?.params?.technicianId;
 
     // Keep a full copy and a filtered copy
     const [allComplaints, setAllComplaints] = useState<ComplaintProps[]>([]);
     const [demo, setDemo] = useState<ComplaintProps[]>([]);
-    const [output, setOutput] = useState<TechnicianDetailsProps[]>([]);
     const [complaintSearch, setComplaintSearch] = useState("");
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
-        getTechnicianList();
-        getRefreshList();
-    }, [buildingId]);
+        getComplaintList();
+    }, [selectedTechnicianId]);
 
-    const getTechnicianList = async () => {
+    const getComplaintList = async () => {
         setLoading(true);
         try {
-            const output = await fetchTechnicianData();
-            setOutput(output);
+            const response = await getAssignedComplaintToTechnician(selectedTechnicianId);
+            setDemo(response);
+            setAllComplaints(response);
         } catch (error) {
-            console.log("No technician found for the complaint to be assigned");
+            console.log("Unable to get complaints, may be there is no complaint!");
         } finally {
             setLoading(false);
         }
     }
 
-    const getRefreshList = async () => {
-        try {
-            setLoading(true);
-            const res = await fetchComplaintDataByBuilding(buildingId);
-            setAllComplaints(res || []);
-            setDemo(res || []);
-        } catch (error) {
-            console.log("Could not fetch data", error);
-            setAllComplaints([]);
-            setDemo([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const activateRefreshComplaint = async () => {
         try {
             setRefreshing(true);
-            await getRefreshList();
+            await getComplaintList();
             // maintain current search if any
             if (complaintSearch.trim()) {
                 applyFilter(complaintSearch.trim());
@@ -199,7 +133,7 @@ export default function ComplaintLog({ navigation, route }: any) {
                     data={demo}
                     keyExtractor={(item) => item.id}
                     renderItem={(itemData) => (
-                        <ComplaintItem item={itemData.item} onRefresh={getRefreshList} navigation={navigation} technicianList={output} />
+                        <AssingedComplaintItem item={itemData.item} />
                     )}
                     contentContainerStyle={{ paddingBottom: 12 }}
                     onRefresh={activateRefreshComplaint}

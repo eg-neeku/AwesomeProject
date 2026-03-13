@@ -49,3 +49,28 @@ export const fetchComplaintDataByBuilding = async (buildingId: string) => {
     }
     return complaintList;
 }
+
+export const assignComplaintToTechnician = async (complaintId: string, technicianId: string, status: string) => {
+    await axios.patch(`${DB_URL}/${DB_NAME}/complaint/${complaintId}.json`, { technicianId: technicianId, status: status });
+}
+
+export const getAssignedComplaintToTechnician = async (technicianId: string) => {
+    const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
+    let assignedComplaintList: ComplaintProps[] = [];
+    for (const key in response.data) {
+        if (response.data[key].technicianId === technicianId) {
+            const complaintItem: ComplaintProps = {
+                id: key,
+                buildingId: response.data[key].buildingId,
+                name: response.data[key].name,
+                description: response.data[key].description,
+                comment: response.data[key].comment,
+                priority: response.data[key].priority,
+                startDate: new Date(response.data[key].startDate),
+                status: response.data[key].status
+            }
+            assignedComplaintList.push(complaintItem);
+        }
+    }
+    return assignedComplaintList;
+}

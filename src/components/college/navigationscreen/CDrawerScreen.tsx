@@ -20,7 +20,7 @@ export default function CDrawerScreen() {
                     headerRight: ({ tintColor }) => (<MyIcon onPress={() => navigation.navigate(GOTO_S_MANAGE_BUILDING_PAGE)}><IonIcons name="add" color={tintColor} size={20} /></MyIcon>)
                 })}
             />
-            <Drawer.Screen name={GOTO_D_FACILITY_SEARCH_PAGE} component={BuildingLog}
+            <Drawer.Screen name={GOTO_D_FACILITY_SEARCH_PAGE} component={About}
                 options={{
                     title: "Facility Search",
                     drawerIcon: ({ color, size }) => <IonIcons name="search" color={color} size={size} />
@@ -33,13 +33,13 @@ export default function CDrawerScreen() {
                     headerRight: ({ tintColor }) => (<MyIcon onPress={() => navigation.navigate(GOTO_S_MANAGE_TECHNICIAN_PAGE)}><IonIcons name="add" color={tintColor} size={20} /></MyIcon>)
                 })}
             />
-            <Drawer.Screen name={GOTO_D_NOTIFICATION_HISTORY_PAGE} component={BuildingLog}
+            <Drawer.Screen name={GOTO_D_NOTIFICATION_HISTORY_PAGE} component={About}
                 options={{
                     title: "Notification History",
                     drawerIcon: ({ color, size }) => <MaterialIcons name="notifications-active" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name={GOTO_D_USER_PREFERNCE_PAGE} component={BuildingLog}
+            <Drawer.Screen name={GOTO_D_USER_PREFERNCE_PAGE} component={About}
                 options={{
                     title: "User Preference",
                     drawerIcon: ({ color, size }) => <IonIcons name="person-sharp" color={color} size={size} />

@@ -1,16 +1,26 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { View, Text, FlatList, StyleSheet, Pressable, TextInput } from "react-native";
-import { GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { fetchTechnicianData } from "../../database/technicianhttp";
+import MyIcon from "../../UI/MyIcon";
+import Icon from "react-native-vector-icons/Ionicons";
+
+
 function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, navigation: any }) {
     const handleTechnicianPress = () => {
         navigation.navigate(GOTO_S_MANAGE_TECHNICIAN_PAGE, {
             technicianId: item.id
         });
+    }
+    
+    const handleComplaintAssigned = ()=>{
+        navigation.navigate(GOTO_S_ASSIGNED_COMPLAINT_PAGE,{
+            technicianId: item.id
+        })
     }
 
     return (
@@ -21,6 +31,12 @@ function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, na
                 <Text style={styles.textColor}>Email Address: {item.emailId}</Text>
                 <Text style={styles.textColor}>Phone number: {item.phno}</Text>
             </View>
+            <View>
+                <MyIcon onPress={handleComplaintAssigned} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
+                    <Icon name="exit-outline" size={20} color="#000"/>
+                </MyIcon>
+            </View>
+            {/* pencil symbol same as building log structure. To display the complaints possesed by that technician*/}
         </Pressable>
     )
 }
