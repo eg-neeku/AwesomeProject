@@ -33,8 +33,8 @@ function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigat
                 <Text style={styles.textColor}>There are total {item.floors} floors</Text>
             </View>
             <View>
-                <MyIcon onPress={handleComplaintPress} iconBgColor="#fa8e8e">
-                    <Icon name="pencil-sharp" size={24} color="#000" />
+                <MyIcon onPress={handleComplaintPress} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
+                    <Icon name="pencil-sharp" size={20} color="#000" />
                 </MyIcon>
             </View>
         </Pressable>

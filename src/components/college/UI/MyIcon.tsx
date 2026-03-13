@@ -6,9 +6,10 @@ type MyIconProps = {
     onPress?: ((event: GestureResponderEvent) => void) | null | undefined,
     iconBgColor?: string,
     afterIconBgColor?: string,
+    paddingInsideIcon: number,
 }
 
-export default function MyIcon({ children, onPress = () => { }, iconBgColor = "#f1a9f1", afterIconBgColor = "#ff0" }: MyIconProps) {
+export default function MyIcon({ children, onPress = () => { }, iconBgColor = "#f1a9f1", afterIconBgColor = "#ff0", paddingInsideIcon = 10 }: MyIconProps) {
 
     const styles = StyleSheet.create({
         iconcontainer: {
@@ -16,7 +17,7 @@ export default function MyIcon({ children, onPress = () => { }, iconBgColor = "#
             alignItems: "center",
             borderRadius: 800,
             backgroundColor: iconBgColor,
-            padding: 12,
+            padding: paddingInsideIcon,
             margin: 2
         },
         afterPressed: {
