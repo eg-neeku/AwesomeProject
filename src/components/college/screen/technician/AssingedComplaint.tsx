@@ -7,6 +7,7 @@ import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
+import ComplaintItemDetails from "../complaint/ComplaintItemDetails";
 
 function AssingedComplaintItem({ item }: { item: ComplaintDetailsProps }) {
     return (
@@ -14,23 +15,7 @@ function AssingedComplaintItem({ item }: { item: ComplaintDetailsProps }) {
             onPress={() => { }}
             style={({ pressed }) => [styles.beforePressed, pressed && styles.afterPressed]}
         >
-            <View style={styles.complaintInnerContainer}>
-                <Text>ComplaintId: {item.id}</Text>
-                <Text>Person Name: {item.name}</Text>
-                <Text>Description: {item.description}</Text>
-                <Text>Comment: {item.comment}</Text>
-                <Text>Priority: {item.priority}</Text>
-                <Text>
-                    Date of complaint registered:
-                    {item.startDate
-                        ? (typeof item.startDate === "string"
-                            ? new Date(item.startDate)
-                            : item.startDate
-                        )?.toDateString()
-                        : "-"}
-                </Text>
-                <Text>{item.status}</Text>
-            </View>
+            <ComplaintItemDetails item={item} />
         </Pressable>
     );
 }
@@ -164,5 +149,4 @@ const styles = StyleSheet.create({
         opacity: 0.35,
         backgroundColor: "#ff0"
     },
-    complaintInnerContainer: { padding: 12 },
 });

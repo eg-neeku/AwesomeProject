@@ -18,6 +18,7 @@ export default function ComplaintItemDetails({ item }: { item: ComplaintDetailsP
                     )?.toDateString()
                     : "-"}
             </Text>
+            {item.status && <Text>Status: {item.status.toString().toUpperCase()}</Text>}
         </View>
     )
 }

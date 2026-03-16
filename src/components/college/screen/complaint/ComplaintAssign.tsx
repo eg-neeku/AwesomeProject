@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { assignComplaintToTechnician, fetchComplaintDataById } from "../../database/complainthttp";
@@ -10,10 +10,12 @@ import { fetchTechnicianDataById } from "../../database/technicianhttp";
 import TechnicianItemDetails from "../technician/TechnicianItemDetails";
 
 export default function ComplaintAssign({ navigation, route }: any) {
-    const complaintId = route.params?.complaintId;
-    const technicianList = route.params?.technicianList; //TechnicianDetailsProps[]
+    const complaintItem: ComplaintDetailsProps = route.params?.complaintItem;
+    const complaintId: ComplaintDetailsProps["id"] = complaintItem.id;
+    const technicianList: TechnicianDetailsProps[] = route.params?.technicianList; //TechnicianDetailsProps[]
     const status = route.params?.status;
-    const dropdownTechnicianList = technicianList?.map((technician: any) => ({
+
+    const dropdownTechnicianList = technicianList?.map((technician) => ({
         label: technician.name,
         value: technician.emailId,
     }));
@@ -48,16 +50,37 @@ export default function ComplaintAssign({ navigation, route }: any) {
     };
 
     const getTechnicianId = () => {
-        const reponse = technicianList?.find((technician: any) => technician.emailId === value);
-        return reponse.id;
+        const reponse = technicianList.find((technician) => technician.emailId === value);
+        return reponse?.id;
+    }
+
+    const sendEmail = async (to: string = "", subject: string, body: string, cc?: string, bcc?: string) => {
+        const queries = new URLSearchParams({
+            subject: subject,
+            body: body
+        });
+
+        cc && queries.append('cc', cc);
+        bcc && queries.append('bcc', bcc);
+
+        const params = queries.toString();
+
+        const url = `mailto:${to}?${params}`;
+        const canOpen = await Linking.canOpenURL(url);
+        if (!canOpen) {
+            console.log("Unable to send email, Please check if mail app is there and you granted the permission");
+            return;
+        }
+        await Linking.openURL(url);
     }
 
     const handleAssignComplaint = async () => {
         setLoading(true);
         try {
             const technicianId = getTechnicianId();
-            await assignComplaintToTechnician(complaintId, technicianId, status);
+            await assignComplaintToTechnician(complaintId, technicianId??"", status);
             console.log("Complaint Assigned");
+            await sendEmail(technician?.emailId, "Please Fix this issue", `Hi ${technician?.name}, This is ${complaintItem?.name}.\n\t${complaintItem?.description + complaintItem?.comment}\n\nThankyou!`);
             navigation.navigate(GOTO_SD_MAIN_PAGE, {
                 screen: GOTO_S_TECHNICIAN_LOG_PAGE
             });

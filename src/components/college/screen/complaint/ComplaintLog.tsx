@@ -39,7 +39,7 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
 
     const handleAssignComplaint = () => {
         navigation.navigate(GOTO_S_COMPLAINT_ASSIGN_PAGE, {
-            complaintId: item.id,
+            complaintItem: { ...item, startDate: item.startDate?.toISOString() },
             technicianList: technicianList,
             status: "open"
         })
