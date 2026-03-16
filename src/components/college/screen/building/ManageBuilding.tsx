@@ -5,7 +5,7 @@ import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../..
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { BuildingContext } from "../../database/BuildingContextProvider";
-import { BuildingDetailsDTO, ComplaintProps } from "../../database/model";
+import { BuildingDetailsDTO, ComplaintDetailsProps } from "../../database/model";
 import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
 import { AppContext } from "../../database/AppContextProvider";
 
@@ -25,7 +25,7 @@ export default function ManageBuilding({ route, navigation }: any) {
         });
     }, [navigation, isEditing]);
 
-    const deleteComplaintAssociatedToBuilding = async (complaintList: ComplaintProps[], concurrency = 10) => {
+    const deleteComplaintAssociatedToBuilding = async (complaintList: ComplaintDetailsProps[], concurrency = 10) => {
         if (complaintList.length <= 0) return;
         // typically safe for large set of data
         try {

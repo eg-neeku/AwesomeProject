@@ -140,10 +140,7 @@ export default function PrivacyPolicy({
 
   return (
     <ScrollView style={styles.container} contentInsetAdjustmentBehavior="automatic">
-      <Text style={styles.title} accessibilityRole="header">
-        Privacy Policy
-      </Text>
-
+      <Text style={styles.title} accessibilityRole="header">Privacy Policy</Text>
       <Text style={styles.meta}>Last updated: {lastUpdated}</Text>
       <Text style={styles.meta}>Applies to: {appName}</Text>
 
@@ -231,4 +228,3 @@ const darkStyles = StyleSheet.create({
   paragraph: { ...base.paragraph, color: '#D1D5DB' },
   link: { ...base.link, color: '#60A5FA' },
 });
-``

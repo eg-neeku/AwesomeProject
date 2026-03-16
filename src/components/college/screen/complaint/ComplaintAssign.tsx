@@ -5,8 +5,9 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { assignComplaintToTechnician, fetchComplaintDataById } from "../../database/complainthttp";
 import MyButton from "../../UI/MyButton";
 import LoadingOverlay from "../../UI/LoadingOverlay";
-import { ComplaintProps, GOTO_S_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { ComplaintDetailsProps, GOTO_S_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import { fetchTechnicianDataById } from "../../database/technicianhttp";
+import TechnicianItemDetails from "../technician/TechnicianItemDetails";
 
 export default function ComplaintAssign({ navigation, route }: any) {
     const complaintId = route.params?.complaintId;
@@ -73,15 +74,12 @@ export default function ComplaintAssign({ navigation, route }: any) {
 
     return (
         <View style={styles.container}>
-            {technician &&
-                <View style={styles.buildItemContainer}>
-                    <Text>The complaint is already assigned to technician named {technician.name}</Text>
-                    <Text style={styles.textColor}>Name: {technician.name}</Text>
-                    <Text style={styles.textColor}>Email Address: {technician.emailId}</Text>
-                    <Text style={styles.textColor}>Phone number: {technician.phno}</Text>
-                </View>
+            {technician && <>
+                <Text>The complaint is already assigned to technician named {technician.name}</Text>
+                <TechnicianItemDetails item={technician} />
+                <Text style={styles.textColor}> Do you wanna reassign to someone else?</Text>
+            </>
             }
-            {technician && <Text style={styles.textColor}> Do you wanna reassign to someone else?</Text>}
             {renderLabel()}
             <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}

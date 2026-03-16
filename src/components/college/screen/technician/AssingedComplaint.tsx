@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Alert, FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { deleteComplaint, fetchComplaintDataByBuilding, getAssignedComplaintToTechnician } from "../../database/complainthttp";
-import { ComplaintProps } from "../../database/model";
+import { ComplaintDetailsProps } from "../../database/model";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 
-function AssingedComplaintItem({ item }: { item: ComplaintProps }) {
+function AssingedComplaintItem({ item }: { item: ComplaintDetailsProps }) {
     return (
         <Pressable
             onPress={() => { }}
@@ -39,8 +39,8 @@ export default function AssignedComplaint({ route }: any) {
     const selectedTechnicianId: string = route?.params?.technicianId;
 
     // Keep a full copy and a filtered copy
-    const [allComplaints, setAllComplaints] = useState<ComplaintProps[]>([]);
-    const [demo, setDemo] = useState<ComplaintProps[]>([]);
+    const [allComplaints, setAllComplaints] = useState<ComplaintDetailsProps[]>([]);
+    const [demo, setDemo] = useState<ComplaintDetailsProps[]>([]);
     const [complaintSearch, setComplaintSearch] = useState("");
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);

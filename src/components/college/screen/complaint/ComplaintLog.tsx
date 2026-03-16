@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { Alert, FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
-import { ComplaintProps, GOTO_S_COMPLAINT_ASSIGN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { ComplaintDetailsProps, GOTO_S_COMPLAINT_ASSIGN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import { fetchTechnicianData } from "../../database/technicianhttp";
+import ComplaintItemDetails from "./ComplaintItemDetails";
 
-function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: ComplaintProps, onRefresh: () => void, navigation: any, technicianList: TechnicianDetailsProps[] }) {
+function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: ComplaintDetailsProps, onRefresh: () => void, navigation: any, technicianList: TechnicianDetailsProps[] }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const deleteComplaintHandler = () => {
@@ -53,22 +54,7 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
             onPress={() => { }}
             style={({ pressed }) => [styles.beforePressed, pressed && styles.afterPressed]}
         >
-            <View style={styles.complaintInnerContainer}>
-                <Text>ComplaintId: {item.id}</Text>
-                <Text>Person Name: {item.name}</Text>
-                <Text>Description: {item.description}</Text>
-                <Text>Comment: {item.comment}</Text>
-                <Text>Priority: {item.priority}</Text>
-                <Text>
-                    Date of complaint registered:
-                    {item.startDate
-                        ? (typeof item.startDate === "string"
-                            ? new Date(item.startDate)
-                            : item.startDate
-                        )?.toDateString()
-                        : "-"}
-                </Text>
-            </View>
+            <ComplaintItemDetails item={item} />
             <View>
                 <View>
                     <MyIcon onPress={deleteComplaintHandler} iconBgColor="#fa8e8e" paddingInsideIcon={8}>
@@ -89,8 +75,8 @@ export default function ComplaintLog({ navigation, route }: any) {
     const buildingId: string = route?.params?.buildingId;
 
     // Keep a full copy and a filtered copy
-    const [allComplaints, setAllComplaints] = useState<ComplaintProps[]>([]);
-    const [demo, setDemo] = useState<ComplaintProps[]>([]);
+    const [allComplaints, setAllComplaints] = useState<ComplaintDetailsProps[]>([]);
+    const [demo, setDemo] = useState<ComplaintDetailsProps[]>([]);
     const [output, setOutput] = useState<TechnicianDetailsProps[]>([]);
     const [complaintSearch, setComplaintSearch] = useState("");
     const [loading, setLoading] = useState(false);
@@ -230,5 +216,4 @@ const styles = StyleSheet.create({
         opacity: 0.35,
         backgroundColor: "#ff0"
     },
-    complaintInnerContainer: { padding: 12 },
 });

@@ -8,6 +8,7 @@ import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { fetchTechnicianData } from "../../database/technicianhttp";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
+import TechnicianItemDetails from "./TechnicianItemDetails";
 
 
 function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, navigation: any }) {
@@ -16,9 +17,9 @@ function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, na
             technicianId: item.id
         });
     }
-    
-    const handleComplaintAssigned = ()=>{
-        navigation.navigate(GOTO_S_ASSIGNED_COMPLAINT_PAGE,{
+
+    const handleComplaintAssigned = () => {
+        navigation.navigate(GOTO_S_ASSIGNED_COMPLAINT_PAGE, {
             technicianId: item.id
         })
     }
@@ -26,14 +27,10 @@ function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, na
     return (
         <Pressable onPress={handleTechnicianPress}
             style={({ pressed }) => [styles.beforePressed, pressed && styles.afterPressed]}>
-            <View style={styles.buildItemContainer}>
-                <Text style={styles.textColor}>Name: {item.name}</Text>
-                <Text style={styles.textColor}>Email Address: {item.emailId}</Text>
-                <Text style={styles.textColor}>Phone number: {item.phno}</Text>
-            </View>
+            <TechnicianItemDetails item={item} />
             <View>
                 <MyIcon onPress={handleComplaintAssigned} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
-                    <Icon name="exit-outline" size={20} color="#000"/>
+                    <Icon name="exit-outline" size={20} color="#000" />
                 </MyIcon>
             </View>
             {/* pencil symbol same as building log structure. To display the complaints possesed by that technician*/}
@@ -128,12 +125,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         flex: 1,
     },
-    buildItemContainer: {
-        padding: 16
-    },
-    textColor: {
-        color: "#000"
-    },
     beforePressed: {
         backgroundColor: "#fff",
         padding: 5,
@@ -146,7 +137,5 @@ const styles = StyleSheet.create({
         opacity: 0.35,
         backgroundColor: "#ff0"
     },
-    emptyState: { flex: 1, alignItems: "center", justifyContent: "center" },
-    emptyText: { color: "#666", textAlign: "center" },
     searchInput: { flex: 1, fontSize: 16, color: "#222", backgroundColor: "#fff" },
 });

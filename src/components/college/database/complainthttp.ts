@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ComplaintProps, ComplaintPropsDTO } from "./model";
+import { ComplaintDetailsProps, ComplaintPropsDTO } from "./model";
 
 const DB_URL = "https://react-native-course-5d92a-default-rtdb.firebaseio.com";
 const DB_NAME = "COLLEGEAPP";
@@ -10,9 +10,9 @@ export const storeComplaintData = async (complaintData: ComplaintPropsDTO) => {
 
 export const fetchComplaintData = async () => {
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
-    let complaintList: ComplaintProps[] = [];
+    let complaintList: ComplaintDetailsProps[] = [];
     for (const key in response.data) {
-        const complaintItem: ComplaintProps = {
+        const complaintItem: ComplaintDetailsProps = {
             id: key,
             buildingId: response.data[key].buildingId,
             name: response.data[key].name,
@@ -37,10 +37,10 @@ export const deleteComplaint = async (complaintId: string) => {
 
 export const fetchComplaintDataByBuilding = async (buildingId: string) => {
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
-    let complaintList: ComplaintProps[] = [];
+    let complaintList: ComplaintDetailsProps[] = [];
     for (const key in response.data) {
         if (response.data[key].buildingId === buildingId) {
-            const complaintItem: ComplaintProps = {
+            const complaintItem: ComplaintDetailsProps = {
                 id: key,
                 buildingId: response.data[key].buildingId,
                 name: response.data[key].name,
@@ -61,10 +61,10 @@ export const assignComplaintToTechnician = async (complaintId: string, technicia
 
 export const getAssignedComplaintToTechnician = async (technicianId: string) => {
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
-    let assignedComplaintList: ComplaintProps[] = [];
+    let assignedComplaintList: ComplaintDetailsProps[] = [];
     for (const key in response.data) {
         if (response.data[key].technicianId === technicianId) {
-            const complaintItem: ComplaintProps = {
+            const complaintItem: ComplaintDetailsProps = {
                 id: key,
                 buildingId: response.data[key].buildingId,
                 name: response.data[key].name,

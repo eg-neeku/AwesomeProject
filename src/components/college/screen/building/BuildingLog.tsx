@@ -1,7 +1,7 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useContext, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Pressable, TextInput } from "react-native";
-import { BuildingDetailsProp, formatPostalAddress, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../../database/model";
+import { View, FlatList, StyleSheet, Pressable, TextInput } from "react-native";
+import { BuildingDetailsProp, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../../database/model";
 import { BuildingContext } from "../../database/BuildingContextProvider";
 import { fetchBuildingData } from "../../database/buildinghttp";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -9,6 +9,7 @@ import MyIcon from "../../UI/MyIcon";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import BuildingItemDetails from "./BuildingItemDetails";
 
 function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
     const handleBuildingPress = () => {
@@ -27,11 +28,7 @@ function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigat
     return (
         <Pressable onPress={handleBuildingPress}
             style={({ pressed }) => [styles.beforePressed, pressed && styles.afterPressed]}>
-            <View style={styles.buildItemContainer}>
-                <Text style={styles.textColor}>Name: {item.name}</Text>
-                <Text style={styles.textColor}>Location: {formatPostalAddress(item.address, item.pincode, item.city, item.state, item.country)}</Text>
-                <Text style={styles.textColor}>There are total {item.floors} floors</Text>
-            </View>
+            <BuildingItemDetails item={item} />
             <View>
                 <MyIcon onPress={handleComplaintPress} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
                     <Icon name="pencil-sharp" size={20} color="#000" />
@@ -135,12 +132,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         flex: 1,
     },
-    buildItemContainer: {
-        padding: 16
-    },
-    textColor: {
-        color: "#000"
-    },
     beforePressed: {
         backgroundColor: "#fff",
         padding: 5,
@@ -153,7 +144,5 @@ const styles = StyleSheet.create({
         opacity: 0.35,
         backgroundColor: "#ff0"
     },
-    emptyState: { flex: 1, alignItems: "center", justifyContent: "center" },
-    emptyText: { color: "#666", textAlign: "center" },
     searchInput: { flex: 1, fontSize: 16, color: "#222", backgroundColor: "#fff" },
 });

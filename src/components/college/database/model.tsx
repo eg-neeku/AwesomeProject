@@ -1,6 +1,6 @@
 export enum Status{OPEN, INPROGRESS, DONE};
 
-export type ComplaintProps = {
+export type ComplaintDetailsProps = {
     id: string,
     buildingId: string,
     name: string,
@@ -31,7 +31,7 @@ export type TechnicianDetailsProps = {
 }
 
 export type BuildingDetailsDTO = Omit<BuildingDetailsProp, "id">
-export type ComplaintPropsDTO = Omit<ComplaintProps, "id">
+export type ComplaintPropsDTO = Omit<ComplaintDetailsProps, "id">
 export type TechnicianDetailsDTO = Omit<TechnicianDetailsProps, "id">
 
 
