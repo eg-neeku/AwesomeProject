@@ -5,7 +5,7 @@ import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../..
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { BuildingContext } from "../../database/BuildingContextProvider";
-import { BuildingDetailsDTO, ComplaintDetailsProps } from "../../database/model";
+import { BuildingDetailsDTO, BuildingDetailsProp, ComplaintDetailsProps } from "../../database/model";
 import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
 import { AppContext } from "../../database/AppContextProvider";
 
@@ -14,7 +14,7 @@ export default function ManageBuilding({ route, navigation }: any) {
     const [error, setError] = useState<string | null>("");
     const buildingCtx = useContext(BuildingContext);
     const deviceCtx = useContext(AppContext);
-    const editedBuildingId = route.params?.buildingId; //here routing means useful for updating
+    const editedBuildingId : BuildingDetailsProp["id"] = route.params?.buildingId; //here routing means useful for updating
     const isEditing = !!editedBuildingId;
 
     const selectedBuilding = buildingCtx.buildingData.find(buildingItem => buildingItem.id === editedBuildingId);

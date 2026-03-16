@@ -95,7 +95,7 @@ export default function BuildingLog() {
                     onChangeText={(text) => {
                         setBuilding(text);
                         // If you want instant reset on clear even without live search:(i.e retrieve all list)
-                        if (text.trim().length <= 0) setDemo(buildingCtx.buildingData);
+                        if (!text) setDemo(buildingCtx.buildingData);
                     }}
                     style={styles.searchInput}
                     returnKeyType="search"

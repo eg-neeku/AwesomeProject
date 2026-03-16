@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import {InputWithLabel} from "../../UI/Input";
+import { InputWithLabel } from "../../UI/Input";
 import Slider from "@react-native-community/slider";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -31,7 +31,7 @@ export default function ComplaintForm() {
 
     const handleComplaintSubmit = async () => {
         try {
-            if (task.comment.length === 0 || task.description.length === 0 || task.name.length === 0) {
+            if (!task.comment || !task.description || !task.name) {
                 Alert.alert("", "Please fill out the necessary field");
                 return;
             }
@@ -39,7 +39,6 @@ export default function ComplaintForm() {
         } catch (error) {
             console.log(error);
         }
-        console.log("Form Submitted");
         navigation.goBack();
     }
 
@@ -95,7 +94,7 @@ export default function ComplaintForm() {
             {registerProblemScreen}
         </>
     ) : (
-        <ScrollView style={{marginBottom:25}}>
+        <ScrollView style={{ marginBottom: 25 }}>
             {registerProblemScreen}
         </ScrollView>
     )

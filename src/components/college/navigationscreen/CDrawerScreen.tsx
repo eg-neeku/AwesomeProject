@@ -5,7 +5,7 @@ import { Image, View, StyleSheet } from "react-native";
 import About from "../screen/About";
 import PrivacyPolicy from "../screen/PrivacyPolicy";
 import MyIcon from "../UI/MyIcon";
-import { GOTO_D_ABOUT_PAGE, GOTO_D_FACILITY_SEARCH_PAGE, GOTO_D_HOME_PAGE, GOTO_D_NOTIFICATION_HISTORY_PAGE, GOTO_D_PRIVACY_POLICY_PAGE, GOTO_D_USER_PREFERNCE_PAGE, GOTO_S_MANAGE_BUILDING_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, GOTO_S_TECHNICIAN_LOG_PAGE } from "../database/model";
+import { GOTO_D_ABOUT_PAGE, GOTO_D_FACILITY_SEARCH_PAGE, GOTO_D_HOME_PAGE, GOTO_D_NOTIFICATION_HISTORY_PAGE, GOTO_D_PRIVACY_POLICY_PAGE, GOTO_D_USER_PREFERNCE_PAGE, GOTO_S_MANAGE_BUILDING_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, GOTO_D_TECHNICIAN_LOG_PAGE } from "../database/model";
 import TechnicianLog from "../screen/technician/TechnicianLog";
 import BuildingLog from "../screen/building/BuildingLog";
 
@@ -15,7 +15,7 @@ export default function CDrawerScreen() {
         <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />} >
             <Drawer.Screen name={GOTO_D_HOME_PAGE} component={BuildingLog}
                 options={({ navigation }) => ({
-                    title:"Building Log",
+                    title: "Building Log",
                     drawerIcon: ({ color, size }) => <IonIcons name="home" color={color} size={size} />,
                     headerRight: ({ tintColor }) => (<MyIcon onPress={() => navigation.navigate(GOTO_S_MANAGE_BUILDING_PAGE)}><IonIcons name="add" color={tintColor} size={20} /></MyIcon>)
                 })}
@@ -26,9 +26,9 @@ export default function CDrawerScreen() {
                     drawerIcon: ({ color, size }) => <IonIcons name="search" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name={GOTO_S_TECHNICIAN_LOG_PAGE} component={TechnicianLog}
+            <Drawer.Screen name={GOTO_D_TECHNICIAN_LOG_PAGE} component={TechnicianLog}
                 options={({ navigation }) => ({
-                    title:"Technician Log",
+                    title: "Technician Log",
                     drawerIcon: ({ color, size }) => <MaterialIcons name="engineering" color={color} size={size} />,
                     headerRight: ({ tintColor }) => (<MyIcon onPress={() => navigation.navigate(GOTO_S_MANAGE_TECHNICIAN_PAGE)}><IonIcons name="add" color={tintColor} size={20} /></MyIcon>)
                 })}

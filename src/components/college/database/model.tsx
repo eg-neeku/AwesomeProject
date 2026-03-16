@@ -55,6 +55,6 @@ export const GOTO_S_COMPLAINT_LOG_PAGE = "ComplaintLog";
 
 export const GOTO_S_MANAGE_TECHNICIAN_PAGE="ManageTechnician";
 export const GOTO_S_TECHNICIAN_FORM_PAGE="TechnicianForm";
-export const GOTO_S_TECHNICIAN_LOG_PAGE="TechnicianLog";
+export const GOTO_D_TECHNICIAN_LOG_PAGE="TechnicianLog";
 export const GOTO_S_ASSIGNED_COMPLAINT_PAGE="AssignedComplaint";
 export const GOTO_S_COMPLAINT_ASSIGN_PAGE="ComplaintAssign";

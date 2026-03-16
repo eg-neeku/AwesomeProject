@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Alert, FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { deleteComplaint, fetchComplaintDataByBuilding, getAssignedComplaintToTechnician } from "../../database/complainthttp";
+import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { getAssignedComplaintToTechnician } from "../../database/complainthttp";
 import { ComplaintDetailsProps } from "../../database/model";
 import LoadingOverlay from "../../UI/LoadingOverlay";
-import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
@@ -94,7 +93,7 @@ export default function AssignedComplaint({ route }: any) {
                     onChangeText={(text) => {
                         setComplaintSearch(text);
                         // If you want instant reset on clear even without live search:(i.e retrieve all list)
-                        if (text.trim().length <= 0) setDemo(allComplaints);
+                        if (!text) setDemo(allComplaints);
                     }}
                     style={styles.input}
                     returnKeyType="search"

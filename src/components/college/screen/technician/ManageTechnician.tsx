@@ -3,7 +3,7 @@ import { Alert, ScrollView, View } from "react-native";
 import TechnicianForm from "./TechnicianForm";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import ErrorOverlay from "../../UI/ErrorOverlay";
-import { TechnicianDetailsDTO } from "../../database/model";
+import { TechnicianDetailsDTO, TechnicianDetailsProps } from "../../database/model";
 import { AppContext } from "../../database/AppContextProvider";
 import { deleteTechnician, fetchTechnicianDataById, storeTechnicianData, updateTechnicianData } from "../../database/technicianhttp";
 
@@ -12,7 +12,7 @@ export default function ManageTechnician({ route, navigation }: any) {
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState<string | null>("");
     const deviceCtx = useContext(AppContext);
-    const editedTechnicianId = route.params?.technicianId; //here routing means useful for updating
+    const editedTechnicianId: TechnicianDetailsProps["id"] = route.params?.technicianId; //here routing means useful for updating
     const isEditing = !!editedTechnicianId;
     const [selectedTechnician, setSelectedTechnician] = useState<TechnicianDetailsDTO>();
 
@@ -28,7 +28,7 @@ export default function ManageTechnician({ route, navigation }: any) {
             } finally {
                 setIsFetching(false);
             }
-        })()
+        })();
     }, []);
 
     useLayoutEffect(() => {
@@ -36,6 +36,10 @@ export default function ManageTechnician({ route, navigation }: any) {
             title: isEditing ? "Edit Technician" : "Add Technician"
         });
     }, [navigation, isEditing]);
+
+    const cancelHandler = () => {
+        navigation.goBack();
+    }
 
     const deleteTechnicianHandler = () => {
         Alert.alert("Delete Techician", "Are you sure?", [
@@ -49,7 +53,7 @@ export default function ManageTechnician({ route, navigation }: any) {
                     setIsSubmitting(true);
                     try {
                         await deleteTechnician(editedTechnicianId);
-                        navigation.goBack(); // but this ensures that it go back to where this UI screen was invoked
+                        cancelHandler(); // but this ensures that it go back to where this UI screen was invoked
                     } catch (error) {
                         setError("Could not delete technician - please try again later");
                         setIsSubmitting(false);
@@ -60,10 +64,6 @@ export default function ManageTechnician({ route, navigation }: any) {
         ]);
     }
 
-    const cancelHandler = () => {
-        // navigation.navigate("ExpensesOverview");
-        navigation.goBack();
-    }
 
     const confirmHandler = async (newBuildingData: TechnicianDetailsDTO) => {
         setIsSubmitting(true);
@@ -73,7 +73,7 @@ export default function ManageTechnician({ route, navigation }: any) {
             } else {
                 const id = await storeTechnicianData(newBuildingData);
             }
-            navigation.goBack();
+            cancelHandler();
         } catch (error) {
             setError("Could not save data - please try again later!");
             setIsSubmitting(false);

@@ -5,15 +5,15 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { assignComplaintToTechnician, fetchComplaintDataById } from "../../database/complainthttp";
 import MyButton from "../../UI/MyButton";
 import LoadingOverlay from "../../UI/LoadingOverlay";
-import { ComplaintDetailsProps, GOTO_S_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { ComplaintDetailsProps, GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import { fetchTechnicianDataById } from "../../database/technicianhttp";
 import TechnicianItemDetails from "../technician/TechnicianItemDetails";
 
 export default function ComplaintAssign({ navigation, route }: any) {
     const complaintItem: ComplaintDetailsProps = route.params?.complaintItem;
     const complaintId: ComplaintDetailsProps["id"] = complaintItem.id;
-    const technicianList: TechnicianDetailsProps[] = route.params?.technicianList; //TechnicianDetailsProps[]
-    const status = route.params?.status;
+    const technicianList: TechnicianDetailsProps[] = route.params?.technicianList;
+    const status: ComplaintDetailsProps["status"] = route.params?.status;
 
     const dropdownTechnicianList = technicianList?.map((technician) => ({
         label: technician.name,
@@ -31,30 +31,20 @@ export default function ComplaintAssign({ navigation, route }: any) {
             } catch (error) {
                 console.log("Unable to fetch who was assigned to this complaint");
             }
-        })()
+        })();
     }, [])
 
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState("");
     const [isFocus, setIsFocus] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    const renderLabel = () => {
-        if (value || isFocus) {
-            return (
-                <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-                    Assign Complaint to
-                </Text>
-            );
-        }
-        return null;
-    };
 
     const getTechnicianId = () => {
         const reponse = technicianList.find((technician) => technician.emailId === value);
         return reponse?.id;
     }
 
-    const sendEmail = async (to: string = "", subject: string, body: string, cc?: string, bcc?: string) => {
+    const sendEmail = async (to: string = value, subject: string, body: string, cc?: string, bcc?: string) => {
+        if (!to || !subject || !body) return;
         const queries = new URLSearchParams({
             subject: subject,
             body: body
@@ -66,11 +56,6 @@ export default function ComplaintAssign({ navigation, route }: any) {
         const params = queries.toString();
 
         const url = `mailto:${to}?${params}`;
-        const canOpen = await Linking.canOpenURL(url);
-        if (!canOpen) {
-            console.log("Unable to send email, Please check if mail app is there and you granted the permission");
-            return;
-        }
         await Linking.openURL(url);
     }
 
@@ -78,11 +63,11 @@ export default function ComplaintAssign({ navigation, route }: any) {
         setLoading(true);
         try {
             const technicianId = getTechnicianId();
-            await assignComplaintToTechnician(complaintId, technicianId??"", status);
+            await assignComplaintToTechnician(complaintId, technicianId ?? "", status ?? "open");
             console.log("Complaint Assigned");
-            await sendEmail(technician?.emailId, "Please Fix this issue", `Hi ${technician?.name}, This is ${complaintItem?.name}.\n\t${complaintItem?.description + complaintItem?.comment}\n\nThankyou!`);
+            await sendEmail(value, "Please Fix this issue", `Hi ${technician?.name}, This is ${complaintItem?.name}.\n\t${complaintItem?.description + complaintItem?.comment}\n\nThankyou!`);
             navigation.navigate(GOTO_SD_MAIN_PAGE, {
-                screen: GOTO_S_TECHNICIAN_LOG_PAGE
+                screen: GOTO_D_TECHNICIAN_LOG_PAGE
             });
         } catch (error) {
             console.log("Unable to assign the complaint");
@@ -97,13 +82,12 @@ export default function ComplaintAssign({ navigation, route }: any) {
 
     return (
         <View style={styles.container}>
-            {technician && <>
+            {technician?.emailId && <>
                 <Text>The complaint is already assigned to technician named {technician.name}</Text>
                 <TechnicianItemDetails item={technician} />
                 <Text style={styles.textColor}> Do you wanna reassign to someone else?</Text>
             </>
             }
-            {renderLabel()}
             <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                 placeholderStyle={styles.placeholderStyle}
@@ -115,7 +99,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
                 maxHeight={300}
                 labelField="label"
                 valueField="value"
-                placeholder={!isFocus ? 'Select item' : '...'}
+                placeholder="Assign Complaint To..."
                 searchPlaceholder="Search..."
                 value={value}
                 onFocus={() => setIsFocus(true)}
@@ -133,7 +117,6 @@ export default function ComplaintAssign({ navigation, route }: any) {
                     />
                 )}
             />
-            <Text>{value}</Text>
             <View style={{ alignItems: "center" }}>
                 <MyButton title="Assign Complaint" onPress={handleAssignComplaint} />
             </View>

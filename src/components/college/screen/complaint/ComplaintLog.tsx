@@ -161,7 +161,7 @@ export default function ComplaintLog({ navigation, route }: any) {
                     onChangeText={(text) => {
                         setComplaintSearch(text);
                         // If you want instant reset on clear even without live search:(i.e retrieve all list)
-                        if (text.trim().length <= 0) setDemo(allComplaints);
+                        if (!text) setDemo(allComplaints);
                     }}
                     style={styles.input}
                     returnKeyType="search"

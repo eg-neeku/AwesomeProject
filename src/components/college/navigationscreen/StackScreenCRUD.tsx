@@ -45,7 +45,10 @@ export default function StackScreenCRUD() {
             <Stack.Screen name={GOTO_S_COMPLAINT_LOG_PAGE} component={ComplaintLog}
                 options={({ navigation }) => ({
                     title: "Complaint Log",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={() => navigation.navigate(GOTO_SD_MAIN_PAGE)} style={{ marginRight: 15 }} />)
+                    headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={() => navigation.reset({
+                        index: 0,
+                        routes: [{ name: GOTO_SD_MAIN_PAGE }]
+                    })} style={{ marginRight: 15 }} />)
                 })} />
         </Stack.Navigator>
     )

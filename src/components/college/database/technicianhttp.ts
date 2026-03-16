@@ -24,15 +24,18 @@ export const fetchTechnicianData = async () => {
 }
 
 export const fetchTechnicianDataById = async (technicianId: string) => {
+    if(!technicianId) throw new Error("Complaint not found");
     const response = await axios.get(`${DB_URL}/${DB_NAME}/technician/${technicianId}.json`);
     console.log(response);
     return response.data;
 }
 
 export const updateTechnicianData = async (technicianId: string, newTechnician: TechnicianDetailsDTO) => {
+    if(!technicianId) throw new Error("Complaint not found");
     return await axios.put(`${DB_URL}/${DB_NAME}/technician/${technicianId}.json`, newTechnician);
 }
 
 export const deleteTechnician = async (technicianId: string) => {
+    if(!technicianId) throw new Error("Complaint not found");
     return await axios.delete(`${DB_URL}/${DB_NAME}/technician/${technicianId}.json`);
 }

@@ -1,11 +1,19 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import Colors from "../../../../constants/colors";
 import { useState } from "react";
-import { BuildingDetailsDTO } from "../../database/model";
+import { BuildingDetailsDTO, BuildingDetailsProp } from "../../database/model";
 import { InputWithLabel } from "../../UI/Input";
 import MyButton from "../../UI/MyButton";
 
-export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, isEditing, deleteBuildingHandler }: any) {
+type BuildingFormProps = {
+    onCancel: () => void,
+    onConfirm: (newBuildingData: BuildingDetailsDTO) => Promise<void>,
+    selectedBuilding: BuildingDetailsProp | undefined,
+    isEditing: boolean,
+    deleteBuildingHandler: () => void
+}
+
+export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, isEditing, deleteBuildingHandler }: BuildingFormProps) {
     const [inputValues, setInputValues] = useState({
         name: {
             value: selectedBuilding ? selectedBuilding.name.toString() : "",
@@ -115,7 +123,7 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
                 />
             </InputWithLabel>
             <InputWithLabel label="Pincode">
-                <TextInput value={inputValues.pincode.value}
+                <TextInput value={`${inputValues.pincode.value}`}
                     keyboardType="decimal-pad" maxLength={10}
                     style={[styles.input, formIsInValid && styles.errortextinput]}
                     onChangeText={(enteredPincode) => inputHandlerChange("pincode", enteredPincode)}
@@ -128,7 +136,7 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
                 />
             </InputWithLabel>
             <InputWithLabel label="Floors">
-                <TextInput value={inputValues.floors.value} keyboardType="numeric"
+                <TextInput value={`${inputValues.floors.value}`} keyboardType="numeric"
                     style={[styles.input, formIsInValid && styles.errortextinput]}
                     onChangeText={(enteredFloors) => inputHandlerChange("floors", enteredFloors)}
                     maxLength={3}
