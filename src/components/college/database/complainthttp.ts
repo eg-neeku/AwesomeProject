@@ -26,6 +26,11 @@ export const fetchComplaintData = async () => {
     return complaintList;
 }
 
+export const fetchComplaintDataById = async (complaintId: string) => {
+    const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint/${complaintId}.json`);
+    return response.data;
+}
+
 export const deleteComplaint = async (complaintId: string) => {
     return await axios.delete(`${DB_URL}/${DB_NAME}/complaint/${complaintId}.json`);
 }
