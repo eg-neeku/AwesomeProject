@@ -9,12 +9,13 @@ import { storeComplaintData } from "../../database/complainthttp";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../../constants/colors";
 import { AppContext } from "../../database/AppContextProvider";
+import MyImagePicker from "../../UI/MyImagePicker";
 
 export default function ComplaintForm() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
     const deviceCtx = useContext(AppContext);
-    const [task, setTask] = useState<ComplaintPropsDTO>({ buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date() });
+    const [task, setTask] = useState<ComplaintPropsDTO>({ buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date(), imageURL: "" });
     const [datepick, setDatePick] = useState(false);
 
     const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date): void => {
@@ -83,6 +84,9 @@ export default function ComplaintForm() {
                 }
             </InputWithLabel>
         </Pressable>
+        <InputWithLabel label="Proof of complaint">
+            <MyImagePicker onImagePick={(val: string) => setTask({ ...task, imageURL: val })} />
+        </InputWithLabel>
         <View style={styles.buttonContainer}>
             <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Submit" onPress={handleComplaintSubmit} beforeTextColor="#fff" afterTextColor="#000" />
             <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Complaint Log" onPress={handleComplaintList} beforeTextColor="#fff" afterTextColor="#000" />

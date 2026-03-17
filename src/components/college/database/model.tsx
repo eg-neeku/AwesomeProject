@@ -8,6 +8,7 @@ export type ComplaintDetailsProps = {
     comment: string,
     priority: number,
     startDate: Date,
+    imageURL: string,
     technicianId?: string,
     status?: "open" | "assigned" | "in_progress" | "resolved" | "closed";
 };

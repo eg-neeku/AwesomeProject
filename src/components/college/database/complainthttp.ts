@@ -19,6 +19,7 @@ export const fetchComplaintData = async () => {
             description: response.data[key].description,
             comment: response.data[key].comment,
             priority: response.data[key].priority,
+            imageURL: response.data[key].imageURL,
             startDate: new Date(response.data[key].startDate)
         }
         complaintList.push(complaintItem);
@@ -49,6 +50,7 @@ export const fetchComplaintDataByBuilding = async (buildingId: string) => {
                 description: response.data[key].description,
                 comment: response.data[key].comment,
                 priority: response.data[key].priority,
+                imageURL: response.data[key].imageURL,
                 startDate: new Date(response.data[key].startDate)
             }
             complaintList.push(complaintItem);
@@ -76,6 +78,7 @@ export const getAssignedComplaintToTechnician = async (technicianId: string) => 
                 comment: response.data[key].comment,
                 priority: response.data[key].priority,
                 startDate: new Date(response.data[key].startDate),
+                imageURL: response.data[key].imageURL,
                 status: response.data[key].status
             }
             assignedComplaintList.push(complaintItem);

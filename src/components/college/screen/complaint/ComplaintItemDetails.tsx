@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { ComplaintDetailsProps } from "../../database/model";
 
 export default function ComplaintItemDetails({ item }: { item: ComplaintDetailsProps }) {
@@ -25,4 +25,8 @@ export default function ComplaintItemDetails({ item }: { item: ComplaintDetailsP
 
 const styles = StyleSheet.create({
     complaintInnerContainer: { padding: 12 },
+    image: {
+        width: "100%",
+        height: "100%"
+    },
 })
