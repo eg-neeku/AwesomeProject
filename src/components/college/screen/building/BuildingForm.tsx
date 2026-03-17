@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BuildingDetailsDTO, BuildingDetailsProp } from "../../database/model";
 import { InputWithLabel } from "../../UI/Input";
 import MyButton from "../../UI/MyButton";
+import MyImagePicker from "../../UI/MyImagePicker";
 
 type BuildingFormProps = {
     onCancel: () => void,
@@ -43,6 +44,10 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
             value: selectedBuilding ? selectedBuilding.pincode : 0,
             isValid: true
         },
+        imageURL: {
+            value: selectedBuilding ? selectedBuilding.imageURL.toString() : "",
+            isValid: true
+        }
     });
 
     const inputHandlerChange = (inputIdentifier: string, enteredValue: string) => {
@@ -65,6 +70,7 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
             pincode: inputValues.pincode.value,
             country: inputValues.country.value,
             floors: inputValues.floors.value,
+            imageURL: inputValues.imageURL.value,
         }
 
         const nameIsValid = buildingdata.name.trim().length > 0;
@@ -72,8 +78,9 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
         const cityIsValid = buildingdata.city.trim().length > 0;
         const stateIsValid = buildingdata.state.trim().length > 0;
         const countryIsValid = buildingdata.country.trim().length > 0;
-        const floors = buildingdata.floors > 0;
-        const pincode = `${buildingdata.pincode}`.length >= 0;
+        const floorsIsValid = buildingdata.floors > 0;
+        const pincodeisValid = `${buildingdata.pincode}`.length >= 0;
+        const imageURLIsValid = buildingdata.imageURL.trim().length > 0;
 
         if (!nameIsValid || !addressIsValid) {
             setInputValues(prevInputs => {
@@ -83,8 +90,9 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
                     city: { value: prevInputs.city.value, isValid: cityIsValid },
                     state: { value: prevInputs.state.value, isValid: stateIsValid },
                     country: { value: prevInputs.country.value, isValid: countryIsValid },
-                    floors: { value: prevInputs.floors.value, isValid: floors },
-                    pincode: { value: prevInputs.pincode.value, isValid: pincode },
+                    floors: { value: prevInputs.floors.value, isValid: floorsIsValid },
+                    pincode: { value: prevInputs.pincode.value, isValid: pincodeisValid },
+                    imageURL: { value: prevInputs.imageURL.value, isValid: imageURLIsValid },
                 }
             })
             return;
@@ -93,7 +101,7 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
     }
     const formIsInValid = !inputValues.name.isValid || !inputValues.address.isValid ||
         !inputValues.state.isValid || !inputValues.city.isValid || !inputValues.country.isValid ||
-        !inputValues.floors.isValid || !inputValues.floors.isValid;
+        !inputValues.floors.isValid || !inputValues.floors.isValid || !inputValues.imageURL.isValid;
 
     return (
         <View style={styles.forms}>
@@ -105,7 +113,7 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
                 />
             </InputWithLabel>
             <InputWithLabel label="Address">
-                <TextInput value={inputValues.address.value} multiline
+                <TextInput value={inputValues.address.value} multiline maxLength={750}
                     style={[styles.input, styles.inputMulitline, formIsInValid && styles.errortextinput]}
                     onChangeText={(enteredAddress) => inputHandlerChange("address", enteredAddress)}
                 />
@@ -141,6 +149,9 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
                     onChangeText={(enteredFloors) => inputHandlerChange("floors", enteredFloors)}
                     maxLength={3}
                 />
+            </InputWithLabel>
+            <InputWithLabel label="Select building image">
+                <MyImagePicker onImagePick={(val: string) => inputHandlerChange("imageURL", val)} defaultImageURL={inputValues.imageURL.value} />
             </InputWithLabel>
             {formIsInValid && <Text style={styles.errortext}>Invalid Input values - please check your entered data!</Text>}
             <View style={styles.buttonsContainer}>

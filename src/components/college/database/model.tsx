@@ -1,4 +1,4 @@
-export enum Status{OPEN, INPROGRESS, DONE};
+export enum Status { OPEN, INPROGRESS, DONE };
 
 export type ComplaintDetailsProps = {
     id: string,
@@ -8,7 +8,7 @@ export type ComplaintDetailsProps = {
     comment: string,
     priority: number,
     startDate: Date,
-    technicianId?:string,
+    technicianId?: string,
     status?: "open" | "assigned" | "in_progress" | "resolved" | "closed";
 };
 
@@ -20,7 +20,8 @@ export type BuildingDetailsProp = {
     state: string,
     pincode: number,
     country: string,
-    floors: number
+    floors: number,
+    imageURL: string
 }
 
 export type TechnicianDetailsProps = {
@@ -53,8 +54,8 @@ export const GOTO_S_COMPLAINT_FORM_PAGE = "ComplaintBuilding";
 export const GOTO_S_MANAGE_BUILDING_PAGE = "ManageBuilding";
 export const GOTO_S_COMPLAINT_LOG_PAGE = "ComplaintLog";
 
-export const GOTO_S_MANAGE_TECHNICIAN_PAGE="ManageTechnician";
-export const GOTO_S_TECHNICIAN_FORM_PAGE="TechnicianForm";
-export const GOTO_D_TECHNICIAN_LOG_PAGE="TechnicianLog";
-export const GOTO_S_ASSIGNED_COMPLAINT_PAGE="AssignedComplaint";
-export const GOTO_S_COMPLAINT_ASSIGN_PAGE="ComplaintAssign";
+export const GOTO_S_MANAGE_TECHNICIAN_PAGE = "ManageTechnician";
+export const GOTO_S_TECHNICIAN_FORM_PAGE = "TechnicianForm";
+export const GOTO_D_TECHNICIAN_LOG_PAGE = "TechnicianLog";
+export const GOTO_S_ASSIGNED_COMPLAINT_PAGE = "AssignedComplaint";
+export const GOTO_S_COMPLAINT_ASSIGN_PAGE = "ComplaintAssign";

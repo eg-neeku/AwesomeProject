@@ -7,14 +7,12 @@ import ErrorOverlay from "../../UI/ErrorOverlay";
 import { BuildingContext } from "../../database/BuildingContextProvider";
 import { BuildingDetailsDTO, BuildingDetailsProp, ComplaintDetailsProps } from "../../database/model";
 import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
-import { AppContext } from "../../database/AppContextProvider";
 
 export default function ManageBuilding({ route, navigation }: any) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>("");
     const buildingCtx = useContext(BuildingContext);
-    const deviceCtx = useContext(AppContext);
-    const editedBuildingId : BuildingDetailsProp["id"] = route.params?.buildingId; //here routing means useful for updating
+    const editedBuildingId: BuildingDetailsProp["id"] = route.params?.buildingId; //here routing means useful for updating
     const isEditing = !!editedBuildingId;
 
     const selectedBuilding = buildingCtx.buildingData.find(buildingItem => buildingItem.id === editedBuildingId);
@@ -90,15 +88,13 @@ export default function ManageBuilding({ route, navigation }: any) {
 
     if (isSubmitting) return <LoadingOverlay color="#00f" />
 
-    let screen = <View style={{flex:1}}>
-        <BuildingForm onCancel={cancelHandler}
-            onConfirm={confirmHandler}
-            selectedBuilding={selectedBuilding} isEditing={isEditing} deleteBuildingHandler={deleteBuildingHandler}/>
-    </View>;
-
-    if (deviceCtx.isLandScape) {
-        screen = <ScrollView>{screen}</ScrollView>;
-    }
-
-    return screen;
+    return (
+        <ScrollView>
+            <View style={{ flex: 1 }}>
+                <BuildingForm onCancel={cancelHandler}
+                    onConfirm={confirmHandler}
+                    selectedBuilding={selectedBuilding} isEditing={isEditing} deleteBuildingHandler={deleteBuildingHandler} />
+            </View>
+        </ScrollView>
+    )
 }

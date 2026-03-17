@@ -22,7 +22,8 @@ export const fetchBuildingData = async () => {
             state: response.data[key].state,
             pincode: response.data[key].pincode,
             country: response.data[key].country,
-            floors: response.data[key].floors
+            floors: response.data[key].floors,
+            imageURL: response.data[key].imageURL
         }
         buildingData.push(buildingItem);
     }
