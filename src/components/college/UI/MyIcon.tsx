@@ -13,8 +13,6 @@ export default function MyIcon({ children, onPress = () => { }, iconBgColor = "#
 
     const styles = StyleSheet.create({
         iconcontainer: {
-            justifyContent: "center",
-            alignItems: "center",
             borderRadius: 800,
             backgroundColor: iconBgColor,
             padding: paddingInsideIcon,

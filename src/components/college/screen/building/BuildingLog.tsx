@@ -1,6 +1,6 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useContext, useState } from "react";
-import { View, FlatList, StyleSheet, Pressable, TextInput } from "react-native";
+import { View, FlatList, Pressable, TextInput } from "react-native";
 import { BuildingDetailsProp, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../../database/model";
 import { BuildingContext } from "../../database/BuildingContextProvider";
 import { fetchBuildingData } from "../../database/buildinghttp";
@@ -10,6 +10,7 @@ import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import BuildingItemDetails from "./BuildingItemDetails";
+import { logStyles } from "../screenStyles";
 
 function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
     const handleBuildingPress = () => {
@@ -27,9 +28,9 @@ function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigat
 
     return (
         <Pressable onPress={handleBuildingPress}
-            style={({ pressed }) => [styles.beforePressed, pressed && styles.afterPressed]}>
+            style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <BuildingItemDetails item={item} />
-            <View>
+            <View style={logStyles.itemOptions}>
                 <MyIcon onPress={handleComplaintPress} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
                     <Icon name="pencil-sharp" size={20} color="#000" />
                 </MyIcon>
@@ -59,7 +60,7 @@ export default function BuildingLog() {
         }
     }
 
-    // this is going to run whenever this becomes screen visible(useful to reflect the changes when moving from once screen to another or vice-versa)
+    // this is going to run whenever this screen becomes visible(useful to reflect the changes when moving from once screen to another or vice-versa)
     useFocusEffect(
         useCallback(() => {
             activateRefreshBuilding();
@@ -86,7 +87,7 @@ export default function BuildingLog() {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={logStyles.container}>
             <InputWithSearch>
                 <MIcon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
@@ -97,7 +98,7 @@ export default function BuildingLog() {
                         // If you want instant reset on clear even without live search:(i.e retrieve all list)
                         if (!text) setDemo(buildingCtx.buildingData);
                     }}
-                    style={styles.searchInput}
+                    style={logStyles.searchInput}
                     returnKeyType="search"
                     onSubmitEditing={handleBuildingSearch} // <-- trigger on enter/search
                 />
@@ -125,24 +126,3 @@ export default function BuildingLog() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        marginVertical: 15,
-        marginHorizontal: 15,
-        flex: 1,
-    },
-    beforePressed: {
-        backgroundColor: "#fff",
-        padding: 5,
-        marginVertical: 5,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        borderRadius: 8
-    },
-    afterPressed: {
-        opacity: 0.35,
-        backgroundColor: "#ff0"
-    },
-    searchInput: { flex: 1, fontSize: 16, color: "#222", backgroundColor: "#fff" },
-});

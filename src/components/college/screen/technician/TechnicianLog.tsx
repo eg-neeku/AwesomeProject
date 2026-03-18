@@ -1,6 +1,6 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
-import { View, FlatList, StyleSheet, Pressable, TextInput } from "react-native";
+import { View, FlatList, Pressable, TextInput } from "react-native";
 import { GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
@@ -9,6 +9,7 @@ import { fetchTechnicianData } from "../../database/technicianhttp";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import TechnicianItemDetails from "./TechnicianItemDetails";
+import { logStyles } from "../screenStyles";
 
 
 function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, navigation: any }) {
@@ -26,9 +27,9 @@ function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, na
 
     return (
         <Pressable onPress={handleTechnicianPress}
-            style={({ pressed }) => [styles.beforePressed, pressed && styles.afterPressed]}>
+            style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <TechnicianItemDetails item={item} />
-            <View>
+            <View style={logStyles.itemOptions}>
                 <MyIcon onPress={handleComplaintAssigned} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
                     <Icon name="arrow-forward" size={20} color="#000" />
                 </MyIcon>
@@ -78,7 +79,7 @@ export default function TechnicianLog() {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={logStyles.container}>
             <InputWithSearch>
                 <MIcon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
@@ -89,7 +90,7 @@ export default function TechnicianLog() {
                         // If you want instant reset on clear even without live search:(i.e retrieve all list)
                         if (!text) setDemo(technicianDetails);
                     }}
-                    style={styles.searchInput}
+                    style={logStyles.searchInput}
                     returnKeyType="search"
                     onSubmitEditing={handleTechnicianSearch} // <-- trigger on enter/search
                 />
@@ -117,24 +118,3 @@ export default function TechnicianLog() {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        marginVertical: 15,
-        marginHorizontal: 15,
-        flex: 1,
-    },
-    beforePressed: {
-        backgroundColor: "#fff",
-        padding: 5,
-        marginVertical: 5,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        borderRadius: 8
-    },
-    afterPressed: {
-        opacity: 0.35,
-        backgroundColor: "#ff0"
-    },
-    searchInput: { flex: 1, fontSize: 16, color: "#222", backgroundColor: "#fff" },
-});

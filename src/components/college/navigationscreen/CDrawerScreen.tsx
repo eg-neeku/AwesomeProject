@@ -1,7 +1,7 @@
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { Image, View, StyleSheet } from "react-native";
+import { Image, View, StyleSheet, Text } from "react-native";
 import About from "../screen/About";
 import PrivacyPolicy from "../screen/PrivacyPolicy";
 import MyIcon from "../UI/MyIcon";
@@ -63,8 +63,8 @@ export default function CDrawerScreen() {
 function CustomDrawerContent(props: DrawerContentComponentProps) {
     return (
         <DrawerContentScrollView {...props} style={styles.container}>
-            <DrawerItemList {...props} />
             <View style={styles.container}></View>
+            <DrawerItemList {...props} />
             <View style={styles.footer}>
                 <Image
                     source={require("../../../../assets/images/goal.png")}
@@ -77,7 +77,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        marginTop: 5
     },
     logo: {
         width: 200,

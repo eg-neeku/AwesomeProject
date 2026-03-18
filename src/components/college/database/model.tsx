@@ -38,7 +38,7 @@ export type TechnicianDetailsDTO = Omit<TechnicianDetailsProps, "id">
 
 
 export function formatPostalAddress(address: string, pincode: number, city: string, state: string, country: string) {
-    return `${address} - ${pincode}\n${city}, ${state}\n${country}`;
+    return `${address}, ${city} - ${pincode}, ${state}, ${country}.`;
 }
 
 /* Going to Navigation Pages */

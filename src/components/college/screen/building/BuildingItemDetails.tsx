@@ -1,21 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { BuildingDetailsProp, formatPostalAddress } from "../../database/model";
+import { useItemDetailStyles } from "../screenStyles";
 
 export default function BuildingItemDetails({ item }: { item: BuildingDetailsProp }) {
+    const itemDetailStyles = useItemDetailStyles();
     return (
-        <View style={styles.buildItemContainer}>
-            <Text style={styles.textColor}>Name: {item.name}</Text>
-            <Text style={styles.textColor}>Location: {formatPostalAddress(item.address, item.pincode, item.city, item.state, item.country)}</Text>
-            <Text style={styles.textColor}>There are total {item.floors} floors</Text>
+        <View style={itemDetailStyles.itemContainer}>
+            <Text style={itemDetailStyles.description}>Name: {item.name}</Text>
+            <Text style={itemDetailStyles.description}>Location: {formatPostalAddress(item.address, item.pincode, item.city, item.state, item.country)}</Text>
+            <Text style={itemDetailStyles.description}>There are total {item.floors} floors</Text>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    buildItemContainer: {
-        padding: 16
-    },
-    textColor: {
-        color: "#000"
-    },
-})

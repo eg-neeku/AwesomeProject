@@ -1,15 +1,17 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { ComplaintDetailsProps } from "../../database/model";
+import { useItemDetailStyles } from "../screenStyles";
 
 export default function ComplaintItemDetails({ item }: { item: ComplaintDetailsProps }) {
+    const itemDetailStyles = useItemDetailStyles();
     return (
-        <View style={styles.complaintInnerContainer}>
-            <Text>ComplaintId: {item.id}</Text>
-            <Text>Person Name: {item.name}</Text>
-            <Text>Description: {item.description}</Text>
-            <Text>Comment: {item.comment}</Text>
-            <Text>Priority: {item.priority}</Text>
-            <Text>
+        <View style={itemDetailStyles.itemContainer}>
+            <Text style={itemDetailStyles.description}>ComplaintId: {item.id}</Text>
+            <Text style={itemDetailStyles.description}>Person Name: {item.name}</Text>
+            <Text style={itemDetailStyles.description}>Description: {item.description}</Text>
+            <Text style={itemDetailStyles.description}>Comment: {item.comment}</Text>
+            <Text style={itemDetailStyles.description}>Priority: {item.priority}</Text>
+            <Text style={itemDetailStyles.description}>
                 Date of complaint registered:
                 {item.startDate
                     ? (typeof item.startDate === "string"
@@ -18,15 +20,8 @@ export default function ComplaintItemDetails({ item }: { item: ComplaintDetailsP
                     )?.toDateString()
                     : "-"}
             </Text>
-            {item.status && <Text>Status: {item.status.toString().toUpperCase()}</Text>}
+            {item.status && <Text style={itemDetailStyles.description}>Status: {item.status.toString().toUpperCase()}</Text>}
+            {/* {item.imageURL && <Image source={{ uri: item.imageURL }} style={{ width: 150, height: 150 }} />} */}
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    complaintInnerContainer: { padding: 12 },
-    image: {
-        width: "100%",
-        height: "100%"
-    },
-})

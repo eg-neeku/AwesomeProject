@@ -1,10 +1,11 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import Colors from "../../../../constants/colors";
 import { useState } from "react";
 import { BuildingDetailsDTO, BuildingDetailsProp } from "../../database/model";
 import { InputWithLabel } from "../../UI/Input";
 import MyButton from "../../UI/MyButton";
 import MyImagePicker from "../../UI/MyImagePicker";
+import { formStyles } from "../screenStyles";
 
 type BuildingFormProps = {
     onCancel: () => void,
@@ -104,48 +105,48 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
         !inputValues.floors.isValid || !inputValues.floors.isValid || !inputValues.imageURL.isValid;
 
     return (
-        <View style={styles.forms}>
-            <Text style={styles.titleHead}>Building Form</Text>
+        <View style={formStyles.forms}>
+            <Text style={formStyles.titleHead}>Building Form</Text>
             <InputWithLabel label="Building Name">
                 <TextInput value={inputValues.name.value}
-                    style={[styles.input, formIsInValid && styles.errortextinput]}
+                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
                     onChangeText={(enteredName) => inputHandlerChange("name", enteredName)}
                 />
             </InputWithLabel>
             <InputWithLabel label="Address">
                 <TextInput value={inputValues.address.value} multiline maxLength={750}
-                    style={[styles.input, styles.inputMulitline, formIsInValid && styles.errortextinput]}
+                    style={[formStyles.input, formStyles.inputMulitline, formIsInValid && formStyles.errortextinput]}
                     onChangeText={(enteredAddress) => inputHandlerChange("address", enteredAddress)}
                 />
             </InputWithLabel>
             <InputWithLabel label="City">
                 <TextInput value={inputValues.city.value} maxLength={170}
-                    style={[styles.input, formIsInValid && styles.errortextinput]}
+                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
                     onChangeText={(enteredCity) => inputHandlerChange("city", enteredCity)}
                 />
             </InputWithLabel>
             <InputWithLabel label="State">
                 <TextInput value={inputValues.state.value} maxLength={70}
-                    style={[styles.input, formIsInValid && styles.errortextinput]}
+                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
                     onChangeText={(enteredState) => inputHandlerChange("state", enteredState)}
                 />
             </InputWithLabel>
             <InputWithLabel label="Pincode">
                 <TextInput value={`${inputValues.pincode.value}`}
                     keyboardType="decimal-pad" maxLength={10}
-                    style={[styles.input, formIsInValid && styles.errortextinput]}
+                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
                     onChangeText={(enteredPincode) => inputHandlerChange("pincode", enteredPincode)}
                 />
             </InputWithLabel>
             <InputWithLabel label="Country">
                 <TextInput value={inputValues.country.value} maxLength={70}
-                    style={[styles.input, formIsInValid && styles.errortextinput]}
+                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
                     onChangeText={(enteredcountry) => inputHandlerChange("country", enteredcountry)}
                 />
             </InputWithLabel>
             <InputWithLabel label="Floors">
                 <TextInput value={`${inputValues.floors.value}`} keyboardType="numeric"
-                    style={[styles.input, formIsInValid && styles.errortextinput]}
+                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
                     onChangeText={(enteredFloors) => inputHandlerChange("floors", enteredFloors)}
                     maxLength={3}
                 />
@@ -153,8 +154,8 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
             <InputWithLabel label="Select building image">
                 <MyImagePicker onImagePick={(val: string) => inputHandlerChange("imageURL", val)} defaultImageURL={inputValues.imageURL.value} />
             </InputWithLabel>
-            {formIsInValid && <Text style={styles.errortext}>Invalid Input values - please check your entered data!</Text>}
-            <View style={styles.buttonsContainer}>
+            {formIsInValid && <Text style={formStyles.errortext}>Invalid Input values - please check your entered data!</Text>}
+            <View style={formStyles.buttonsContainer}>
                 <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Cancel"
                     onPress={onCancel} beforeTextColor="#fff" afterTextColor="#000" />
                 <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title={isEditing ? "Update" : "Add"}
@@ -164,50 +165,3 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    forms: {
-        padding: 16,
-        backgroundColor: "#fff",
-        borderRadius: 12,
-        margin: 16,
-        elevation: 3,              // Android shadow
-        shadowColor: "#000",       // iOS shadow
-        shadowOpacity: 0.15,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 6,
-    },
-    titleHead: {
-        fontSize: 24,
-        fontWeight: "bold",
-        marginVertical: 10,
-        textAlign: "center"
-    },
-    buttonsContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 5
-    },
-    errortext: {
-        color: Colors.error500,
-        margin: 8,
-        fontSize: 12,
-        textAlign: "center"
-    },
-    input: {
-        backgroundColor: "#ccc",
-        padding: 8,
-        borderRadius: 8,
-        fontSize: 18,
-    },
-    inputMulitline: {
-        minHeight: 100,
-        textAlignVertical: "top"
-    },
-    errortextinput: {
-        borderColor: Colors.error500,
-        backgroundColor: Colors.error500,
-        borderWidth: 1
-    }
-});
