@@ -267,6 +267,15 @@ Make sure your phone’s screen is unlocked.
 If you encounter permission issues, try adb kill-server then adb start-server.
 
 
+android/app/src/main/res/: Under this path add the images
+cd android
+gradlew clean
+gradlew cleanBuildCache
+
+ios/YourApp/Images.xcassets/AppIcon.appiconset/: Under this path add the images
+cd ios
+xcodebuild clean
+
 Already done:
     There is a list of Building.
     Each Building is assigned with CRUD operation to modify the building details.
@@ -282,11 +291,11 @@ Already done:
     
     There is a Technician List.
     Selecting complaint to assign it to Technician.
-
-Working On:
     Assigning complaint to Technician(manually for now).
 
-Needs to be done:
+    Added app icon.
+
+Working On:
     Receiving a email about the complaint to technician
 
 The actual automation of major things are already done is the existsing product. As part of this internship process I am only supposed
