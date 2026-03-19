@@ -6,7 +6,7 @@
  */
 
 // import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, Text, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -22,9 +22,6 @@ function App() {
     <SafeAreaProvider>
       <StatusBar barStyle={deviceData.isDarkMode ? 'light-content' : 'dark-content'} />
       <GestureHandlerRootView style={{ flex: 1 }}>
-        {/* <NavigationContainer>
-          <Feature />
-        </NavigationContainer> */}
         <AppContextProvider>
           <NavigationContainer>
             <BuildingContextProvider>
@@ -38,11 +35,3 @@ function App() {
 }
 
 export default App;
-
-const TestThis = () => {
-  return (
-    <View style={{ justifyContent: "center", alignItems: "center", padding: 2, marginVertical: 45 }}>
-      <Text style={{ color: "#000", fontSize: 45 }}>Does this works </Text>
-    </View>
-  )
-}

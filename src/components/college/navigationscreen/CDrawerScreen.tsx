@@ -1,7 +1,7 @@
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { Image, View, StyleSheet, Text } from "react-native";
+import { Image, View, StyleSheet } from "react-native";
 import About from "../screen/About";
 import PrivacyPolicy from "../screen/PrivacyPolicy";
 import MyIcon from "../UI/MyIcon";

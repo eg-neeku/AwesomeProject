@@ -1,11 +1,5 @@
 import React, { useContext } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Linking,
-} from 'react-native';
+import {View, Text, ScrollView, StyleSheet, Linking} from 'react-native';
 import { AppContext } from '../database/AppContextProvider';
 
 type Section = {
