@@ -68,9 +68,9 @@ export default function ComplaintForm() {
         </InputWithLabel>
         <InputWithLabel label="Set Priority">
             <Text style={{ textAlign: "center", fontSize: 12 }}>{task.priority}</Text>
-            <Slider style={{ outlineColor: "#f0f" }} value={task.priority}
+            <Slider style={{ outlineColor: Colors.purple }} value={task.priority}
                 minimumValue={0} maximumValue={6} step={0}
-                minimumTrackTintColor="#f00" maximumTrackTintColor="#0f0" thumbTintColor="#00f"
+                minimumTrackTintColor={Colors.danger} maximumTrackTintColor={Colors.green} thumbTintColor={Colors.blue}
                 onValueChange={(selectedValue) => setTask({ ...task, priority: Math.round(selectedValue) })}
             />
         </InputWithLabel>
@@ -88,8 +88,8 @@ export default function ComplaintForm() {
             <MyImagePicker onImagePick={(val: string) => setTask({ ...task, imageURL: val })} />
         </InputWithLabel>
         <View style={styles.buttonContainer}>
-            <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Submit" onPress={handleComplaintSubmit} beforeTextColor="#fff" afterTextColor="#000" />
-            <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Complaint Log" onPress={handleComplaintList} beforeTextColor="#fff" afterTextColor="#000" />
+            <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title="Submit" onPress={handleComplaintSubmit} beforeTextColor={Colors.white} afterTextColor={Colors.dark} />
+            <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title="Complaint Log" onPress={handleComplaintList} beforeTextColor={Colors.white} afterTextColor={Colors.dark} />
         </View>
     </View>;
 
@@ -107,7 +107,7 @@ export default function ComplaintForm() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: Colors.white,
         margin: 5,
         padding: 5,
         justifyContent: "center"

@@ -6,6 +6,7 @@ import ErrorOverlay from "../../UI/ErrorOverlay";
 import { TechnicianDetailsDTO, TechnicianDetailsProps } from "../../database/model";
 import { AppContext } from "../../database/AppContextProvider";
 import { deleteTechnician, fetchTechnicianDataById, storeTechnicianData, updateTechnicianData } from "../../database/technicianhttp";
+import Colors from "../../../../constants/colors";
 
 export default function ManageTechnician({ route, navigation }: any) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -82,7 +83,7 @@ export default function ManageTechnician({ route, navigation }: any) {
 
     if (error && !isSubmitting) return <ErrorOverlay message={error} />
 
-    if (isSubmitting || isFetching) return <LoadingOverlay color="#00f" />
+    if (isSubmitting || isFetching) return <LoadingOverlay color={Colors.blue} />
 
     let screen = <View style={{ flex: 1 }}>
         <TechnicianForm onCancel={cancelHandler}

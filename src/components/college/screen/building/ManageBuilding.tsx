@@ -7,6 +7,7 @@ import ErrorOverlay from "../../UI/ErrorOverlay";
 import { BuildingContext } from "../../database/BuildingContextProvider";
 import { BuildingDetailsDTO, BuildingDetailsProp, ComplaintDetailsProps } from "../../database/model";
 import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
+import Colors from "../../../../constants/colors";
 
 export default function ManageBuilding({ route, navigation }: any) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -86,7 +87,7 @@ export default function ManageBuilding({ route, navigation }: any) {
 
     if (error && !isSubmitting) return <ErrorOverlay message={error} />
 
-    if (isSubmitting) return <LoadingOverlay color="#00f" />
+    if (isSubmitting) return <LoadingOverlay color={Colors.navy} />
 
     return (
         <ScrollView>

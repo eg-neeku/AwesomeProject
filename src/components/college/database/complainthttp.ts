@@ -1,8 +1,5 @@
 import axios from "axios";
-import { ComplaintDetailsProps, ComplaintPropsDTO } from "./model";
-
-const DB_URL = "https://react-native-course-5d92a-default-rtdb.firebaseio.com";
-const DB_NAME = "COLLEGEAPP";
+import { ComplaintDetailsProps, ComplaintPropsDTO, DB_NAME, DB_URL } from "./model";
 
 export const storeComplaintData = async (complaintData: ComplaintPropsDTO) => {
     await axios.post(`${DB_URL}/${DB_NAME}/complaint.json`, complaintData);

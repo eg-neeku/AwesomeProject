@@ -15,25 +15,28 @@
 // }
 
 export const Colors = {
-    primary50: "#cfeffd",
-    primary100: "#a0defb",
-    primary200: "#77cff8",
-    primary400: "#44bdf5",
-    primary500: "#1aacf0",
-    primary600: '#4e0328',
-    primary700: "#0570c9",
-    primary800: "#003b88",
-    accent500: "#e6b30b",
-    gray700: "#221c30",
+    aqua: "#0ff",
+    golden: "#e6b30b",
+    gray: "#ccc",
     error500: "#f00",
     gray500: "#39324a",
     primary: "#0d6efd",
     danger: "#f00",
     warning: "#ffc107",
+    yellow: "#ff0",
     secondary: "#0ff",
     success: "#28a745",
+    green: "#0f0",
     dark: "#000",
+    white: "#fff",
     default: "#000",
+    appleRed: "#da4343",
+    lightRed: "#fa8e8e",
+    navy: "#008",
+    purple: "#f0f",
+    blue: "#00f",
+    normalRed: "#da4343",
+    pink: "#f1a9f1"
 }
 
 export default Colors;

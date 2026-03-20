@@ -11,6 +11,7 @@ import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import BuildingItemDetails from "./BuildingItemDetails";
 import { logStyles } from "../screenStyles";
+import Colors from "../../../../constants/colors";
 
 function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
     const handleBuildingPress = () => {
@@ -31,8 +32,8 @@ function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigat
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <BuildingItemDetails item={item} />
             <View style={logStyles.itemOptions}>
-                <MyIcon onPress={handleComplaintPress} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
-                    <Icon name="pencil-sharp" size={20} color="#000" />
+                <MyIcon onPress={handleComplaintPress} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
+                    <Icon name="pencil-sharp" size={20} color={Colors.dark} />
                 </MyIcon>
             </View>
         </Pressable>
@@ -110,7 +111,7 @@ export default function BuildingLog() {
                         }}
                         style={({ pressed }) => [{ paddingHorizontal: 8 }, pressed && { opacity: 0.6 }]}
                     >
-                        <MIcon name="close-circle" size={20} color="#999" />
+                        <MIcon name="close-circle" size={20} color={Colors.gray} />
                     </Pressable>
                 )}
             </InputWithSearch>

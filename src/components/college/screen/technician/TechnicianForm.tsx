@@ -82,11 +82,11 @@ export default function TechnicianForm({ onCancel, onConfirm, selectedTechnician
             </InputWithLabel>
             {formIsInValid && <Text style={formStyles.errortext}>Invalid Input values - please check your entered data!</Text>}
             <View style={formStyles.buttonsContainer}>
-                <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title="Cancel"
-                    onPress={onCancel} beforeTextColor="#fff" afterTextColor="#000" />
-                <MyButton beforeBgColor={Colors.primary} afterBgColor="#0ff" title={isEditing ? "Update" : "Add"}
-                    onPress={onSubmitHandler} beforeTextColor="#fff" afterTextColor="#000" />
-                {isEditing && <MyButton beforeBgColor={Colors.danger} afterBgColor={"#da4343"} title="Delete" onPress={deleteTechnicianHandler} beforeTextColor="#fff" afterTextColor="#000" />}
+                <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title="Cancel"
+                    onPress={onCancel} beforeTextColor={Colors.white} afterTextColor={Colors.dark} />
+                <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title={isEditing ? "Update" : "Add"}
+                    onPress={onSubmitHandler} beforeTextColor={Colors.white} afterTextColor={Colors.dark} />
+                {isEditing && <MyButton beforeBgColor={Colors.danger} afterBgColor={Colors.normalRed} title="Delete" onPress={deleteTechnicianHandler} beforeTextColor={Colors.white} afterTextColor={Colors.dark} />}
             </View>
         </View>
     )
