@@ -8,6 +8,7 @@ import { GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_COMPLAINT_ASSIGN_PAGE, GOTO_S_CO
 import ManageTechnician from "../screen/technician/ManageTechnician";
 import AssignedComplaint from "../screen/technician/AssingedComplaint";
 import ComplaintAssign from "../screen/complaint/ComplaintAssign";
+import Colors from "../../../constants/colors";
 
 export default function StackScreenCRUD() {
     const Stack = createNativeStackNavigator();
@@ -20,32 +21,32 @@ export default function StackScreenCRUD() {
             <Stack.Screen name={GOTO_S_COMPLAINT_FORM_PAGE} component={ComplaintForm}
                 options={({ navigation }) => ({
                     title: "Register Complaint",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={navigation.goBack} style={{ marginRight: 15 }} />)
+                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
                 })} />
             <Stack.Screen name={GOTO_S_MANAGE_TECHNICIAN_PAGE} component={ManageTechnician}
                 options={({ navigation }) => ({
                     title: "Manage Technician",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={navigation.goBack} style={{ marginRight: 15 }} />)
+                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
                 })} />
             <Stack.Screen name={GOTO_S_MANAGE_BUILDING_PAGE} component={ManageBuilding}
                 options={({ navigation }) => ({
                     title: "Manage Building",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={navigation.goBack} style={{ marginRight: 15 }} />)
+                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
                 })} />
             <Stack.Screen name={GOTO_S_COMPLAINT_ASSIGN_PAGE} component={ComplaintAssign}
                 options={({ navigation }) => ({
                     title: "Complaint Assign",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={navigation.goBack} style={{ marginRight: 15 }} />)
+                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
                 })} />
             <Stack.Screen name={GOTO_S_ASSIGNED_COMPLAINT_PAGE} component={AssignedComplaint}
                 options={({ navigation }) => ({
                     title: "Assinged Complaint",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={navigation.goBack} style={{ marginRight: 15 }} />)
+                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
                 })} />
             <Stack.Screen name={GOTO_S_COMPLAINT_LOG_PAGE} component={ComplaintLog}
                 options={({ navigation }) => ({
                     title: "Complaint Log",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color="#000" onPress={() => navigation.reset({
+                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={() => navigation.reset({
                         index: 0,
                         routes: [{ name: GOTO_SD_MAIN_PAGE }]
                     })} style={{ marginRight: 15 }} />)

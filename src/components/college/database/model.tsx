@@ -60,3 +60,6 @@ export const GOTO_S_TECHNICIAN_FORM_PAGE = "TechnicianForm";
 export const GOTO_D_TECHNICIAN_LOG_PAGE = "TechnicianLog";
 export const GOTO_S_ASSIGNED_COMPLAINT_PAGE = "AssignedComplaint";
 export const GOTO_S_COMPLAINT_ASSIGN_PAGE = "ComplaintAssign";
+
+export const DB_URL = "https://react-native-course-5d92a-default-rtdb.firebaseio.com";
+export const DB_NAME = "COLLEGEAPP";

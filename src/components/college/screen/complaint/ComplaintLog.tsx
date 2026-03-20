@@ -10,6 +10,7 @@ import { InputWithSearch } from "../../UI/Input";
 import { fetchTechnicianData } from "../../database/technicianhttp";
 import ComplaintItemDetails from "./ComplaintItemDetails";
 import { logStyles } from "../screenStyles";
+import Colors from "../../../../constants/colors";
 
 function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: ComplaintDetailsProps, onRefresh: () => void, navigation: any, technicianList: TechnicianDetailsProps[] }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,7 +48,7 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
     }
 
     if (isSubmitting) {
-        return <LoadingOverlay color="#00f" />;
+        return <LoadingOverlay color={Colors.blue} />;
     }
 
     return (
@@ -60,11 +61,11 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
                 <View>
                 </View>
                 <View style={logStyles.itemOptions}>
-                    <MyIcon onPress={deleteComplaintHandler} iconBgColor="#fa8e8e" paddingInsideIcon={8}>
-                        <Icon name="delete" size={20} color="#fff" />
+                    <MyIcon onPress={deleteComplaintHandler} iconBgColor={Colors.lightRed} paddingInsideIcon={8}>
+                        <Icon name="delete" size={20} color={Colors.white} />
                     </MyIcon>
-                    <MyIcon onPress={handleAssignComplaint} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
-                        <Icon name="location-exit" size={20} color="#fff" />
+                    <MyIcon onPress={handleAssignComplaint} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
+                        <Icon name="location-exit" size={20} color={Colors.white} />
                     </MyIcon>
                 </View>
             </View>
@@ -148,7 +149,7 @@ export default function ComplaintLog({ navigation, route }: any) {
     };
 
     if (loading) {
-        return <LoadingOverlay color="#00f" />;
+        return <LoadingOverlay color={Colors.blue} />;
     }
 
     return (
@@ -175,7 +176,7 @@ export default function ComplaintLog({ navigation, route }: any) {
                         }}
                         style={({ pressed }) => [{ paddingHorizontal: 8 }, pressed && { opacity: 0.6 }]}
                     >
-                        <Icon name="close-circle" size={20} color="#999" />
+                        <Icon name="close-circle" size={20} color={Colors.gray} />
                     </Pressable>
                 )}
             </InputWithSearch>

@@ -1,4 +1,5 @@
 import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from "react-native";
+import Colors from "../../../constants/colors";
 
 type MyButtonProps = {
     title: string;
@@ -10,7 +11,7 @@ type MyButtonProps = {
 };
 
 export default function MyButton({ title, beforeBgColor = "#1e40af", afterBgColor = "#1e3a8a",
-    beforeTextColor = "#ffffff", afterTextColor = "#e5e7eb", onPress }: MyButtonProps) {
+    beforeTextColor = Colors.white, afterTextColor = "#e5e7eb", onPress }: MyButtonProps) {
     const styles = StyleSheet.create({
         containerBase: {
             padding: 5,

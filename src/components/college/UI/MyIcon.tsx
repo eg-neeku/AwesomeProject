@@ -1,5 +1,6 @@
 import React from "react";
 import { GestureResponderEvent, Pressable, StyleSheet } from "react-native";
+import Colors from "../../../constants/colors";
 
 type MyIconProps = {
     children: React.ReactNode,
@@ -9,7 +10,7 @@ type MyIconProps = {
     paddingInsideIcon?: number,
 }
 
-export default function MyIcon({ children, onPress = () => { }, iconBgColor = "#f1a9f1", afterIconBgColor = "#ff0", paddingInsideIcon = 10 }: MyIconProps) {
+export default function MyIcon({ children, onPress = () => { }, iconBgColor = Colors.pink, afterIconBgColor = Colors.yellow, paddingInsideIcon = 10 }: MyIconProps) {
 
     const styles = StyleSheet.create({
         iconcontainer: {

@@ -9,9 +9,9 @@ export const logStyles = StyleSheet.create({
         marginHorizontal: 15,
         flex: 1,
     },
-    searchInput: { flex: 1, fontSize: 16, color: "#222", backgroundColor: "#fff" },
+    searchInput: { flex: 1, fontSize: 16, color: "#222", backgroundColor: Colors.white },
     beforePressed: {
-        backgroundColor: "#fff",
+        backgroundColor: Colors.white,
         padding: 5,
         marginVertical: 5,
         flexDirection: "row",
@@ -20,7 +20,7 @@ export const logStyles = StyleSheet.create({
     },
     afterPressed: {
         opacity: 0.35,
-        backgroundColor: "#ff0"
+        backgroundColor: Colors.yellow
     },
     itemOptions: {
         flex: 1,
@@ -41,7 +41,7 @@ export function useItemDetailStyles() {
             minWidth: deviceCtx.isPotrait ? deviceCtx.deviceHeight / 5 : deviceCtx.deviceWidth / 1.55
         },
         description: {
-            color: "#000",
+            color: Colors.dark,
             flexWrap: "wrap"
         },
     });
@@ -50,11 +50,11 @@ export function useItemDetailStyles() {
 export const formStyles = StyleSheet.create({
     forms: {
         padding: 16,
-        backgroundColor: "#fff",
+        backgroundColor: Colors.white,
         borderRadius: 12,
         margin: 16,
         elevation: 3,              // Android shadow
-        shadowColor: "#000",       // iOS shadow
+        shadowColor: Colors.dark,       // iOS shadow
         shadowOpacity: 0.15,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 6,
@@ -78,7 +78,7 @@ export const formStyles = StyleSheet.create({
         textAlign: "center"
     },
     input: {
-        backgroundColor: "#ccc",
+        backgroundColor: Colors.gray,
         padding: 8,
         borderRadius: 8,
         fontSize: 18,

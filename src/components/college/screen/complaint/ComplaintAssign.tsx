@@ -8,6 +8,7 @@ import LoadingOverlay from "../../UI/LoadingOverlay";
 import { ComplaintDetailsProps, GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import { fetchTechnicianDataById } from "../../database/technicianhttp";
 import TechnicianItemDetails from "../technician/TechnicianItemDetails";
+import Colors from "../../../../constants/colors";
 
 export default function ComplaintAssign({ navigation, route }: any) {
     const complaintItem: ComplaintDetailsProps = route.params?.complaintItem;
@@ -77,7 +78,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
     }
 
     if (loading) {
-        return <LoadingOverlay color="#00f" />;
+        return <LoadingOverlay color={Colors.navy} />;
     }
 
     return (
@@ -167,6 +168,6 @@ const styles = StyleSheet.create({
         padding: 16
     },
     textColor: {
-        color: "#000"
+        color: Colors.dark
     },
 });

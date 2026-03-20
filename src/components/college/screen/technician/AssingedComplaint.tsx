@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import ComplaintItemDetails from "../complaint/ComplaintItemDetails";
+import Colors from "../../../../constants/colors";
 
 function AssingedComplaintItem({ item }: { item: ComplaintDetailsProps }) {
     return (
@@ -79,7 +80,7 @@ export default function AssignedComplaint({ route }: any) {
     };
 
     if (loading) {
-        return <LoadingOverlay color="#00f" />;
+        return <LoadingOverlay color={Colors.blue} />;
     }
 
     return (
@@ -107,7 +108,7 @@ export default function AssignedComplaint({ route }: any) {
                         }}
                         style={({ pressed }) => [{ paddingHorizontal: 8 }, pressed && { opacity: 0.6 }]}
                     >
-                        <Icon name="close-circle" size={20} color="#999" />
+                        <Icon name="close-circle" size={20} color={Colors.gray} />
                     </Pressable>
                 )}
             </InputWithSearch>
@@ -135,9 +136,9 @@ export default function AssignedComplaint({ route }: any) {
 const styles = StyleSheet.create({
     complaintOuterContainer: { flex: 1, padding: 16 },
     complaintHeader: { fontSize: 18, fontWeight: "600", marginBottom: 12, textAlign: "center" },
-    input: { flex: 1, fontSize: 16, color: "#222", backgroundColor: "#fff" },
+    input: { flex: 1, fontSize: 16, color: "#222", backgroundColor: Colors.white },
     beforePressed: {
-        backgroundColor: "#fff",
+        backgroundColor: Colors.white,
         padding: 5,
         marginVertical: 5,
         flexDirection: "row",
@@ -146,6 +147,6 @@ const styles = StyleSheet.create({
     },
     afterPressed: {
         opacity: 0.35,
-        backgroundColor: "#ff0"
+        backgroundColor: Colors.yellow
     },
 });

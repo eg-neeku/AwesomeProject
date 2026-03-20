@@ -10,6 +10,7 @@ import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import TechnicianItemDetails from "./TechnicianItemDetails";
 import { logStyles } from "../screenStyles";
+import Colors from "../../../../constants/colors";
 
 
 function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, navigation: any }) {
@@ -30,8 +31,8 @@ function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, na
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <TechnicianItemDetails item={item} />
             <View style={logStyles.itemOptions}>
-                <MyIcon onPress={handleComplaintAssigned} iconBgColor="#fa8e8e" paddingInsideIcon={6}>
-                    <Icon name="arrow-forward" size={20} color="#000" />
+                <MyIcon onPress={handleComplaintAssigned} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
+                    <Icon name="arrow-forward" size={20} color={Colors.dark} />
                 </MyIcon>
             </View>
         </Pressable>
@@ -102,7 +103,7 @@ export default function TechnicianLog() {
                         }}
                         style={({ pressed }) => [{ paddingHorizontal: 8 }, pressed && { opacity: 0.6 }]}
                     >
-                        <MIcon name="close-circle" size={20} color="#999" />
+                        <MIcon name="close-circle" size={20} color={Colors.gray} />
                     </Pressable>
                 )}
             </InputWithSearch>
