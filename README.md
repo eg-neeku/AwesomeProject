@@ -96,52 +96,6 @@ To learn more about React Native, take a look at the following resources:
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 
-## https://reactnative.dev/docs/getting-started-without-a-framework : Using React Native without the Expo
-1. After installing android studio, its emulator, git, vscode,openjdk. Open the following Environment variable and Add the following paths to it:
-``` bash
-    ✅ Environment Variables → User Variables
-    JAVA_HOME = C:\Program Files\Microsoft\jdk-17
-    ANDROID_HOME = C:\Users\rootUser\AppData\Local\Android\Sdk
-    ANDROID_SDK_ROOT = C:\Users\rootUser\AppData\Local\Android\Sdk
-```
-
-``` bash
-✅ Add to PATH
-    %JAVA_HOME%\bin
-    C:\Users\rootUser\AppData\Local\Android\Sdk\platform-tools
-    C:\Users\rootUser\AppData\Local\Android\Sdk\emulator
-    C:\Users\rootUser\AppData\Local\Android\Sdk\tools
-    C:\Users\rootUser\AppData\Local\Android\Sdk\tools\bin
-```
-2. (Optional)If the adb is not launching then only add this using powershell:
-To fix the ADB thing:
-``` powershell
-    $env:PATH += ";C:\Users\neeku\AppData\Local\Android\Sdk\platform-tools"
-```
-3. Open the VSCode and run the command
-``` bash
-    npx @react-native-community/cli@latest init AwesomeProject.
-```
-
-4. Start Metro(JS Build tool for React Native)
-``` bash
-    npm start
-```
-
-5. Start you application
-``` bash
-    npm run android
-```
-    5.1. Whenever there is some error occurs, even if your app is not showing any error then: Remove the app cache and build cache
-        ``` bash
-            $ npx react-native start --reset-cache
-            $ cd android && gradlew clean && cd ..
-        ``` . Then go to the above step 5.
-
-6. Dont run the 4,5 simultaneously. Run 4 to build the project and 5 to see the output.
-
-7. Here why three terminals have been launched?
-
 8. Elements/Componenets are: View, Text, Image, Button, TextInput.
 Style can : 
     8.1. Text
@@ -187,13 +141,6 @@ Handling Events:
 11. Adaptive Responsive UIs: colors.android.js, colors.ios.js; So jus do normally task. The platform itself detects what type of file UI has to be attached and use.
 
 12. Navigation: 
-``` bash 
-        npm install @react-navigation/native
-        npm install react-native-screens react-native-safe-area-context
-        npm install @react-navigation/native-stack
-        npm install @react-navigation/elements
-```
-
         useNavigation(), useRoute(). instead of using the props params to get the value.
         Stack.Screen: options:{}. Here there are many options.
             title:'' any name rather than the name  
@@ -215,28 +162,6 @@ Handling Events:
     
     # Always refer documentation.
 
-To globally set the icon use the following method:
-Make sure the icons are in square shaped only, as android and ios will auto create and set the roundness.
-``` bash
-    $ npm install react-native-set-icon --save-dev
-    $ npx react-native-set-icon --path ./assets/image/icon.png
-```
-
-In jsx or TSX if a boolean value is invoked without assigning value it is same as asying it is true
-<Input secure={true} /> is same as <Input secure />
-
-Database REST API operations:
-1. Setup the database(Firebase is used here). Here in realtime data make sure to set the read and write to true(risky but for real-time db and free purpose this is needed)
-2. Install packages:
-``` bash
-    npm i axios
-```
-3. To store the data in phone: using the key value pair approach just like ocalstorage in browser:
-``` bash
-    npm install @react-native-async-storage/async-storage@next
-```
-
-
 Typescript: 
 Omit is used to remove some properties inorder to get extract properties from the parent type
 Extract no idea?
@@ -254,17 +179,17 @@ To build .apk file:
 
 2. Navigate to android/app/build/outputs/apk/release folder. Under this the app-release.apk file will be created.
 For Android Devices
-Connect your phone via USB
-Verify device is detected:
-adb devices
-Your device should appear in the list.
-Start Metro Bundler (in project root):
-npx react-native start
-Run the app on your connected device:
-npx react-native run-android
-Notes:
-Make sure your phone’s screen is unlocked.
-If you encounter permission issues, try adb kill-server then adb start-server.
+``` bash
+    # Connect your phone via USB, Verify device is detected:
+    adb devices
+    # Your device should appear in the list. Start Metro Bundler (in project root):
+    npx react-native start
+    # Run the app on your connected device:
+    npm run android
+    # Notes: Make sure your phone’s screen is unlocked.
+    # If you encounter permission issues, try 
+    adb kill-server then adb start-server.
+```
 
 
 android/app/src/main/res/: Under this path add the images
@@ -294,9 +219,18 @@ Already done:
     Assigning complaint to Technician(manually for now).
 
     Added app icon.
+    Receiving a email about the complaint to technician
 
 Working On:
-    Receiving a email about the complaint to technician
+``` js
+    1. I want certail screen needs to be available to certain users only.
+        Say admin: (All) Building, Technician, Complaint.
+        User: Technician(read-only), CRUD complaint.
+        Technician: Complaint details.
+    2. Technician Data if updated say email. Then the email that is sent for the current complaint, isnt that needs to be updated.
+    If so then how?
+    3. In ComplaintItemDetails remove the image: Implement a modal or Stack navigation to display the image later on click of that image. Now image is also in tempo mode, so we need something to get the image from the gallery app:
+```
 
 The actual automation of major things are already done is the existsing product. As part of this internship process I am only supposed
 to show those modification and specified in the synopsis. REST ARE GDPR.

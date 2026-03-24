@@ -6,13 +6,13 @@
  */
 
 // import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar } from 'react-native';
+import { StatusBar} from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import StackScreenCRUD from './src/components/college/navigationscreen/StackScreenCRUD';
-import BuildingContextProvider from './src/components/college/database/BuildingContextProvider';
-import AppContextProvider, { AppContext } from './src/components/college/database/AppContextProvider';
+import StackScreenCRUD from './src/college/navigationscreen/StackScreenCRUD';
+import BuildingContextProvider from './src/college/database/BuildingContextProvider';
+import AppContextProvider, { AppContext } from './src/college/database/AppContextProvider';
 import { useContext } from 'react';
 
 
