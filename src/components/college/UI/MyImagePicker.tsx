@@ -30,6 +30,18 @@ export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { o
 
     const ensureImagePermission = async () => {
         if (Platform.OS !== "android") return true;
+
+        const hasCamera = await PermissionsAndroid.check(
+            PermissionsAndroid.PERMISSIONS.CAMERA
+        );
+
+        const hasRead =
+            Number(Platform.Version) >= 33
+                ? await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES)
+                : await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+        
+        if (hasCamera && hasRead) return true;
+
         const cameraPermission = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
         if (cameraPermission !== PermissionsAndroid.RESULTS.GRANTED) return false;
 
@@ -41,10 +53,10 @@ export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { o
 
     const takeImageHandler = async () => {
         const ok = await ensureImagePermission();
-        if (!ok) {
-            Alert.alert("Insufficient Permission!", "You need to grant camera permission to use this feature");
-            return;
-        }
+        // if (!ok) {
+        //     Alert.alert("Insufficient Permission!", "You need to grant camera permission to use this feature");
+        //     return;
+        // }
 
         try {
             // return the temp uri path, but saves in gallery app

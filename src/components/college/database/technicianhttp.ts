@@ -23,7 +23,6 @@ export const fetchTechnicianData = async () => {
 export const fetchTechnicianDataById = async (technicianId: string) => {
     if(!technicianId) throw new Error("Complaint not found");
     const response = await axios.get(`${DB_URL}/${DB_NAME}/technician/${technicianId}.json`);
-    console.log(response);
     return response.data;
 }
 
