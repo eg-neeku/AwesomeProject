@@ -8,16 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-<<<<<<< HEAD
-    steps:
-      - uses: actions/checkout@v1
-      - with:
-          node-version: [18.x, 22.x, 24.x]
-      - name: Run tests
-        run: |
-          npm install
-          npm test
-=======
 
     strategy:
       matrix:
@@ -37,4 +27,3 @@ jobs:
 
       - name: Run tests
         run: npm test
->>>>>>> main
