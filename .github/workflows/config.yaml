@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+<<<<<<< HEAD
     steps:
       - uses: actions/checkout@v1
       - with:
@@ -16,3 +17,24 @@ jobs:
         run: |
           npm install
           npm test
+=======
+
+    strategy:
+      matrix:
+        node-version: [18.x, 22.x, 24.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+>>>>>>> main
