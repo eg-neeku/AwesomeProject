@@ -4,6 +4,7 @@ import Colors from "../../constants/colors";
 import MyButton from "./MyButton";
 import { launchCamera } from "react-native-image-picker";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
+import RNFS from "react-native-fs";
 
 export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { onImagePick: (val: string) => void, defaultImageURL?: string }) {
 
@@ -77,8 +78,16 @@ export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { o
             const galleryUri = photos.edges[0]?.node?.image?.uri;
             if (galleryUri) {
                 console.log("Gallery path to the image is: ", galleryUri);
-                setSelectedImage(galleryUri);
-                onImagePick(galleryUri);
+                // Copy to app-local storage so the file:// path stays valid across app restarts.
+                // content:// MediaStore URIs can become inaccessible after the process is killed
+                // (especially on Android 12+ with scoped storage / picker URIs).
+                const fileName = `building_img_${Date.now()}.jpg`;
+                const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+                await RNFS.copyFile(galleryUri, destPath);
+                const localUri = `file://${destPath}`;
+                console.log("Persistent local path: ", localUri);
+                setSelectedImage(localUri);
+                onImagePick(localUri);
             }
         } catch (error) {
             console.log("Error in fetching image:", error);
