@@ -84,7 +84,7 @@ export default function TechnicianLog() {
             <InputWithSearch>
                 <MIcon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
-                    placeholder="Enter the technician detail to be searched"
+                    placeholder="Search by technician info...."
                     value={searchTechnician}
                     onChangeText={(text) => {
                         setSearchTechnician(text);

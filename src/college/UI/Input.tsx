@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Colors from "../../constants/colors";
 
 type InputProps = {
@@ -46,6 +46,16 @@ export function InputWithSearch({ children }: { children: React.ReactNode }) {
             <View style={styles.searchRow}>
                 {children}
             </View>
+        </View>
+    )
+}
+
+export function HorizontalFilterSet({ children }: { children: React.ReactNode }) {
+    return (
+        <View style={{ margin: 8, alignItems: "center" }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 5, flexDirection: "row" }}>
+                {children}
+            </ScrollView>
         </View>
     )
 }
