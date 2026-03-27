@@ -157,7 +157,7 @@ export default function ComplaintLog({ navigation, route }: any) {
             <InputWithSearch>
                 <Icon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
-                    placeholder="Enter the complaint detail to be searched"
+                    placeholder="Search by complaint info...."
                     value={complaintSearch}
                     onChangeText={(text) => {
                         setComplaintSearch(text);

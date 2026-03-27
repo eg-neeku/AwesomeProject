@@ -92,7 +92,7 @@ export default function BuildingLog() {
             <InputWithSearch>
                 <MIcon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
-                    placeholder="Enter the building detail to be searched"
+                    placeholder="Search by building info...."
                     value={building}
                     onChangeText={(text) => {
                         setBuilding(text);
