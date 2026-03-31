@@ -4,11 +4,12 @@ import Icon from "react-native-vector-icons/Ionicons";
 import CDrawerScreen from "./CDrawerScreen";
 import ManageBuilding from "../screen/building/ManageBuilding";
 import ComplaintLog from "../screen/complaint/ComplaintLog";
-import { GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_COMPLAINT_ASSIGN_PAGE, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_COMPLAINT_LOG_PAGE, GOTO_S_MANAGE_BUILDING_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, GOTO_SD_MAIN_PAGE } from "../database/model";
+import { GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_COMPLAINT_ASSIGN_PAGE, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_COMPLAINT_IN_DETAIL_PAGE, GOTO_S_COMPLAINT_LOG_PAGE, GOTO_S_MANAGE_BUILDING_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, GOTO_SD_MAIN_PAGE } from "../database/model";
 import ManageTechnician from "../screen/technician/ManageTechnician";
 import AssignedComplaint from "../screen/technician/AssingedComplaint";
 import ComplaintAssign from "../screen/complaint/ComplaintAssign";
 import Colors from "../../constants/colors";
+import ComplaintInDetail from "../screen/technician/ComplaintInDetail";
 
 export default function StackScreenCRUD() {
     const Stack = createNativeStackNavigator();
@@ -49,6 +50,14 @@ export default function StackScreenCRUD() {
                     headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={() => navigation.reset({
                         index: 0,
                         routes: [{ name: GOTO_SD_MAIN_PAGE }]
+                    })} style={{ marginRight: 15 }} />)
+                })} />
+            <Stack.Screen name={GOTO_S_COMPLAINT_IN_DETAIL_PAGE} component={ComplaintInDetail}
+                options={({ navigation }) => ({
+                    title: "Complaint Indetail",
+                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={() => navigation.reset({
+                        index: 0,
+                        routes: [{ name: GOTO_SD_MAIN_PAGE, state: { routes: [{ name: GOTO_D_TECHNICIAN_LOG_PAGE }] } }]
                     })} style={{ marginRight: 15 }} />)
                 })} />
         </Stack.Navigator>
