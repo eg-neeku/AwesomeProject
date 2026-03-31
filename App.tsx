@@ -6,7 +6,7 @@
  */
 
 // import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar} from 'react-native';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -15,19 +15,26 @@ import BuildingContextProvider from './src/college/database/BuildingContextProvi
 import AppContextProvider, { AppContext } from './src/college/database/AppContextProvider';
 import { useContext } from 'react';
 
+function AppContent() {
+  const deviceData = useContext(AppContext);
+  return (
+    <>
+      <StatusBar barStyle={deviceData.isDarkMode ? 'light-content' : 'dark-content'} />
+      <NavigationContainer>
+        <BuildingContextProvider>
+          <StackScreenCRUD />
+        </BuildingContextProvider>
+      </NavigationContainer>
+    </>
+  )
+}
 
 function App() {
- const deviceData = useContext(AppContext);
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={deviceData.isDarkMode ? 'light-content' : 'dark-content'} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AppContextProvider>
-          <NavigationContainer>
-            <BuildingContextProvider>
-              <StackScreenCRUD />
-            </BuildingContextProvider>
-          </NavigationContainer>
+          <AppContent />
         </AppContextProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>

@@ -10,8 +10,7 @@ export default function ComplaintInDetail() {
         <ScrollView contentContainerStyle={styles.container}>
             <ComplaintItemDetails item={complaintItem} />
             <View style={styles.imageSection}>
-                {complaintItem.imageURL
-                    ? <Image source={{ uri: complaintItem.imageURL }} style={styles.image} resizeMode="cover" />
+                {complaintItem.imageURL? <Image source={{ uri: complaintItem.imageURL }} style={styles.image} resizeMode="cover" />
                     : <Text style={styles.noImageText}>No image found! Kindly put the image for proof.</Text>}
             </View>
         </ScrollView>
@@ -20,7 +19,7 @@ export default function ComplaintInDetail() {
 
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
+        flexGrow: 0.25,
     },
     imageSection: {
         margin: 16,
@@ -30,6 +29,8 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 220,
         borderRadius: 10,
+        borderWidth: 2,
+        borderColor: "#000"
     },
     noImageText: {
         color: "#888",
