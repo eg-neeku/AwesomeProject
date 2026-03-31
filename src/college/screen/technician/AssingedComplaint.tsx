@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { getAssignedComplaintToTechnician } from "../../database/complainthttp";
-import { ComplaintDetailsProps } from "../../database/model";
+import { ComplaintDetailsProps, GOTO_S_COMPLAINT_IN_DETAIL_PAGE } from "../../database/model";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import ComplaintItemDetails from "../complaint/ComplaintItemDetails";
 import Colors from "../../../constants/colors";
+import { useNavigation } from "@react-navigation/native";
 
 function AssingedComplaintItem({ item }: { item: ComplaintDetailsProps }) {
+    const navigation: any = useNavigation();
+
+    const handleComplaintPress = () => {
+        navigation.navigate(GOTO_S_COMPLAINT_IN_DETAIL_PAGE, {
+            item: item
+        });
+    }
+
     return (
         <Pressable
-            onPress={() => { }}
+            onPress={handleComplaintPress}
             style={({ pressed }) => [styles.beforePressed, pressed && styles.afterPressed]}
         >
             <ComplaintItemDetails item={item} />
