@@ -21,7 +21,6 @@ export default function ComplaintItemDetails({ item }: { item: ComplaintDetailsP
                     : "-"}
             </Text>
             {item.status && <Text style={itemDetailStyles.description}>Status: {item.status.toString().toUpperCase()}</Text>}
-            {/* {item.imageURL && <Image source={{ uri: item.imageURL }} style={{ width: 150, height: 150 }} />} */}
         </View>
     )
 }
