@@ -62,3 +62,12 @@ jest.mock('react-native-worklets', () =>
 jest.mock('react-native-reanimated', () =>
   require('react-native-reanimated/mock')
 );
+
+jest.mock('react-native-fs', () => ({
+  readFile: jest.fn(),
+  writeFile: jest.fn(),
+  exists: jest.fn(() => Promise.resolve(true)),
+  mkdir: jest.fn(),
+  DownloadDirectoryPath: '/mocked/path',
+  DocumentDirectoryPath: '/mocked/documents',
+}));
