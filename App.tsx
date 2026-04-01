@@ -5,8 +5,7 @@
  * @format
  */
 
-// import { NewAppScreen } from '@react-native/new-app-screen';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AppContextProvider from './src/college/database/AppContextProvider';
 import AppContent from './src/college/AppContent';

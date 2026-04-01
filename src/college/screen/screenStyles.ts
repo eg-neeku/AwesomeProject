@@ -49,10 +49,12 @@ export function useItemDetailStyles() {
 
 export const formStyles = StyleSheet.create({
     forms: {
+        flex:1,
+        margin: 16,
         padding: 16,
+        justifyContent:"center",
         backgroundColor: Colors.white,
         borderRadius: 12,
-        margin: 16,
         elevation: 3,              // Android shadow
         shadowColor: Colors.dark,       // iOS shadow
         shadowOpacity: 0.15,
@@ -72,7 +74,7 @@ export const formStyles = StyleSheet.create({
         gap: 5
     },
     errortext: {
-        color: Colors.error500,
+        color: Colors.lightRed,
         margin: 8,
         fontSize: 12,
         textAlign: "center"
@@ -88,8 +90,8 @@ export const formStyles = StyleSheet.create({
         textAlignVertical: "top"
     },
     errortextinput: {
-        borderColor: Colors.error500,
-        backgroundColor: Colors.error500,
+        borderColor: Colors.lightRed,
+        backgroundColor: Colors.lightRed,
         borderWidth: 1
     }
 })

@@ -56,31 +56,31 @@ export default function TechnicianForm({ onCancel, onConfirm, selectedTechnician
         }
         onConfirm(technicianData);
     }
-    const formIsInValid = !inputValues.name.isValid || !inputValues.emailId.isValid ||
-        !inputValues.phno.isValid;
-
+    
     return (
         <View style={formStyles.forms}>
             <Text style={formStyles.titleHead}>Technician Form</Text>
             <InputWithLabel label="Name">
                 <TextInput value={inputValues.name.value}
-                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
+                    placeholder={!inputValues.name.isValid ? "Please fill out the field" : ""}
+                    style={[formStyles.input, !inputValues.name.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredName) => inputHandlerChange("name", enteredName)}
                 />
             </InputWithLabel>
             <InputWithLabel label="Email Address">
                 <TextInput value={inputValues.emailId.value}
-                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
+                    placeholder={!inputValues.emailId.isValid ? "Please fill out the field" : ""}
+                    style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredEmailAddress) => inputHandlerChange("emailId", enteredEmailAddress)}
                 />
             </InputWithLabel>
             <InputWithLabel label="Phone Number">
                 <TextInput value={inputValues.phno.value} maxLength={10}
-                    style={[formStyles.input, formIsInValid && formStyles.errortextinput]}
+                    placeholder={!inputValues.phno.isValid ? "Please fill out the field" : ""}
+                    style={[formStyles.input, !inputValues.phno.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredPhno) => inputHandlerChange("phno", enteredPhno)}
                 />
             </InputWithLabel>
-            {formIsInValid && <Text style={formStyles.errortext}>Invalid Input values - please check your entered data!</Text>}
             <View style={formStyles.buttonsContainer}>
                 <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title="Cancel"
                     onPress={onCancel} beforeTextColor={Colors.white} afterTextColor={Colors.dark} />
