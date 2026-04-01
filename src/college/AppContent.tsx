@@ -4,17 +4,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import StackScreenCRUD from './navigationscreen/StackScreenCRUD';
 import BuildingContextProvider from './database/BuildingContextProvider';
 import { AppContext } from './database/AppContextProvider';
+import AuthContextProvider from './database/AuthContentProvider';
 
 export default function AppContent() {
   const deviceData = useContext(AppContext);
   return (
     <>
       <StatusBar barStyle={deviceData.isDarkMode ? 'light-content' : 'dark-content'} />
-      <NavigationContainer>
-        <BuildingContextProvider>
-          <StackScreenCRUD />
-        </BuildingContextProvider>
-      </NavigationContainer>
+      <AuthContextProvider>
+        <NavigationContainer>
+          <BuildingContextProvider>
+            <StackScreenCRUD />
+          </BuildingContextProvider>
+        </NavigationContainer>
+      </AuthContextProvider>
     </>
   )
 }

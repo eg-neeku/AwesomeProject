@@ -2,12 +2,12 @@ import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from "react-
 import Colors from "../../constants/colors";
 
 type MyButtonProps = {
-    title: string;
-    beforeBgColor?: string;
-    afterBgColor?: string;
-    beforeTextColor?: string;
-    afterTextColor?: string;
-    onPress?: ((event: GestureResponderEvent) => void) | null | undefined;
+    title: string,
+    beforeBgColor?: string,
+    afterBgColor?: string,
+    beforeTextColor?: string,
+    afterTextColor?: string,
+    onPress?: ((event: GestureResponderEvent) => void) | null | undefined
 };
 
 export default function MyButton({ title, beforeBgColor = "#1e40af", afterBgColor = "#1e3a8a",
@@ -16,7 +16,7 @@ export default function MyButton({ title, beforeBgColor = "#1e40af", afterBgColo
         containerBase: {
             padding: 5,
             flexDirection: "row",
-            justifyContent: "space-between",
+            justifyContent: "center",
             borderRadius: 8,
         },
         innerPadding: {
@@ -27,14 +27,13 @@ export default function MyButton({ title, beforeBgColor = "#1e40af", afterBgColo
     return (
         <Pressable onPress={onPress}>
             {({ pressed }) => (
-                <View
-                    style={[
-                        styles.containerBase,
-                        { backgroundColor: pressed ? afterBgColor : beforeBgColor },
-                        pressed && { opacity: 0.35 },
-                    ]}>
+                <View style={[
+                    styles.containerBase,
+                    { backgroundColor: pressed ? afterBgColor : beforeBgColor },
+                    pressed && { opacity: 0.35 },
+                ]}>
                     <View style={styles.innerPadding}>
-                        <Text style={{ color: pressed ? afterTextColor : beforeTextColor }}>{title}</Text>
+                        <Text style={{ textAlign: "center", color: pressed ? afterTextColor : beforeTextColor }}>{title}</Text>
                     </View>
                 </View>
             )}
