@@ -1,14 +1,18 @@
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../UI/Input";
 import { formStyles } from "./screenStyles";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import MyIcon from "../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../UI/MyButton";
 import Colors from "../../constants/colors";
-import { GOTO_S_REGISTER_PAGE } from "../database/model";
+import { AuthContentProps, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../database/model";
+import { getLoginDetail } from "../database/registerhttp";
+import { nanoid } from "nanoid";
+import { AuthContext } from "../database/AuthContentProvider";
 
 export default function Login({ navigation }: any) {
+    const authCtx = useContext(AuthContext);
     const [inputValues, setInputValues] = useState({
         emailId: {
             value: "",
@@ -25,13 +29,9 @@ export default function Login({ navigation }: any) {
         setShowPassword(!showPassword);
     }
 
-    const onLoginHandler = () => {
-        const loginData = {
-            emailId: inputValues.emailId.value,
-            password: inputValues.password.value
-        }
-        const emailIsValid = inputValues.emailId.value.trim().length > 0;
-        const passwordIsValid = inputValues.password.value.trim().length > 0;
+    const validateLoginInfoEnteredByUser = (loginData: LoginProps) => {
+        const emailIsValid = loginData.emailId.trim().length > 0;
+        const passwordIsValid = loginData.password.trim().length > 0;
 
         if (!emailIsValid || !passwordIsValid) {
             setInputValues(prevValues => {
@@ -48,7 +48,29 @@ export default function Login({ navigation }: any) {
             });
             return;
         }
-        console.log(inputValues);
+    }
+
+    const onLoginHandler = async () => {
+        const loginData = {
+            emailId: inputValues.emailId.value,
+            password: inputValues.password.value
+        };
+        validateLoginInfoEnteredByUser(loginData);
+        try {
+            const dbData: RegisterProps = await getLoginDetail(loginData.emailId);
+            if (dbData.emailId == loginData.emailId && dbData.password == loginData.password) {
+                const authToken = nanoid() + Math.random() * 100;
+                const store: AuthContentProps = {
+                    emailId: dbData.emailId,
+                    firstname: dbData.firstName,
+                    lastname: dbData.lastName,
+                    token: authToken,
+                }
+                authCtx.setAuth(store);
+            }
+        } catch (error) {
+            console.log("Unable to login");
+        }
     }
 
     const inputHandler = (inputIdentifier: string, text: string) => {

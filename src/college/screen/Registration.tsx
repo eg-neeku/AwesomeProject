@@ -1,4 +1,4 @@
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../UI/Input";
 import { formStyles } from "./screenStyles";
 import { useState } from "react";
@@ -6,7 +6,8 @@ import MyIcon from "../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../UI/MyButton";
 import Colors from "../../constants/colors";
-import { GOTO_S_LOGIN_PAGE } from "../database/model";
+import { GOTO_S_LOGIN_PAGE, RegisterProps } from "../database/model";
+import { storeRegisteredData } from "../database/registerhttp";
 
 export default function Registration({ navigation }: any) {
     const [inputValues, setInputValues] = useState({
@@ -40,17 +41,11 @@ export default function Registration({ navigation }: any) {
         })
     }
 
-    const onRegisterHandler = () => {
-        const registerData = {
-            firstName: inputValues.firstName.value,
-            lastName: inputValues.lastName.value,
-            emailId: inputValues.emailId.value,
-            password: inputValues.password.value
-        }
-        const firstNameIsValid = inputValues.firstName.value.trim().length > 0;
-        const lastNameIsValid = inputValues.lastName.value.trim().length > 0;
-        const emailIdIsValid = inputValues.emailId.value.trim().length > 0;
-        const passwordIsValid = inputValues.password.value.trim().length > 0;
+    const validateRegisterInfoEnteredByUser = (registerData: RegisterProps) => {
+        const firstNameIsValid = registerData.firstName.trim().length > 0;
+        const lastNameIsValid = registerData.lastName.trim().length > 0;
+        const emailIdIsValid = registerData.emailId.trim().length > 0;
+        const passwordIsValid = registerData.password.trim().length > 0;
 
         if (!firstNameIsValid || !lastNameIsValid || !emailIdIsValid || !passwordIsValid) {
             setInputValues(prevValues => {
@@ -75,8 +70,33 @@ export default function Registration({ navigation }: any) {
             });
             return;
         }
-        console.log(inputValues);
-        letsGotoLogin();
+    }
+
+    const onRegisterHandler = async () => {
+        const registerData: RegisterProps = {
+            firstName: inputValues.firstName.value,
+            lastName: inputValues.lastName.value,
+            emailId: inputValues.emailId.value,
+            password: inputValues.password.value
+        };
+        validateRegisterInfoEnteredByUser(registerData);
+        try {
+            await storeRegisteredData(registerData);
+            Alert.alert("", "Registered Successfully", [
+                {
+                    text: "Okay",
+                    style: "destructive"
+                }
+            ]);
+            letsGotoLogin();
+        } catch (error) {
+            Alert.alert("Something went wrong!", "Check your internet connection and try again later", [
+                {
+                    text: "Okay",
+                    style: "cancel"
+                }
+            ]);
+        }
     }
 
     const inputHandler = (inputIdentifier: string, text: string) => {

@@ -5,9 +5,10 @@ import { Image, View, StyleSheet } from "react-native";
 import About from "../screen/About";
 import PrivacyPolicy from "../screen/PrivacyPolicy";
 import MyIcon from "../UI/MyIcon";
-import { GOTO_D_ABOUT_PAGE, GOTO_D_FACILITY_SEARCH_PAGE, GOTO_D_HOME_PAGE, GOTO_D_NOTIFICATION_HISTORY_PAGE, GOTO_D_PRIVACY_POLICY_PAGE, GOTO_D_USER_PREFERNCE_PAGE, GOTO_S_MANAGE_BUILDING_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, GOTO_D_TECHNICIAN_LOG_PAGE } from "../database/model";
+import { GOTO_D_ABOUT_PAGE, GOTO_D_FACILITY_SEARCH_PAGE, GOTO_D_HOME_PAGE, GOTO_D_NOTIFICATION_HISTORY_PAGE, GOTO_D_PRIVACY_POLICY_PAGE, GOTO_D_MY_PROFILE_PAGE, GOTO_S_MANAGE_BUILDING_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, GOTO_D_TECHNICIAN_LOG_PAGE } from "../database/model";
 import TechnicianLog from "../screen/technician/TechnicianLog";
 import BuildingLog from "../screen/building/BuildingLog";
+import MyProfile from "../screen/MyProfile";
 
 export default function CDrawerScreen() {
     const Drawer = createDrawerNavigator();
@@ -39,9 +40,9 @@ export default function CDrawerScreen() {
                     drawerIcon: ({ color, size }) => <MaterialIcons name="notifications-active" color={color} size={size} />
                 }}
             />
-            <Drawer.Screen name={GOTO_D_USER_PREFERNCE_PAGE} component={About}
+            <Drawer.Screen name={GOTO_D_MY_PROFILE_PAGE} component={MyProfile}
                 options={{
-                    title: "User Preference",
+                    title: "My Profile",
                     drawerIcon: ({ color, size }) => <IonIcons name="person-sharp" color={color} size={size} />
                 }}
             />

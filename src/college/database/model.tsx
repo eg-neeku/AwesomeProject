@@ -36,6 +36,22 @@ export type BuildingDetailsDTO = Omit<BuildingDetailsProp, "id">
 export type ComplaintPropsDTO = Omit<ComplaintDetailsProps, "id">
 export type TechnicianDetailsDTO = Omit<TechnicianDetailsProps, "id">
 
+export type RegisterProps = {
+    firstName: string,
+    lastName: string,
+    emailId: string,
+    password: string,
+}
+
+export type LoginProps = Omit<Omit<RegisterProps, "firstName">, "lastName">;
+
+export type AuthContentProps = {
+    emailId: string,
+    firstname: string,
+    lastname: string,
+    token: string
+}
+
 
 export function formatPostalAddress(address: string, pincode: number, city: string, state: string, country: string) {
     return `${address}, ${city} - ${pincode}, ${state}, ${country}.`;
@@ -46,7 +62,7 @@ export const GOTO_D_HOME_PAGE = "Home";
 export const GOTO_D_FACILITY_SEARCH_PAGE = "FacilitySearch";
 export const GOTO_D_MESSAGE_PAGE = "Message";
 export const GOTO_D_NOTIFICATION_HISTORY_PAGE = "NotificationHistory";
-export const GOTO_D_USER_PREFERNCE_PAGE = "UserPreference";
+export const GOTO_D_MY_PROFILE_PAGE = "MyProfile";
 export const GOTO_D_ABOUT_PAGE = "About";
 export const GOTO_D_PRIVACY_POLICY_PAGE = "PrivacyPolicy";
 

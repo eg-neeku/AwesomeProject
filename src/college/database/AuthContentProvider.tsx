@@ -1,11 +1,5 @@
 import { createContext, useState } from "react";
-
-type AuthContentProps = {
-    emailId: string,
-    firstname: string,
-    lastname: string,
-    token: string
-}
+import { AuthContentProps } from "./model";
 
 type AuthProps = {
     emailId: string,
