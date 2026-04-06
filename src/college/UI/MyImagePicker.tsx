@@ -6,19 +6,35 @@ import { launchCamera } from "react-native-image-picker";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 import RNFS from "react-native-fs";
 
-export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { onImagePick: (val: string) => void, defaultImageURL?: string }) {
+type MyImagePickerProps = {
+    onImagePick: (val: string) => void,
+    defaultImageURL?: string,
+    shape?: "rectangle" | "circle",
+    myImgTitle?: string
+}
 
+export default function MyImagePicker({ onImagePick, defaultImageURL = "", shape = "rectangle", myImgTitle = "Take Image" }: MyImagePickerProps) {
     const [selectedImage, setSelectedImage] = useState<string | null>();
+    const isCircle = shape === "circle";
+    const circleSize = 150;
     const styles = StyleSheet.create({
         imagePreview: {
-            width: "100%",
-            ...((selectedImage || defaultImageURL) && { height: 200 }),
+            ...(isCircle ? {
+                width: circleSize,
+                height: circleSize,
+                borderRadius: circleSize / 2,
+                alignSelf: "center",
+            } : {
+                width: "100%",
+                ...((selectedImage || defaultImageURL) && { height: 200 }),
+                borderRadius: 4,
+                minHeight: 35,
+            }),
             marginVertical: 8,
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: Colors.primary100,
-            borderRadius: 4,
-            minHeight: 35
+            overflow: "hidden",
         },
         image: {
             width: "100%",
@@ -26,6 +42,9 @@ export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { o
         },
         imageContainer: {
             marginBottom: 20
+        },
+        altText: {
+            textAlign: "center"
         }
     })
 
@@ -40,7 +59,7 @@ export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { o
             Number(Platform.Version) >= 33
                 ? await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES)
                 : await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
-        
+
         if (hasCamera && hasRead) return true;
 
         const cameraPermission = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
@@ -94,7 +113,7 @@ export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { o
         };
     }
 
-    let imagePreview = <Text>No image selected/taken</Text>
+    let imagePreview = <Text style={styles.altText}>No image selected/taken</Text>
 
     if (selectedImage || !!defaultImageURL) {
         imagePreview = <Image style={styles.image} source={{ uri: selectedImage ?? defaultImageURL }} />
@@ -104,7 +123,7 @@ export default function MyImagePicker({ onImagePick, defaultImageURL = "" }: { o
         <View style={styles.imageContainer}>
             <View style={styles.imagePreview}>{imagePreview}</View>
             <View style={{ alignItems: "center" }}>
-                <MyButton title="Take Image" onPress={takeImageHandler} />
+                <MyButton title={myImgTitle} onPress={takeImageHandler} />
             </View>
         </View>
     )

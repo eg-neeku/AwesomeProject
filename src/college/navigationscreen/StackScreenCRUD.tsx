@@ -1,10 +1,19 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import AfterLoginStack from "./AfterLoginStack";
 import BeforeLoginStack from "./BeforeLoginStack";
-import { AuthContext } from "../database/AuthContentProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ASYNC_STORAGE_APP_TOKEN } from "../database/model";
 
 export default function StackScreenCRUD() {
-    const authCtx = useContext(AuthContext);
-    const isLogin = !!authCtx.token;
+    const [token, setToken] = useState<string | null>("");
+    useEffect(() => {
+        async function getAppToken() {
+            const temp = await AsyncStorage.getItem(ASYNC_STORAGE_APP_TOKEN);
+            setToken(temp);
+        }
+        getAppToken();
+    }, [token]);
+    
+    const isLogin = !!token;
     return isLogin ? <AfterLoginStack /> : <BeforeLoginStack />
 }

@@ -43,6 +43,7 @@ export type RegisterProps = {
     password: string,
 }
 
+export type RegisterDTOProps = Omit<RegisterProps, "password">
 export type LoginProps = Omit<Omit<RegisterProps, "firstName">, "lastName">;
 
 export type AuthContentProps = {
@@ -79,6 +80,9 @@ export const GOTO_S_COMPLAINT_ASSIGN_PAGE = "ComplaintAssign";
 export const GOTO_S_COMPLAINT_IN_DETAIL_PAGE = "ComplaintInDetail";
 export const GOTO_S_LOGIN_PAGE = "Login";
 export const GOTO_S_REGISTER_PAGE = "Registration";
+
+export const ASYNC_STORAGE_EMAIL_ID = "EMAIL_ID";
+export const ASYNC_STORAGE_APP_TOKEN = "APP_TOKEN";
 
 export const DB_URL = "https://react-native-course-5d92a-default-rtdb.firebaseio.com";
 export const DB_NAME = "COLLEGEAPP";
