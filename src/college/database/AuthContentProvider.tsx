@@ -1,20 +1,16 @@
 import { createContext, useEffect, useState } from "react";
-import { ASYNC_STORAGE_APP_TOKEN, ASYNC_STORAGE_EMAIL_ID, AuthContentProps } from "./model";
+import { ASYNC_STORAGE_APP_TOKEN, ASYNC_STORAGE_EMAIL_ID, AuthContentProps, RegisterDTOProps } from "./model";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getLoginDetailDTO } from "./registerhttp";
 
 type AuthProps = {
-    emailId: string,
-    firstname: string,
-    lastname: string,
+    authItems: RegisterDTOProps,
     token: string,
     setAuth: (data: AuthContentProps) => void
 };
 
-export const AuthContext = createContext({
-    emailId: "",
-    firstname: "",
-    lastname: "",
+export const AuthContext = createContext<AuthProps>({
+    authItems: {} as RegisterDTOProps,
     token: "",
     setAuth: (data: AuthContentProps) => { }
 });
@@ -22,28 +18,27 @@ export const AuthContext = createContext({
 
 
 export default function AuthContextProvider({ children }: { children: React.ReactNode }) {
-    const [auth, setAuth] = useState<AuthContentProps>({ emailId: "", firstname: "", lastname: "", token: "" });
+    const [auth, setAuth] = useState<AuthContentProps>();
 
     useEffect(() => {
         async function activateAuth() {
             const emailid = await AsyncStorage.getItem(ASYNC_STORAGE_EMAIL_ID);
             const token = await AsyncStorage.getItem(ASYNC_STORAGE_APP_TOKEN);
             const details = await getLoginDetailDTO(emailid ?? "");
-            setAuth({ firstname: details?.firstName ?? "", lastname: details?.lastName ?? "", emailId: emailid ?? "", token: token ?? "" });
+            setAuth({ authItems: details ?? {} as RegisterDTOProps, token: token ?? "" });
         }
         activateAuth();
     }, []);
 
     const handleSetAuth = async (data: AuthContentProps) => {
-        await AsyncStorage.setItem(ASYNC_STORAGE_EMAIL_ID, data.emailId);
+        await AsyncStorage.setItem(ASYNC_STORAGE_EMAIL_ID, data.authItems.emailId);
         await AsyncStorage.setItem(ASYNC_STORAGE_APP_TOKEN, data.token);
+        setAuth(data);
     }
 
     const value: AuthProps = {
-        emailId: auth.emailId,
-        firstname: auth.firstname,
-        lastname: auth.lastname,
-        token: auth.token,
+        authItems: auth?.authItems ?? {} as RegisterDTOProps,
+        token: auth?.token ?? "",
         setAuth: handleSetAuth
     };
     return (

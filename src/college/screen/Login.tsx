@@ -61,14 +61,13 @@ export default function Login({ navigation }: any) {
             const dbData: RegisterProps = await getLoginDetail(loginData.emailId);
             if (dbData.emailId == loginData.emailId && dbData.password == loginData.password) {
                 const authToken = nanoid() + Math.random() * 100;
+                const { password: _password, ...authItemsData } = dbData;
                 const store: AuthContentProps = {
-                    emailId: dbData.emailId,
-                    firstname: dbData.firstName,
-                    lastname: dbData.lastName,
+                    authItems: authItemsData,
                     token: authToken,
                 }
                 authCtx.setAuth(store);
-                console.log("Is it working");
+                console.log("Is it working", store);
             }
         } catch (error) {
             console.log("Unable to login");

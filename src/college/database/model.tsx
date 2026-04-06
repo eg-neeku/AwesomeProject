@@ -47,9 +47,7 @@ export type RegisterDTOProps = Omit<RegisterProps, "password">
 export type LoginProps = Omit<Omit<RegisterProps, "firstName">, "lastName">;
 
 export type AuthContentProps = {
-    emailId: string,
-    firstname: string,
-    lastname: string,
+    authItems: RegisterDTOProps,
     token: string
 }
 
