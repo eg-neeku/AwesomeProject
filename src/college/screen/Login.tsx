@@ -6,10 +6,11 @@ import MyIcon from "../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../UI/MyButton";
 import Colors from "../../constants/colors";
-import { AuthContentProps, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../database/model";
+import { ASYNC_STORAGE_APP_TOKEN, ASYNC_STORAGE_EMAIL_ID, AuthContentProps, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../database/model";
 import { getLoginDetail } from "../database/registerhttp";
 import { nanoid } from "nanoid";
 import { AuthContext } from "../database/AuthContentProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }: any) {
     const authCtx = useContext(AuthContext);
@@ -60,13 +61,13 @@ export default function Login({ navigation }: any) {
             const dbData: RegisterProps = await getLoginDetail(loginData.emailId);
             if (dbData.emailId == loginData.emailId && dbData.password == loginData.password) {
                 const authToken = nanoid() + Math.random() * 100;
+                const { password: _password, ...authItemsData } = dbData;
                 const store: AuthContentProps = {
-                    emailId: dbData.emailId,
-                    firstname: dbData.firstName,
-                    lastname: dbData.lastName,
+                    authItems: authItemsData,
                     token: authToken,
                 }
                 authCtx.setAuth(store);
+                console.log("Is it working", store);
             }
         } catch (error) {
             console.log("Unable to login");
