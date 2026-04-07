@@ -24,13 +24,20 @@ export const getLoginDetailDTO = async (emailId: string) => {
             equalTo: `"${emailId}"`,
         }
     });
+    const key = Object.keys(response.data)[0];
+    const mainDetail: RegisterDTOProps = { ...response.data[key] } as RegisterDTOProps;
+    return !response.data ? null : mainDetail;
+}
 
-    const mainDetail: RegisterDTOProps = { emailId: "", firstName: "", lastName: "" };
-    for (const key in response.data) {
-        mainDetail.emailId = response.data[key].emailId;
-        mainDetail.firstName = response.data[key].firstName;
-        mainDetail.lastName = response.data[key].lastName;
-        break;
-    }
-    return Object.values(mainDetail).every(value => value === "") ? null : mainDetail;
+export const saveProfileImage = async (emailId: string, imgUrl: string) => {
+    const response = await axios.get(`${DB_URL}/${DB_NAME}/register.json`, {
+        params: {
+            orderBy: '"emailId"',
+            equalTo: `"${emailId}"`,
+        }
+    });
+
+    const key = Object.keys(response.data)[0];
+
+    await axios.patch(`${DB_URL}/${DB_NAME}/register/${key}.json`, { profilePic: imgUrl });
 }

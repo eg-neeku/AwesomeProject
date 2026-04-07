@@ -37,14 +37,17 @@ export type ComplaintPropsDTO = Omit<ComplaintDetailsProps, "id">
 export type TechnicianDetailsDTO = Omit<TechnicianDetailsProps, "id">
 
 export type RegisterProps = {
+    profilePic?: string,
     firstName: string,
     lastName: string,
     emailId: string,
     password: string,
+    phoneNumber: number,
+    gender: string
 }
 
 export type RegisterDTOProps = Omit<RegisterProps, "password">
-export type LoginProps = Omit<Omit<RegisterProps, "firstName">, "lastName">;
+export type LoginProps = Pick<RegisterProps, "emailId" | "password">;
 
 export type AuthContentProps = {
     authItems: RegisterDTOProps,

@@ -6,11 +6,10 @@ import MyIcon from "../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../UI/MyButton";
 import Colors from "../../constants/colors";
-import { ASYNC_STORAGE_APP_TOKEN, ASYNC_STORAGE_EMAIL_ID, AuthContentProps, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../database/model";
+import { AuthContentProps, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../database/model";
 import { getLoginDetail } from "../database/registerhttp";
 import { nanoid } from "nanoid";
 import { AuthContext } from "../database/AuthContentProvider";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }: any) {
     const authCtx = useContext(AuthContext);
