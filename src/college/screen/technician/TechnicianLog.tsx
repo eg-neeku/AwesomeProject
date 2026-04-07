@@ -1,7 +1,7 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { View, FlatList, Pressable, TextInput } from "react-native";
-import { GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { doNothing, GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -11,9 +11,11 @@ import Icon from "react-native-vector-icons/Ionicons";
 import TechnicianItemDetails from "./TechnicianItemDetails";
 import { logStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
+import { AuthContext } from "../../database/AuthContentProvider";
 
 
 function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, navigation: any }) {
+    const { authItems } = useContext(AuthContext);
     const handleTechnicianPress = () => {
         navigation.navigate(GOTO_S_MANAGE_TECHNICIAN_PAGE, {
             technicianId: item.id
@@ -27,7 +29,7 @@ function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, na
     }
 
     return (
-        <Pressable onPress={handleTechnicianPress}
+        <Pressable onPress={authItems.role === "admin" ? handleTechnicianPress : doNothing}
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <TechnicianItemDetails item={item} />
             <View style={logStyles.itemOptions}>

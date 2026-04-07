@@ -10,11 +10,13 @@ import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
 import { AppContext } from "../../database/AppContextProvider";
 import MyImagePicker from "../../UI/MyImagePicker";
+import { AuthContext } from "../../database/AuthContentProvider";
 
 export default function ComplaintForm() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
     const deviceCtx = useContext(AppContext);
+    const { authItems } = useContext(AuthContext);
     const [task, setTask] = useState<ComplaintPropsDTO>({ buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date(), imageURL: "" });
     const [datepick, setDatePick] = useState(false);
 
@@ -51,8 +53,8 @@ export default function ComplaintForm() {
 
     let registerProblemScreen = <View style={styles.container}>
         <Text style={styles.headerText}>Building Name : {route.params.buildingName}</Text>
-        <InputWithLabel label="Name">
-            <TextInput style={styles.textinput} value={task.name}
+        <InputWithLabel label="Your Name">
+            <TextInput style={styles.textinput} value={authItems.firstName + " " + authItems.lastName} readOnly
                 onChangeText={(enteredValue) => setTask({ ...task, name: enteredValue })}
             />
         </InputWithLabel>

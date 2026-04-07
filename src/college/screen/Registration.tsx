@@ -99,6 +99,7 @@ export default function Registration({ navigation }: any) {
             password: inputValues.password.value,
             gender: inputValues.gender.value,
             phoneNumber: inputValues.phoneNumber.value,
+            role: "user"
         };
         validateRegisterInfoEnteredByUser(registerData);
         try {

@@ -1,7 +1,7 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useContext, useState } from "react";
 import { View, FlatList, Pressable, TextInput } from "react-native";
-import { BuildingDetailsProp, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../../database/model";
+import { BuildingDetailsProp, doNothing, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../../database/model";
 import { BuildingContext } from "../../database/BuildingContextProvider";
 import { fetchBuildingData } from "../../database/buildinghttp";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -12,8 +12,10 @@ import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import BuildingItemDetails from "./BuildingItemDetails";
 import { logStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
+import { AuthContext } from "../../database/AuthContentProvider";
 
 function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
+    const { authItems } = useContext(AuthContext);
     const handleBuildingPress = () => {
         navigation.navigate(GOTO_S_MANAGE_BUILDING_PAGE, {
             buildingId: item.id
@@ -28,7 +30,7 @@ function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigat
     }
 
     return (
-        <Pressable onPress={handleBuildingPress}
+        <Pressable onPress={authItems.role === "admin" ? handleBuildingPress : doNothing}
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <BuildingItemDetails item={item} />
             <View style={logStyles.itemOptions}>

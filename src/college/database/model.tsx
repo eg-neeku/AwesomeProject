@@ -32,6 +32,8 @@ export type TechnicianDetailsProps = {
     phno: number
 }
 
+export const doNothing = (...params: any[]) => { }
+
 export type BuildingDetailsDTO = Omit<BuildingDetailsProp, "id">
 export type ComplaintPropsDTO = Omit<ComplaintDetailsProps, "id">
 export type TechnicianDetailsDTO = Omit<TechnicianDetailsProps, "id">
@@ -43,7 +45,8 @@ export type RegisterProps = {
     emailId: string,
     password: string,
     phoneNumber: number,
-    gender: string
+    gender: string,
+    role: "admin" | "user" | "techni"
 }
 
 export type RegisterDTOProps = Omit<RegisterProps, "password">

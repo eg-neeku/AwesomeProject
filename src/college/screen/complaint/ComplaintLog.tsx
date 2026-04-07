@@ -58,8 +58,6 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
         >
             <ComplaintItemDetails item={item} />
             <View>
-                <View>
-                </View>
                 <View style={logStyles.itemOptions}>
                     <MyIcon onPress={deleteComplaintHandler} iconBgColor={Colors.lightRed} paddingInsideIcon={8}>
                         <Icon name="delete" size={20} color={Colors.white} />
