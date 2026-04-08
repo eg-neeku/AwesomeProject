@@ -44,8 +44,8 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
             complaintItem: { ...item, startDate: item.startDate?.toISOString() },
             technicianList: technicianList,
             status: "open"
-        })
-    }
+        });
+    };
 
     if (isSubmitting) {
         return <LoadingOverlay color={Colors.blue} />;
@@ -58,8 +58,6 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
         >
             <ComplaintItemDetails item={item} />
             <View>
-                <View>
-                </View>
                 <View style={logStyles.itemOptions}>
                     <MyIcon onPress={deleteComplaintHandler} iconBgColor={Colors.lightRed} paddingInsideIcon={8}>
                         <Icon name="delete" size={20} color={Colors.white} />
@@ -99,7 +97,7 @@ export default function ComplaintLog({ navigation, route }: any) {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     const getRefreshList = async () => {
         try {

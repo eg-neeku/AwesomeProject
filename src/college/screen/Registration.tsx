@@ -26,28 +26,39 @@ export default function Registration({ navigation }: any) {
         password: {
             value: "",
             isValid: true
+        },
+        gender: {
+            value: "",
+            isValid: true
+        },
+        phoneNumber: {
+            value: 0,
+            isValid: true
         }
     });
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisible = () => {
         setShowPassword(!showPassword);
-    }
+    };
 
     const letsGotoLogin = () => {
         navigation.reset({
             index: 0,
             routes: [{ name: GOTO_S_LOGIN_PAGE }]
-        })
-    }
+        });
+    };
 
     const validateRegisterInfoEnteredByUser = (registerData: RegisterProps) => {
         const firstNameIsValid = registerData.firstName.trim().length > 0;
         const lastNameIsValid = registerData.lastName.trim().length > 0;
         const emailIdIsValid = registerData.emailId.trim().length > 0;
         const passwordIsValid = registerData.password.trim().length > 0;
+        const genderIsValid = registerData.gender.trim().length > 0;
+        const phonenumberIsValid = `${registerData.phoneNumber}`.trim().length == 10;
 
-        if (!firstNameIsValid || !lastNameIsValid || !emailIdIsValid || !passwordIsValid) {
+        if (!firstNameIsValid || !lastNameIsValid || !emailIdIsValid || !passwordIsValid
+            || !genderIsValid || !phonenumberIsValid) {
             setInputValues(prevValues => {
                 return {
                     firstName: {
@@ -66,18 +77,29 @@ export default function Registration({ navigation }: any) {
                         value: prevValues.password.value,
                         isValid: passwordIsValid
                     },
+                    gender: {
+                        value: prevValues.gender.value,
+                        isValid: passwordIsValid
+                    },
+                    phoneNumber: {
+                        value: prevValues.phoneNumber.value,
+                        isValid: passwordIsValid
+                    },
                 }
             });
             return;
         }
-    }
+    };
 
     const onRegisterHandler = async () => {
         const registerData: RegisterProps = {
             firstName: inputValues.firstName.value,
             lastName: inputValues.lastName.value,
             emailId: inputValues.emailId.value,
-            password: inputValues.password.value
+            password: inputValues.password.value,
+            gender: inputValues.gender.value,
+            phoneNumber: inputValues.phoneNumber.value,
+            role: "user"
         };
         validateRegisterInfoEnteredByUser(registerData);
         try {
@@ -97,10 +119,20 @@ export default function Registration({ navigation }: any) {
                 }
             ]);
         }
-    }
+    };
 
     const inputHandler = (inputIdentifier: string, text: string) => {
-        setInputValues(prevValue => {
+        if (inputIdentifier === "phoneNumber")
+            setInputValues(prevValue => {
+                return {
+                    ...prevValue,
+                    [inputIdentifier]: {
+                        value: +text,
+                        isValid: true
+                    }
+                }
+            });
+        else setInputValues(prevValue => {
             return {
                 ...prevValue,
                 [inputIdentifier]: {
@@ -108,8 +140,8 @@ export default function Registration({ navigation }: any) {
                     isValid: true
                 }
             }
-        })
-    }
+        });
+    };
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -162,6 +194,26 @@ export default function Registration({ navigation }: any) {
                                 <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                             </MyIcon>
                         </View>
+                    </InputWithLabel>
+                    <InputWithLabel label="Gender">
+                        <TextInput
+                            value={inputValues.gender.value}
+                            onChangeText={(text) => inputHandler("gender", text)}
+                            maxLength={1}
+                            autoCorrect={false}
+                            placeholder={!inputValues.gender.isValid ? "Please fill out the field" : "Enter M if Male else F"}
+                            style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
+                        />
+                    </InputWithLabel>
+                    <InputWithLabel label="Phone Number">
+                        <TextInput keyboardType="phone-pad"
+                            value={`${inputValues.phoneNumber.value}`}
+                            onChangeText={(text) => inputHandler("phoneNumber", text)}
+                            maxLength={10}
+                            autoCorrect={false}
+                            placeholder={!inputValues.phoneNumber.isValid ? "Please fill out the field" : ""}
+                            style={[formStyles.input, !inputValues.phoneNumber.isValid && formStyles.errortextinput]}
+                        />
                     </InputWithLabel>
                 </View>
                 <View style={{ marginTop: 10 }}>

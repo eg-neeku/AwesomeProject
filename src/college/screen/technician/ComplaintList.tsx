@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { getAssignedComplaintToTechnician } from "../../database/complainthttp";
 import { ComplaintDetailsProps } from "../../database/model";
@@ -7,19 +7,22 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import Colors from "../../../constants/colors";
+import { AuthContext } from "../../database/AuthContentProvider";
 import AssingedComplaintItem from "./AssignedComplaintItem";
 
-export default function AssignedComplaint({ route }: any) {
-    const selectedTechnicianId: string = route?.params?.technicianId;
-
+export default function ComplaintList() {
+    const { authItems } = useContext(AuthContext);
+    const selectedTechnicianId: string = authItems.id ?? "";
+    
     // Keep a full copy and a filtered copy
     const [allComplaints, setAllComplaints] = useState<ComplaintDetailsProps[]>([]);
     const [demo, setDemo] = useState<ComplaintDetailsProps[]>([]);
     const [complaintSearch, setComplaintSearch] = useState("");
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-
+    
     useEffect(() => {
+        if (!selectedTechnicianId) return;
         getComplaintList();
     }, [selectedTechnicianId]);
 
@@ -30,6 +33,7 @@ export default function AssignedComplaint({ route }: any) {
             setDemo(response);
             setAllComplaints(response);
         } catch (error) {
+            console.log("Technician: ",selectedTechnicianId);
             console.log("Unable to get complaints, may be there is no complaint!");
         } finally {
             setLoading(false);

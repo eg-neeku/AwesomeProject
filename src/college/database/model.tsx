@@ -23,38 +23,38 @@ export type BuildingDetailsProp = {
     country: string,
     floors: number,
     imageURL: string
-}
-
-export type TechnicianDetailsProps = {
-    id: string,
-    name: string,
-    emailId: string,
-    phno: number
-}
-
-export type BuildingDetailsDTO = Omit<BuildingDetailsProp, "id">
-export type ComplaintPropsDTO = Omit<ComplaintDetailsProps, "id">
-export type TechnicianDetailsDTO = Omit<TechnicianDetailsProps, "id">
+};
 
 export type RegisterProps = {
+    id?: string,
+    profilePic?: string,
     firstName: string,
     lastName: string,
     emailId: string,
     password: string,
-}
+    phoneNumber: number,
+    gender: string,
+    role: "admin" | "user" | "techni"
+};
 
-export type RegisterDTOProps = Omit<RegisterProps, "password">
-export type LoginProps = Omit<Omit<RegisterProps, "firstName">, "lastName">;
+export type BuildingDetailsDTO = Omit<BuildingDetailsProp, "id">;
+export type ComplaintPropsDTO = Omit<ComplaintDetailsProps, "id">;
+export type RegisterDTOProps = Omit<RegisterProps, "password">;
+export type LoginProps = Pick<RegisterProps, "emailId" | "password">;
+export type TechnicianFormProps = RegisterProps;
+export type TechnicianDetailsProps = RegisterDTOProps;
+export type TechnicianDetailsDTO = Omit<TechnicianDetailsProps, "id">;
 
 export type AuthContentProps = {
     authItems: RegisterDTOProps,
     token: string
-}
+};
 
+export const doNothing = (...params: any[]) => { };
 
 export function formatPostalAddress(address: string, pincode: number, city: string, state: string, country: string) {
     return `${address}, ${city} - ${pincode}, ${state}, ${country}.`;
-}
+};
 
 /* Going to Navigation Pages */
 export const GOTO_D_HOME_PAGE = "Home";
@@ -64,6 +64,7 @@ export const GOTO_D_NOTIFICATION_HISTORY_PAGE = "NotificationHistory";
 export const GOTO_D_MY_PROFILE_PAGE = "MyProfile";
 export const GOTO_D_ABOUT_PAGE = "About";
 export const GOTO_D_PRIVACY_POLICY_PAGE = "PrivacyPolicy";
+export const GOTO_D_COMPLAINT_LIST_PAGE = "ComplaintList";
 
 export const GOTO_SD_MAIN_PAGE = "MainPage";
 export const GOTO_S_COMPLAINT_FORM_PAGE = "ComplaintBuilding";

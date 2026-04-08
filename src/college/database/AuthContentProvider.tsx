@@ -15,8 +15,6 @@ export const AuthContext = createContext<AuthProps>({
     setAuth: (data: AuthContentProps) => { }
 });
 
-
-
 export default function AuthContextProvider({ children }: { children: React.ReactNode }) {
     const [auth, setAuth] = useState<AuthContentProps>();
 
@@ -31,8 +29,16 @@ export default function AuthContextProvider({ children }: { children: React.Reac
     }, []);
 
     const handleSetAuth = async (data: AuthContentProps) => {
-        await AsyncStorage.setItem(ASYNC_STORAGE_EMAIL_ID, data.authItems.emailId);
-        await AsyncStorage.setItem(ASYNC_STORAGE_APP_TOKEN, data.token);
+        if (data.authItems.emailId) {
+            await AsyncStorage.setItem(ASYNC_STORAGE_EMAIL_ID, data.authItems.emailId);
+        } else {
+            await AsyncStorage.removeItem(ASYNC_STORAGE_EMAIL_ID);
+        }
+        if (data.token) {
+            await AsyncStorage.setItem(ASYNC_STORAGE_APP_TOKEN, data.token);
+        } else {
+            await AsyncStorage.removeItem(ASYNC_STORAGE_APP_TOKEN);
+        }
         setAuth(data);
     }
 

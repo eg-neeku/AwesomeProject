@@ -1,7 +1,7 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { View, FlatList, Pressable, TextInput } from "react-native";
-import { GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { doNothing, GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -11,27 +11,28 @@ import Icon from "react-native-vector-icons/Ionicons";
 import TechnicianItemDetails from "./TechnicianItemDetails";
 import { logStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
-
+import { AuthContext } from "../../database/AuthContentProvider";
 
 function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, navigation: any }) {
+    const { authItems } = useContext(AuthContext);
     const handleTechnicianPress = () => {
         navigation.navigate(GOTO_S_MANAGE_TECHNICIAN_PAGE, {
             technicianId: item.id
         });
-    }
+    };
 
-    const handleComplaintAssigned = () => {
+    const getComplaintAssigned = () => {
         navigation.navigate(GOTO_S_ASSIGNED_COMPLAINT_PAGE, {
             technicianId: item.id
-        })
-    }
+        });
+    };
 
     return (
-        <Pressable onPress={handleTechnicianPress}
+        <Pressable onPress={authItems.role === "admin" ? handleTechnicianPress : doNothing}
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <TechnicianItemDetails item={item} />
             <View style={logStyles.itemOptions}>
-                <MyIcon onPress={handleComplaintAssigned} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
+                <MyIcon onPress={getComplaintAssigned} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
                     <Icon name="arrow-forward" size={20} color={Colors.dark} />
                 </MyIcon>
             </View>
@@ -57,7 +58,7 @@ export default function TechnicianLog() {
         } finally {
             setRefreshing(false);
         }
-    }
+    };
 
     // this is going to run whenever this becomes screen visible(useful to reflect the changes when moving from once screen to another or vice-versa)
     useFocusEffect(
@@ -73,10 +74,12 @@ export default function TechnicianLog() {
             return;
         }
         setDemo(demo.filter((technicianItem) =>
-            (technicianItem.name.toLocaleLowerCase().includes(query)) ||
-            (technicianItem.emailId.toLocaleLowerCase().includes(query)) ||
-            (`${technicianItem.phno}`.includes(query)))
-        )
+            (technicianItem.firstName.trim().toLocaleLowerCase().includes(query)) ||
+            (technicianItem.lastName.trim().toLocaleLowerCase().includes(query)) ||
+            (technicianItem.emailId.trim().toLocaleLowerCase().includes(query)) ||
+            (technicianItem.gender.trim().toLocaleLowerCase().includes(query)) ||
+            (`${technicianItem.phoneNumber}`.includes(query)))
+        );
     }
 
     return (

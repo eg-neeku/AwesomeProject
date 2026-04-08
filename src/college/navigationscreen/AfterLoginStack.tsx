@@ -1,4 +1,4 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ComplaintForm from "../screen/complaint/ComplaintForm";
 import Icon from "react-native-vector-icons/Ionicons";
 import CDrawerScreen from "./CDrawerScreen";
@@ -10,8 +10,11 @@ import AssignedComplaint from "../screen/technician/AssingedComplaint";
 import ComplaintAssign from "../screen/complaint/ComplaintAssign";
 import Colors from "../../constants/colors";
 import ComplaintInDetail from "../screen/technician/ComplaintInDetail";
+import { useContext } from "react";
+import { AuthContext } from "../database/AuthContentProvider";
 
 export default function AfterLoginStack() {
+    const { authItems } = useContext(AuthContext);
     const Stack = createNativeStackNavigator();
     return (
         <Stack.Navigator>
@@ -19,21 +22,27 @@ export default function AfterLoginStack() {
                 options={{
                     headerShown: false
                 }} />
-            <Stack.Screen name={GOTO_S_COMPLAINT_FORM_PAGE} component={ComplaintForm}
-                options={({ navigation }) => ({
-                    title: "Register Complaint",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
-                })} />
-            <Stack.Screen name={GOTO_S_MANAGE_TECHNICIAN_PAGE} component={ManageTechnician}
-                options={({ navigation }) => ({
-                    title: "Manage Technician",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
-                })} />
-            <Stack.Screen name={GOTO_S_MANAGE_BUILDING_PAGE} component={ManageBuilding}
-                options={({ navigation }) => ({
-                    title: "Manage Building",
-                    headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
-                })} />
+            {
+                (authItems.role === "admin" || authItems.role == "user") &&
+                <Stack.Group>
+                    <Stack.Screen name={GOTO_S_COMPLAINT_FORM_PAGE} component={ComplaintForm}
+                        options={({ navigation }) => ({
+                            title: "Register Complaint",
+                            headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
+                        })} />
+
+                    <Stack.Screen name={GOTO_S_MANAGE_TECHNICIAN_PAGE} component={ManageTechnician}
+                        options={({ navigation }) => ({
+                            title: "Manage Technician",
+                            headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
+                        })} />
+                    <Stack.Screen name={GOTO_S_MANAGE_BUILDING_PAGE} component={ManageBuilding}
+                        options={({ navigation }) => ({
+                            title: "Manage Building",
+                            headerLeft: () => (<Icon name="arrow-back" size={24} color={Colors.dark} onPress={navigation.goBack} style={{ marginRight: 15 }} />)
+                        })} />
+                </Stack.Group>
+            }
             <Stack.Screen name={GOTO_S_COMPLAINT_ASSIGN_PAGE} component={ComplaintAssign}
                 options={({ navigation }) => ({
                     title: "Complaint Assign",
