@@ -45,7 +45,7 @@ const buildingReducer = (state: BuildingDetailsProp[], action: ActionProp): Buil
             return state.filter(buildingItem => buildingItem.id !== action.payload);
         default:
             return state;
-    }
+    };
 }
 
 export default function BuildingContextProvider({ children }: { children: React.ReactNode }) {
@@ -53,15 +53,15 @@ export default function BuildingContextProvider({ children }: { children: React.
 
     const setBuildingData = (buildingData: BuildingDetailsProp[]) => {
         dispatch({ type: "SET", payload: buildingData });
-    }
+    };
 
     const addBuilding = (buildingItem: BuildingDetailsProp) => {
         dispatch({ type: "ADD", payload: buildingItem });
-    }
+    };
 
     const removeBuilding = (id: string) => {
         dispatch({ type: "DELETE", payload: id });
-    }
+    };
 
     const updateBuilding = (id: string, buildingItemDTO: BuildingDetailsDTO) => {
         dispatch({
@@ -70,7 +70,7 @@ export default function BuildingContextProvider({ children }: { children: React.
                 data: buildingItemDTO
             }
         });
-    }
+    };
 
     const value: BuildingContextProp = {
         buildingData: buildingState,

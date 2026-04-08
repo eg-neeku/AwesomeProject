@@ -30,7 +30,7 @@ export default function ComplaintForm() {
         if (datepick) {
             setTask({ ...task, startDate: selectedDate ?? task.startDate });
         }
-    }
+    };
 
     const handleComplaintSubmit = async () => {
         try {
@@ -43,13 +43,13 @@ export default function ComplaintForm() {
             console.log(error);
         }
         navigation.goBack();
-    }
+    };
 
     const handleComplaintList = () => {
         navigation.navigate(GOTO_S_COMPLAINT_LOG_PAGE, {
             buildingId: route.params.buildingId
         });
-    }
+    };
 
     let registerProblemScreen = <View style={styles.container}>
         <Text style={styles.headerText}>Building Name : {route.params.buildingName}</Text>

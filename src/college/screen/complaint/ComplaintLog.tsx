@@ -44,8 +44,8 @@ function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: 
             complaintItem: { ...item, startDate: item.startDate?.toISOString() },
             technicianList: technicianList,
             status: "open"
-        })
-    }
+        });
+    };
 
     if (isSubmitting) {
         return <LoadingOverlay color={Colors.blue} />;
@@ -97,7 +97,7 @@ export default function ComplaintLog({ navigation, route }: any) {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     const getRefreshList = async () => {
         try {

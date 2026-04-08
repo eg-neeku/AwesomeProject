@@ -17,7 +17,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
     const status: ComplaintDetailsProps["status"] = route.params?.status;
 
     const dropdownTechnicianList = technicianList?.map((technician) => ({
-        label: technician.name,
+        label: technician.firstName + " " + technician.lastName,
         value: technician.emailId,
     }));
 
@@ -33,7 +33,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
                 console.log("Unable to fetch who was assigned to this complaint");
             }
         })();
-    }, [])
+    }, []);
 
     const [value, setValue] = useState("");
     const [isFocus, setIsFocus] = useState(false);
@@ -42,7 +42,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
     const getTechnicianId = () => {
         const reponse = technicianList.find((technician) => technician.emailId === value);
         return reponse?.id;
-    }
+    };
 
     const sendEmail = async (to: string = value, subject: string, body: string, cc?: string, bcc?: string) => {
         if (!to || !subject || !body) return;
@@ -58,7 +58,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
 
         const url = `mailto:${to}?${params}`;
         await Linking.openURL(url);
-    }
+    };
 
     const handleAssignComplaint = async () => {
         setLoading(true);
@@ -66,7 +66,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
             const technicianId = getTechnicianId();
             await assignComplaintToTechnician(complaintId, technicianId ?? "", status ?? "open");
             console.log("Complaint Assigned");
-            await sendEmail(value, "Please Fix this issue", `Hi ${technician?.name}, This is ${complaintItem?.name}.\n\t${complaintItem?.description + complaintItem?.comment}\n\nThankyou!`);
+            await sendEmail(value, "Please Fix this issue", `Hi ${technician?.firstName} ${technician?.lastName}, This is ${complaintItem?.name}.\n\t${complaintItem?.description + complaintItem?.comment}\n\nThankyou!`);
             navigation.navigate(GOTO_SD_MAIN_PAGE, {
                 screen: GOTO_D_TECHNICIAN_LOG_PAGE
             });
@@ -75,7 +75,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     if (loading) {
         return <LoadingOverlay color={Colors.navy} />;
@@ -84,10 +84,10 @@ export default function ComplaintAssign({ navigation, route }: any) {
     return (
         <View style={styles.container}>
             {technician?.emailId && <View style={styles.assigningSection}>
-                    <Text>The complaint is already assigned to technician named {technician.name}</Text>
-                    <TechnicianItemDetails item={technician} />
-                    <Text style={styles.textColor}> Do you wanna reassign to someone else?</Text>
-                </View>
+                <Text>The complaint is already assigned to technician named {technician.firstName} {technician.lastName}</Text>
+                <TechnicianItemDetails item={technician} />
+                <Text style={styles.textColor}> Do you wanna reassign to someone else?</Text>
+            </View>
             }
             <Dropdown
                 style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}

@@ -27,7 +27,7 @@ export default function Login({ navigation }: any) {
 
     const togglePasswordVisible = () => {
         setShowPassword(!showPassword);
-    }
+    };
 
     const validateLoginInfoEnteredByUser = (loginData: LoginProps) => {
         const emailIsValid = loginData.emailId.trim().length > 0;
@@ -48,7 +48,7 @@ export default function Login({ navigation }: any) {
             });
             return;
         }
-    }
+    };
 
     const onLoginHandler = async () => {
         const loginData = {
@@ -57,21 +57,21 @@ export default function Login({ navigation }: any) {
         };
         validateLoginInfoEnteredByUser(loginData);
         try {
-            const dbData: RegisterProps = await getLoginDetail(loginData.emailId);
-            if (dbData.emailId == loginData.emailId && dbData.password == loginData.password) {
+            const dbData: RegisterProps | null = await getLoginDetail(loginData.emailId);
+            if (dbData?.emailId == loginData.emailId && dbData?.password == loginData.password) {
                 const authToken = nanoid() + Math.random() * 100;
                 const { password: _password, ...authItemsData } = dbData;
                 const store: AuthContentProps = {
                     authItems: authItemsData,
                     token: authToken,
-                }
+                };
                 authCtx.setAuth(store);
                 console.log("Is it working", store);
             }
         } catch (error) {
             console.log("Unable to login");
         }
-    }
+    };
 
     const inputHandler = (inputIdentifier: string, text: string) => {
         setInputValues(prevValue => {
@@ -82,8 +82,8 @@ export default function Login({ navigation }: any) {
                     isValid: true
                 }
             }
-        })
-    }
+        });
+    };
 
     return (
         <View style={formStyles.forms}>

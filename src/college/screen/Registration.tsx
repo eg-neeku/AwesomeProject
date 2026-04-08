@@ -40,14 +40,14 @@ export default function Registration({ navigation }: any) {
 
     const togglePasswordVisible = () => {
         setShowPassword(!showPassword);
-    }
+    };
 
     const letsGotoLogin = () => {
         navigation.reset({
             index: 0,
             routes: [{ name: GOTO_S_LOGIN_PAGE }]
-        })
-    }
+        });
+    };
 
     const validateRegisterInfoEnteredByUser = (registerData: RegisterProps) => {
         const firstNameIsValid = registerData.firstName.trim().length > 0;
@@ -89,7 +89,7 @@ export default function Registration({ navigation }: any) {
             });
             return;
         }
-    }
+    };
 
     const onRegisterHandler = async () => {
         const registerData: RegisterProps = {
@@ -119,7 +119,7 @@ export default function Registration({ navigation }: any) {
                 }
             ]);
         }
-    }
+    };
 
     const inputHandler = (inputIdentifier: string, text: string) => {
         if (inputIdentifier === "phoneNumber")
@@ -141,7 +141,7 @@ export default function Registration({ navigation }: any) {
                 }
             }
         });
-    }
+    };
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>

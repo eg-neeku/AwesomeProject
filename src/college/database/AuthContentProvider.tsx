@@ -15,8 +15,6 @@ export const AuthContext = createContext<AuthProps>({
     setAuth: (data: AuthContentProps) => { }
 });
 
-
-
 export default function AuthContextProvider({ children }: { children: React.ReactNode }) {
     const [auth, setAuth] = useState<AuthContentProps>();
 

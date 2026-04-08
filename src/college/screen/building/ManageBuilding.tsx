@@ -1,7 +1,7 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
 import BuildingForm from "./BuildingForm";
-import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../../database/buildinghttp"
+import { storeBuildingData, updateBuildingData, deleteBuildingData } from "../../database/buildinghttp";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { BuildingContext } from "../../database/BuildingContextProvider";
@@ -35,7 +35,7 @@ export default function ManageBuilding({ route, navigation }: any) {
         } catch (error) {
             console.log("Something went wrong", "May be internet/server is down/slow?");
         }
-    }
+    };
 
     const deleteBuildingHandler = () => {
         Alert.alert("Delete Building", "Are you sure? This will also delete comaplaints associated to each building that have not been resolved", [
@@ -61,12 +61,11 @@ export default function ManageBuilding({ route, navigation }: any) {
                 style: 'destructive'
             }
         ]);
-    }
+    };
 
     const cancelHandler = () => {
-        // navigation.navigate("ExpensesOverview");
         navigation.goBack();
-    }
+    };
 
     const confirmHandler = async (newBuildingData: BuildingDetailsDTO) => {
         setIsSubmitting(true);
@@ -83,7 +82,7 @@ export default function ManageBuilding({ route, navigation }: any) {
             setError("Could not save data - please try again later!");
             setIsSubmitting(false);
         }
-    }
+    };
 
     if (error && !isSubmitting) return <ErrorOverlay message={error} />
 

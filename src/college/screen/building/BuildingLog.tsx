@@ -20,24 +20,25 @@ function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigat
         navigation.navigate(GOTO_S_MANAGE_BUILDING_PAGE, {
             buildingId: item.id
         });
-    }
+    };
 
     const handleComplaintPress = () => {
         navigation.navigate(GOTO_S_COMPLAINT_FORM_PAGE, {
             buildingId: item.id,
             buildingName: item.name
         });
-    }
+    };
 
     return (
-        <Pressable onPress={authItems.role === "admin" ? handleBuildingPress : doNothing}
+        <Pressable onPress={authItems.role !== "techni" ? handleBuildingPress : doNothing}
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <BuildingItemDetails item={item} />
-            <View style={logStyles.itemOptions}>
+            {authItems.role !== "techni" && <View style={logStyles.itemOptions}>
                 <MyIcon onPress={handleComplaintPress} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
                     <Icon name="pencil-sharp" size={20} color={Colors.dark} />
                 </MyIcon>
             </View>
+            }
         </Pressable>
     )
 }
@@ -61,7 +62,7 @@ export default function BuildingLog() {
         } finally {
             setRefreshing(false);
         }
-    }
+    };
 
     // this is going to run whenever this screen becomes visible(useful to reflect the changes when moving from once screen to another or vice-versa)
     useFocusEffect(
@@ -87,7 +88,7 @@ export default function BuildingLog() {
                 (`${buildingItem.pincode}`.includes(query))
             )
         )
-    }
+    };
 
     return (
         <View style={logStyles.container}>

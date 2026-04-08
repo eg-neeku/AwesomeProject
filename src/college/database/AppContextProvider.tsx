@@ -7,7 +7,7 @@ type AppContextProps = {
     deviceWidth: number,
     deviceHeight: number,
     isDarkMode: boolean
-}
+};
 
 export const AppContext = createContext<AppContextProps>({
     isLandScape: false,
@@ -27,7 +27,7 @@ export default function AppContextProvider({ children }: { children: React.React
         deviceWidth: width,
         deviceHeight: height,
         isDarkMode: isDarkMode
-    }
+    };
 
     return (
         <AppContext.Provider value={value}>{children}</AppContext.Provider>

@@ -3,7 +3,7 @@ import { ComplaintDetailsProps, ComplaintPropsDTO, DB_NAME, DB_URL } from "./mod
 
 export const storeComplaintData = async (complaintData: ComplaintPropsDTO) => {
     await axios.post(`${DB_URL}/${DB_NAME}/complaint.json`, complaintData);
-}
+};
 
 export const fetchComplaintData = async () => {
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
@@ -18,11 +18,11 @@ export const fetchComplaintData = async () => {
             priority: response.data[key].priority,
             imageURL: response.data[key].imageURL,
             startDate: new Date(response.data[key].startDate)
-        }
+        };
         complaintList.push(complaintItem);
     }
     return complaintList;
-}
+};
 
 export const fetchComplaintDataById = async (complaintId: string) => {
     if(!complaintId) throw new Error("Complaint id is empty");
@@ -49,17 +49,17 @@ export const fetchComplaintDataByBuilding = async (buildingId: string) => {
                 priority: response.data[key].priority,
                 imageURL: response.data[key].imageURL,
                 startDate: new Date(response.data[key].startDate)
-            }
+            };
             complaintList.push(complaintItem);
         }
     }
     return complaintList;
-}
+};
 
 export const assignComplaintToTechnician = async (complaintId: string, technicianId: string, status: string) => {
     if(!technicianId) throw new Error("Technician Id is empty");
     await axios.patch(`${DB_URL}/${DB_NAME}/complaint/${complaintId}.json`, { technicianId: technicianId, status: status });
-}
+};
 
 export const getAssignedComplaintToTechnician = async (technicianId: string) => {
     if(!technicianId) throw new Error("Technician Id is empty");
@@ -77,7 +77,7 @@ export const getAssignedComplaintToTechnician = async (technicianId: string) => 
                 startDate: new Date(response.data[key].startDate),
                 imageURL: response.data[key].imageURL,
                 status: response.data[key].status
-            }
+            };
             assignedComplaintList.push(complaintItem);
         }
     }

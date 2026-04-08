@@ -1,4 +1,4 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ComplaintForm from "../screen/complaint/ComplaintForm";
 import Icon from "react-native-vector-icons/Ionicons";
 import CDrawerScreen from "./CDrawerScreen";

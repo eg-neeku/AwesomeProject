@@ -1,4 +1,4 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../screen/Login";
 import Registration from "../screen/Registration";
 import { GOTO_S_LOGIN_PAGE, GOTO_S_REGISTER_PAGE } from "../database/model";

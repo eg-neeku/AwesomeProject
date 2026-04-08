@@ -5,7 +5,7 @@ export const storeBuildingData = async (buildingData: BuildingDetailsDTO) => {
     const response = await axios.post(`${DB_URL}/${DB_NAME}/building.json`, buildingData);
     const id = response.data.name;
     return id;
-}
+};
 
 export const fetchBuildingData = async () => {
     const response = await axios.get(`${DB_URL}/${DB_NAME}/building.json`);
@@ -25,20 +25,20 @@ export const fetchBuildingData = async () => {
         buildingData.push(buildingItem);
     }
     return buildingData;
-}
+};
 
 export const fetchBuildingDataById = async (buildingId: string) => {
     if(!buildingId) throw new Error("Building id is empty");
     const response = await axios.get(`${DB_URL}/${DB_NAME}/building/${buildingId}.json`);
     return response.data;
-}
+};
 
 export const updateBuildingData = async (id: string, newbuilding: BuildingDetailsDTO) => {
     if(!id) throw new Error("Id is empty");
     return await axios.put(`${DB_URL}/${DB_NAME}/building/${id}.json`, newbuilding);
-}
+};
 
 export const deleteBuildingData = async (id: string) => {
     if(!id) throw new Error("Id is empty");
     return await axios.delete(`${DB_URL}/${DB_NAME}/building/${id}.json`);
-}
+};

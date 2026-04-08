@@ -3,7 +3,7 @@ import { Alert, ScrollView, View } from "react-native";
 import TechnicianForm from "./TechnicianForm";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import ErrorOverlay from "../../UI/ErrorOverlay";
-import { TechnicianDetailsDTO, TechnicianDetailsProps } from "../../database/model";
+import { TechnicianDetailsDTO, TechnicianFormProps } from "../../database/model";
 import { AppContext } from "../../database/AppContextProvider";
 import { deleteTechnician, fetchTechnicianDataById, storeTechnicianData, updateTechnicianData } from "../../database/technicianhttp";
 import Colors from "../../../constants/colors";
@@ -13,7 +13,7 @@ export default function ManageTechnician({ route, navigation }: any) {
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState<string | null>("");
     const deviceCtx = useContext(AppContext);
-    const editedTechnicianId: TechnicianDetailsProps["id"] = route.params?.technicianId; //here routing means useful for updating
+    const editedTechnicianId: TechnicianFormProps["id"] = route.params?.technicianId; //here routing means useful for updating
     const isEditing = !!editedTechnicianId;
     const [selectedTechnician, setSelectedTechnician] = useState<TechnicianDetailsDTO>();
 
@@ -40,7 +40,7 @@ export default function ManageTechnician({ route, navigation }: any) {
 
     const cancelHandler = () => {
         navigation.goBack();
-    }
+    };
 
     const deleteTechnicianHandler = () => {
         Alert.alert("Delete Techician", "Are you sure?", [
@@ -53,7 +53,7 @@ export default function ManageTechnician({ route, navigation }: any) {
                 onPress: async () => {
                     setIsSubmitting(true);
                     try {
-                        await deleteTechnician(editedTechnicianId);
+                        await deleteTechnician(editedTechnicianId ?? "");
                         cancelHandler(); // but this ensures that it go back to where this UI screen was invoked
                     } catch (error) {
                         setError("Could not delete technician - please try again later");
@@ -63,23 +63,22 @@ export default function ManageTechnician({ route, navigation }: any) {
                 style: 'destructive'
             }
         ]);
-    }
+    };
 
-
-    const confirmHandler = async (newBuildingData: TechnicianDetailsDTO) => {
+    const confirmHandler = async (newTechnicianData: TechnicianFormProps) => {
         setIsSubmitting(true);
         try {
             if (isEditing) {
-                await updateTechnicianData(editedTechnicianId, newBuildingData);
+                await updateTechnicianData(editedTechnicianId, newTechnicianData);
             } else {
-                const id = await storeTechnicianData(newBuildingData);
+                const id = await storeTechnicianData(newTechnicianData);
             }
             cancelHandler();
         } catch (error) {
             setError("Could not save data - please try again later!");
             setIsSubmitting(false);
         }
-    }
+    };
 
     if (error && !isSubmitting) return <ErrorOverlay message={error} />
 

@@ -13,7 +13,7 @@ type BuildingFormProps = {
     selectedBuilding: BuildingDetailsProp | undefined,
     isEditing: boolean,
     deleteBuildingHandler: () => void
-}
+};
 
 export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, isEditing, deleteBuildingHandler }: BuildingFormProps) {
     const [inputValues, setInputValues] = useState({
@@ -60,7 +60,7 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
                 }
             }
         })
-    }
+    };
 
     const onSubmitHandler = () => {
         const buildingdata: BuildingDetailsDTO = {
@@ -72,7 +72,7 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
             country: inputValues.country.value,
             floors: inputValues.floors.value,
             imageURL: inputValues.imageURL.value,
-        }
+        };
 
         const nameIsValid = buildingdata.name.trim().length > 0;
         const addressIsValid = buildingdata.address.trim().length > 0;
@@ -95,11 +95,11 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
                     pincode: { value: prevInputs.pincode.value, isValid: pincodeisValid },
                     imageURL: { value: prevInputs.imageURL.value, isValid: imageURLIsValid },
                 }
-            })
+            });
             return;
         }
         onConfirm(buildingdata);
-    }
+    };
 
     return (
         <View style={formStyles.forms}>
