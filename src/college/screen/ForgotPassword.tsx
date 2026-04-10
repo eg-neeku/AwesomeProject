@@ -1,18 +1,15 @@
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../UI/Input";
 import { formStyles } from "./screenStyles";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import MyIcon from "../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../UI/MyButton";
 import Colors from "../../constants/colors";
-import { AuthContentProps, checkPasswordRequirement, GOTO_S_FORGOT_PASSWORD_PAGE, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../database/model";
-import { checkLoginCredentials } from "../database/registerhttp";
-import { nanoid } from "nanoid";
-import { AuthContext } from "../database/AuthContentProvider";
+import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, LoginProps } from "../database/model";
+import { updatePassword } from "../database/registerhttp";
 
-export default function Login({ navigation }: any) {
-    const authCtx = useContext(AuthContext);
+export default function ForgotPassword({ navigation }: any) {
     const [inputValues, setInputValues] = useState({
         emailId: {
             value: "",
@@ -50,6 +47,13 @@ export default function Login({ navigation }: any) {
         }
     };
 
+    const letsGotoLogin = () => {
+        navigation.reset({
+            index: 0,
+            routes: [{ name: GOTO_S_LOGIN_PAGE }]
+        })
+    };
+
     const onLoginHandler = async () => {
         const loginData = {
             emailId: inputValues.emailId.value,
@@ -57,19 +61,22 @@ export default function Login({ navigation }: any) {
         };
         validateLoginInfoEnteredByUser(loginData);
         try {
-            const dbData: RegisterProps | null = await checkLoginCredentials(loginData.emailId);
-            if (dbData?.emailId == loginData.emailId && dbData?.password == loginData.password) {
-                const authToken = nanoid() + Math.random() * 100;
-                const { password: _password, ...authItemsData } = dbData;
-                const store: AuthContentProps = {
-                    authItems: authItemsData,
-                    token: authToken,
-                };
-                authCtx.setAuth(store);
-                console.log("Is it working", store);
-            }
+            await updatePassword(loginData);
+            Alert.alert("", "Password updated Successfully", [
+                {
+                    text: "Okay",
+                    style: "destructive"
+                }
+            ]);
         } catch (error) {
-            console.log("Unable to login");
+            Alert.alert("Something went wrong!", "Check your internet connection and try again later", [
+                {
+                    text: "Okay",
+                    style: "cancel"
+                }
+            ]);
+        } finally {
+            letsGotoLogin();
         }
     };
 
@@ -87,7 +94,7 @@ export default function Login({ navigation }: any) {
 
     return (
         <View style={formStyles.forms}>
-            <Text style={formStyles.titleHead}>Welcome Back</Text>
+            <Text style={formStyles.titleHead}>Password Reset</Text>
             <View>
                 <InputWithLabel label="Email Address">
                     <TextInput keyboardType="email-address"
@@ -100,7 +107,7 @@ export default function Login({ navigation }: any) {
                         style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                     />
                 </InputWithLabel>
-                <InputWithLabel label="Password">
+                <InputWithLabel label="New Password">
                     <View style={{ flexDirection: "row" }}>
                         <TextInput value={inputValues.password.value}
                             onChangeText={(enteredText) => inputHandler("password", enteredText)}
@@ -118,21 +125,15 @@ export default function Login({ navigation }: any) {
                 </InputWithLabel>
             </View>
             <View style={{ marginTop: 10 }}>
-                <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title="Login"
+                <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title="Update Password"
                     onPress={onLoginHandler} beforeTextColor={Colors.white} afterTextColor={Colors.dark} />
             </View>
-            <View style={[formStyles.buttonsContainer, { flexDirection: "column" }]}>
+            <View style={formStyles.buttonsContainer}>
                 <TouchableOpacity onPress={() => navigation.reset({
                     index: 0,
-                    routes: [{ name: GOTO_S_FORGOT_PASSWORD_PAGE }]
+                    routes: [{ name: GOTO_S_LOGIN_PAGE }]
                 })} >
-                    <Text style={{ marginTop: 10 }}>Forgot Password? Click here</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.reset({
-                    index: 0,
-                    routes: [{ name: GOTO_S_REGISTER_PAGE }]
-                })} >
-                    <Text style={{ marginTop: 10 }}>Don't have an account? Click here</Text>
+                    <Text style={{ marginTop: 10 }}>Go to Login</Text>
                 </TouchableOpacity>
             </View>
         </View>

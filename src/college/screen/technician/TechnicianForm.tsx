@@ -98,7 +98,7 @@ export default function TechnicianForm({ onCancel, onConfirm, selectedTechnician
                 />
             </InputWithLabel>
             <InputWithLabel label="Gender">
-                <TextInput value={inputValues.gender.value} maxLength={1}
+                <TextInput value={inputValues.gender.value} maxLength={1} autoCapitalize="characters"
                     placeholder={!inputValues.gender.isValid ? "Please fill out the field" : "Enter M if Male else F"}
                     style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredGender) => inputHandlerChange("gender", enteredGender)}

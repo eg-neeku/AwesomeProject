@@ -1,7 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../screen/Login";
 import Registration from "../screen/Registration";
-import { GOTO_S_LOGIN_PAGE, GOTO_S_REGISTER_PAGE } from "../database/model";
+import { GOTO_S_FORGOT_PASSWORD_PAGE, GOTO_S_LOGIN_PAGE, GOTO_S_REGISTER_PAGE } from "../database/model";
+import ForgotPassword from "../screen/ForgotPassword";
 
 export default function BeforeLoginStack() {
     const Stack = createNativeStackNavigator();
@@ -12,6 +13,10 @@ export default function BeforeLoginStack() {
                     headerShown: false
                 }} />
             <Stack.Screen name={GOTO_S_REGISTER_PAGE} component={Registration}
+                options={{
+                    headerShown: false
+                }} />
+            <Stack.Screen name={GOTO_S_FORGOT_PASSWORD_PAGE} component={ForgotPassword}
                 options={{
                     headerShown: false
                 }} />

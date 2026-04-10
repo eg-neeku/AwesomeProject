@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import {View, Text, ScrollView, StyleSheet, Linking } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Linking } from 'react-native';
 import { AppContext } from '../database/AppContextProvider';
 
 type Section = {
@@ -120,9 +120,8 @@ export default function PrivacyPolicy({
   lastUpdated = '2026-03-09',
   sectionsOverride,
 }: PrivacyPolicyScreenProps) {
-  const deviceCtx = useContext(AppContext);
-  const isDark = deviceCtx.isDarkMode;
-  const styles = isDark ? darkStyles : lightStyles;
+  const { isDarkMode } = useContext(AppContext);
+  const styles = isDarkMode ? darkStyles : lightStyles;
 
   const sections = sectionsOverride ?? defaultSections(appName, companyName, contactEmail);
 

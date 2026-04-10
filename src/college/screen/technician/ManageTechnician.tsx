@@ -12,7 +12,7 @@ export default function ManageTechnician({ route, navigation }: any) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState<string | null>("");
-    const deviceCtx = useContext(AppContext);
+    const { isLandScape } = useContext(AppContext);
     const editedTechnicianId: TechnicianFormProps["id"] = route.params?.technicianId; //here routing means useful for updating
     const isEditing = !!editedTechnicianId;
     const [selectedTechnician, setSelectedTechnician] = useState<TechnicianDetailsDTO>();
@@ -90,7 +90,7 @@ export default function ManageTechnician({ route, navigation }: any) {
             selectedTechnician={selectedTechnician} isEditing={isEditing} deleteTechnicianHandler={deleteTechnicianHandler} />
     </View>;
 
-    if (deviceCtx.isLandScape) {
+    if (isLandScape) {
         screen = <ScrollView>{screen}</ScrollView>;
     }
 
