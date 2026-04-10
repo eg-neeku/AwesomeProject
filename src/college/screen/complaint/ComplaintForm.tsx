@@ -15,7 +15,7 @@ import { AuthContext } from "../../database/AuthContentProvider";
 export default function ComplaintForm() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
-    const deviceCtx = useContext(AppContext);
+    const { isPotrait } = useContext(AppContext);
     const { authItems } = useContext(AuthContext);
     const [task, setTask] = useState<ComplaintPropsDTO>({ buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date(), imageURL: "" });
     const [datepick, setDatePick] = useState(false);
@@ -95,7 +95,7 @@ export default function ComplaintForm() {
         </View>
     </View>;
 
-    return deviceCtx.isPotrait ? (
+    return isPotrait ? (
         <>
             {registerProblemScreen}
         </>

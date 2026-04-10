@@ -6,7 +6,7 @@ import MyIcon from "../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../UI/MyButton";
 import Colors from "../../constants/colors";
-import { GOTO_S_LOGIN_PAGE, RegisterProps } from "../database/model";
+import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, RegisterProps } from "../database/model";
 import { storeRegisteredData } from "../database/registerhttp";
 
 export default function Registration({ navigation }: any) {
@@ -53,7 +53,7 @@ export default function Registration({ navigation }: any) {
         const firstNameIsValid = registerData.firstName.trim().length > 0;
         const lastNameIsValid = registerData.lastName.trim().length > 0;
         const emailIdIsValid = registerData.emailId.trim().length > 0;
-        const passwordIsValid = registerData.password.trim().length > 0;
+        const passwordIsValid = checkPasswordRequirement(registerData.password);
         const genderIsValid = registerData.gender.trim().length > 0;
         const phonenumberIsValid = `${registerData.phoneNumber}`.trim().length == 10;
 
@@ -184,7 +184,7 @@ export default function Registration({ navigation }: any) {
                             <TextInput value={inputValues.password.value}
                                 onChangeText={(text) => inputHandler("password", text)}
                                 secureTextEntry={!showPassword}
-                                maxLength={50}
+                                maxLength={10}
                                 autoCapitalize="none"
                                 placeholder={!inputValues.password.isValid ? "Please fill out the field" : ""}
                                 autoCorrect={false}
@@ -201,6 +201,7 @@ export default function Registration({ navigation }: any) {
                             onChangeText={(text) => inputHandler("gender", text)}
                             maxLength={1}
                             autoCorrect={false}
+                            autoCapitalize="characters"
                             placeholder={!inputValues.gender.isValid ? "Please fill out the field" : "Enter M if Male else F"}
                             style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
                         />

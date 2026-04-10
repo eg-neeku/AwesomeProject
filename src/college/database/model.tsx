@@ -50,11 +50,16 @@ export type AuthContentProps = {
     token: string
 };
 
-export const doNothing = (...params: any[]) => { };
+export function doNothing(...params: any[]) { };
 
 export function formatPostalAddress(address: string, pincode: number, city: string, state: string, country: string) {
     return `${address}, ${city} - ${pincode}, ${state}, ${country}.`;
-};
+}
+
+export function checkPasswordRequirement(password: string) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10}$/;
+    return regex.test(password);
+}
 
 /* Going to Navigation Pages */
 export const GOTO_D_HOME_PAGE = "Home";
@@ -79,6 +84,7 @@ export const GOTO_S_COMPLAINT_ASSIGN_PAGE = "ComplaintAssign";
 export const GOTO_S_COMPLAINT_IN_DETAIL_PAGE = "ComplaintInDetail";
 export const GOTO_S_LOGIN_PAGE = "Login";
 export const GOTO_S_REGISTER_PAGE = "Registration";
+export const GOTO_S_FORGOT_PASSWORD_PAGE = "ForgotPassword";
 
 export const ASYNC_STORAGE_EMAIL_ID = "EMAIL_ID";
 export const ASYNC_STORAGE_APP_TOKEN = "APP_TOKEN";

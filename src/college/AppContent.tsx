@@ -7,10 +7,10 @@ import AppContextProvider, { AppContext } from './database/AppContextProvider';
 import AuthContextProvider from './database/AuthContentProvider';
 
 export default function AppContent() {
-  const deviceData = useContext(AppContext);
+  const { isDarkMode } = useContext(AppContext);
   return (
     <AppContextProvider>
-      <StatusBar barStyle={deviceData.isDarkMode ? 'light-content' : 'dark-content'} />
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <AuthContextProvider>
         <NavigationContainer>
           <BuildingContextProvider>
