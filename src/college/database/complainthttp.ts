@@ -25,7 +25,7 @@ export const fetchComplaintData = async () => {
 };
 
 export const fetchComplaintDataById = async (complaintId: string) => {
-    if(!complaintId) throw new Error("Complaint id is empty");
+    if (!complaintId) throw new Error("Complaint id is empty");
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint/${complaintId}.json`);
     return response.data;
 }
@@ -35,7 +35,7 @@ export const deleteComplaint = async (complaintId: string) => {
 }
 
 export const fetchComplaintDataByBuilding = async (buildingId: string) => {
-    if(!buildingId) throw new Error("Building Id empty");
+    if (!buildingId) throw new Error("Building Id empty");
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
     let complaintList: ComplaintDetailsProps[] = [];
     for (const key in response.data) {
@@ -57,12 +57,12 @@ export const fetchComplaintDataByBuilding = async (buildingId: string) => {
 };
 
 export const assignComplaintToTechnician = async (complaintId: string, technicianId: string, status: string) => {
-    if(!technicianId) throw new Error("Technician Id is empty");
+    if (!technicianId) throw new Error("Technician Id is empty");
     await axios.patch(`${DB_URL}/${DB_NAME}/complaint/${complaintId}.json`, { technicianId: technicianId, status: status });
 };
 
 export const getAssignedComplaintToTechnician = async (technicianId: string) => {
-    if(!technicianId) throw new Error("Technician Id is empty");
+    if (!technicianId) throw new Error("Technician Id is empty");
     const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
     let assignedComplaintList: ComplaintDetailsProps[] = [];
     for (const key in response.data) {
@@ -82,4 +82,9 @@ export const getAssignedComplaintToTechnician = async (technicianId: string) => 
         }
     }
     return assignedComplaintList;
+};
+
+export const updateComplaintStatus = async (complaintId: ComplaintDetailsProps["id"], status: ComplaintDetailsProps["status"]) => {
+    if (!status) throw new Error("Status not selected");
+    await axios.patch(`${DB_URL}/${DB_NAME}/complaint/${complaintId}.json`, { status: status });
 }

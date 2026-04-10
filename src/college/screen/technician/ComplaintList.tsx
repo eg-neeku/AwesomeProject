@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useCallback, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { getAssignedComplaintToTechnician } from "../../database/complainthttp";
 import { ComplaintDetailsProps } from "../../database/model";
@@ -9,6 +9,7 @@ import { InputWithSearch } from "../../UI/Input";
 import Colors from "../../../constants/colors";
 import { AuthContext } from "../../database/AuthContentProvider";
 import AssingedComplaintItem from "./AssignedComplaintItem";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function ComplaintList() {
     const { authItems } = useContext(AuthContext);
@@ -21,10 +22,12 @@ export default function ComplaintList() {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     
-    useEffect(() => {
-        if (!selectedTechnicianId) return;
-        getComplaintList();
-    }, [selectedTechnicianId]);
+    useFocusEffect(
+        useCallback(() => {
+            if (!selectedTechnicianId) return;
+            getComplaintList();
+        }, [selectedTechnicianId])
+    );
 
     const getComplaintList = async () => {
         setLoading(true);
@@ -111,7 +114,7 @@ export default function ComplaintList() {
                     data={demo}
                     keyExtractor={(item) => item.id}
                     renderItem={(itemData) => (
-                        <AssingedComplaintItem item={itemData.item} />
+                        <AssingedComplaintItem item={itemData.item} onRefresh={getComplaintList} />
                     )}
                     contentContainerStyle={{ paddingBottom: 12 }}
                     onRefresh={activateRefreshComplaint}

@@ -1,14 +1,15 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { ComplaintDetailsProps } from "../../database/model";
 import ComplaintItemDetails from "../complaint/ComplaintItemDetails";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function ComplaintInDetail() {
+    const navigation: any = useNavigation();
     const route: any = useRoute();
     const complaintItem: ComplaintDetailsProps = route?.params?.item;
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <ComplaintItemDetails item={complaintItem} />
+            <ComplaintItemDetails item={complaintItem} onUpdateSuccess={() => navigation.goBack()} />
             <View style={styles.imageSection}>
                 {complaintItem.imageURL? <Image source={{ uri: complaintItem.imageURL }} style={styles.image} resizeMode="cover" />
                     : <Text style={styles.noImageText}>No image found! Kindly put the image for proof.</Text>}

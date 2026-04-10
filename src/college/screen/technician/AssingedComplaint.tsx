@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { getAssignedComplaintToTechnician } from "../../database/complainthttp";
 import { ComplaintDetailsProps } from "../../database/model";
@@ -8,6 +8,7 @@ import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import Colors from "../../../constants/colors";
 import AssingedComplaintItem from "./AssignedComplaintItem";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function AssignedComplaint({ route }: any) {
     const selectedTechnicianId: string = route?.params?.technicianId;
@@ -19,9 +20,11 @@ export default function AssignedComplaint({ route }: any) {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
-    useEffect(() => {
-        getComplaintList();
-    }, [selectedTechnicianId]);
+    useFocusEffect(
+        useCallback(() => {
+            getComplaintList();
+        }, [selectedTechnicianId])
+    );
 
     const getComplaintList = async () => {
         setLoading(true);

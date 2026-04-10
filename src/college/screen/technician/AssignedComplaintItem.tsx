@@ -4,7 +4,7 @@ import { Pressable } from "react-native";
 import { logStyles } from "../screenStyles";
 import ComplaintItemDetails from "../complaint/ComplaintItemDetails";
 
-export default function AssingedComplaintItem({ item }: { item: ComplaintDetailsProps }) {
+export default function AssingedComplaintItem({ item, onRefresh }: { item: ComplaintDetailsProps, onRefresh?: () => void }) {
     const navigation: any = useNavigation();
 
     const handleComplaintPress = () => {
@@ -18,7 +18,7 @@ export default function AssingedComplaintItem({ item }: { item: ComplaintDetails
             onPress={handleComplaintPress}
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}
         >
-            <ComplaintItemDetails item={item} />
+            <ComplaintItemDetails item={item} onUpdateSuccess={onRefresh} />
         </Pressable>
     );
 }
