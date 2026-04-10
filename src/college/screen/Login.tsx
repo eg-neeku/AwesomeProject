@@ -1,4 +1,4 @@
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../UI/Input";
 import { formStyles } from "./screenStyles";
 import { useContext, useState } from "react";
@@ -67,6 +67,8 @@ export default function Login({ navigation }: any) {
                 };
                 authCtx.setAuth(store);
                 console.log("Is it working", store);
+            } else {
+                Alert.alert("", "Account does not exists", [{ text: "Okay", style: "cancel" }]);
             }
         } catch (error) {
             console.log("Unable to login");

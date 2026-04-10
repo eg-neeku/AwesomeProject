@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Linking, Platform, StyleSheet, Text, View } from "react-native";
 import { ComplaintDetailsProps, formatPostalAddress } from "../../database/model";
 import { useItemDetailStyles } from "../screenStyles";
 import { useEffect, useState } from "react";
@@ -38,6 +38,17 @@ export default function ComplaintItemDetails({ item, onUpdateSuccess }: { item: 
         getBuildingDetails();
     }, []);
 
+    const openMapLocation = (address: string) => {
+        const encoded = encodeURIComponent(address);
+
+        const url = Platform.select({
+            ios: `maps://?q=${encoded}`,
+            android: `geo:0,0?q=${encoded}`,
+        });
+
+        Linking.openURL(url ?? "").catch((error) => console.log("Could not load the page", error));
+    }
+
     const handleComplaintStatusUpdate = async () => {
         if (value?.length === 0) return;
         setLoading(true);
@@ -58,7 +69,7 @@ export default function ComplaintItemDetails({ item, onUpdateSuccess }: { item: 
     return (
         <View style={itemDetailStyles.itemContainer}>
             <Text style={itemDetailStyles.description}>ComplaintId: {item.id}</Text>
-            <Text style={itemDetailStyles.description}>Building details: {building.name} - {building.location}</Text>
+            <Text style={itemDetailStyles.description} onPress={() => openMapLocation(`${building.name}: ${building.location}`)}>Building details: {building.name} - {building.location}</Text>
             <Text style={itemDetailStyles.description}>Person Name: {item.name}</Text>
             <Text style={itemDetailStyles.description}>Description: {item.description}</Text>
             <Text style={itemDetailStyles.description}>Comment: {item.comment}</Text>
