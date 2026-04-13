@@ -1,3 +1,5 @@
+import { Linking } from "react-native";
+
 export enum Status { OPEN, INPROGRESS, DONE };
 
 export type ComplaintDetailsProps = {
@@ -60,6 +62,22 @@ export function checkPasswordRequirement(password: string) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10}$/;
     return regex.test(password);
 }
+
+export async function sendEmail(to: string = "", subject: string, body: string, cc?: string, bcc?: string) {
+    if (!to || !subject || !body) return;
+    const queries = new URLSearchParams({
+        subject: subject,
+        body: body
+    });
+
+    cc && queries.append('cc', cc);
+    bcc && queries.append('bcc', bcc);
+
+    const params = queries.toString();
+
+    const url = `mailto:${to}?${params}`;
+    await Linking.openURL(url);
+};
 
 /* Going to Navigation Pages */
 export const GOTO_D_HOME_PAGE = "Home";

@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Login from "../screen/Login";
-import Registration from "../screen/Registration";
+import Login from "../screen/onboarding/Login";
+import Registration from "../screen/onboarding/Registration";
 import { GOTO_S_FORGOT_PASSWORD_PAGE, GOTO_S_LOGIN_PAGE, GOTO_S_REGISTER_PAGE } from "../database/model";
-import ForgotPassword from "../screen/ForgotPassword";
+import ForgotPassword from "../screen/onboarding/ForgotPassword";
 
 export default function BeforeLoginStack() {
     const Stack = createNativeStackNavigator();

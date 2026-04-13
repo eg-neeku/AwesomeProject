@@ -1,15 +1,15 @@
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { InputWithLabel } from "../UI/Input";
-import { formStyles } from "./screenStyles";
+import { InputWithLabel } from "../../UI/Input";
+import { formStyles } from "../screenStyles";
 import { useContext, useState } from "react";
-import MyIcon from "../UI/MyIcon";
+import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
-import MyButton from "../UI/MyButton";
-import Colors from "../../constants/colors";
-import { AuthContentProps, checkPasswordRequirement, GOTO_S_FORGOT_PASSWORD_PAGE, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../database/model";
-import { checkLoginCredentials } from "../database/registerhttp";
+import MyButton from "../../UI/MyButton";
+import Colors from "../../../constants/colors";
+import { AuthContentProps, checkPasswordRequirement, GOTO_S_FORGOT_PASSWORD_PAGE, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../../database/model";
+import { checkLoginCredentials } from "../../database/registerhttp";
 import { nanoid } from "nanoid";
-import { AuthContext } from "../database/AuthContentProvider";
+import { AuthContext } from "../../database/AuthContentProvider";
 
 export default function Login({ navigation }: any) {
     const authCtx = useContext(AuthContext);

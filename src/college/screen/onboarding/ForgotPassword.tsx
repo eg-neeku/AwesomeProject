@@ -1,13 +1,13 @@
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { InputWithLabel } from "../UI/Input";
-import { formStyles } from "./screenStyles";
+import { InputWithLabel } from "../../UI/Input";
+import { formStyles } from "../screenStyles";
 import { useState } from "react";
-import MyIcon from "../UI/MyIcon";
+import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
-import MyButton from "../UI/MyButton";
-import Colors from "../../constants/colors";
-import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, LoginProps } from "../database/model";
-import { updatePassword } from "../database/registerhttp";
+import MyButton from "../../UI/MyButton";
+import Colors from "../../../constants/colors";
+import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, LoginProps } from "../../database/model";
+import { updatePassword } from "../../database/registerhttp";
 
 export default function ForgotPassword({ navigation }: any) {
     const [inputValues, setInputValues] = useState({

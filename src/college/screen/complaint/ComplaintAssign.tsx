@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Linking, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { assignComplaintToTechnician, fetchComplaintDataById } from "../../database/complainthttp";
 import MyButton from "../../UI/MyButton";
 import LoadingOverlay from "../../UI/LoadingOverlay";
-import { ComplaintDetailsProps, GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { ComplaintDetailsProps, GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, sendEmail, TechnicianDetailsProps } from "../../database/model";
 import { fetchTechnicianDataById } from "../../database/technicianhttp";
 import TechnicianItemDetails from "../technician/TechnicianItemDetails";
 import Colors from "../../../constants/colors";
@@ -42,22 +42,6 @@ export default function ComplaintAssign({ navigation, route }: any) {
     const getTechnicianId = () => {
         const reponse = technicianList.find((technician) => technician.emailId === value);
         return reponse?.id;
-    };
-
-    const sendEmail = async (to: string = value, subject: string, body: string, cc?: string, bcc?: string) => {
-        if (!to || !subject || !body) return;
-        const queries = new URLSearchParams({
-            subject: subject,
-            body: body
-        });
-
-        cc && queries.append('cc', cc);
-        bcc && queries.append('bcc', bcc);
-
-        const params = queries.toString();
-
-        const url = `mailto:${to}?${params}`;
-        await Linking.openURL(url);
     };
 
     const handleAssignComplaint = async () => {
