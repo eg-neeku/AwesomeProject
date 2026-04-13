@@ -17,7 +17,12 @@ export default function ComplaintForm() {
     const navigation: any = useNavigation();
     const { isPotrait } = useContext(AppContext);
     const { authItems } = useContext(AuthContext);
-    const [task, setTask] = useState<ComplaintPropsDTO>({ buildingId: route.params.buildingId, name: "", description: "", comment: "", priority: 0, startDate: new Date(), imageURL: "" });
+    const [task, setTask] = useState<ComplaintPropsDTO>({
+        buildingId: route.params.buildingId,
+        name: `${authItems.firstName} ${authItems.lastName}`,
+        description: "", comment: "", priority: 0,
+        startDate: new Date(), imageURL: ""
+    });
     const [datepick, setDatePick] = useState(false);
 
     const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date): void => {
@@ -34,15 +39,16 @@ export default function ComplaintForm() {
 
     const handleComplaintSubmit = async () => {
         try {
-            if (!task.comment || !task.description || !task.name) {
+            if (!task.comment || !task.description) {
                 Alert.alert("", "Please fill out the necessary field");
                 return;
             }
             await storeComplaintData(task);
+            Alert.alert("", "Complaint Submitted", [{ text: "Okay", style: "destructive" }]);
+            navigation.navigate(GOTO_S_COMPLAINT_LOG_PAGE, { buildingId: route.params.buildingId });
         } catch (error) {
             console.log(error);
         }
-        navigation.goBack();
     };
 
     const handleComplaintList = () => {

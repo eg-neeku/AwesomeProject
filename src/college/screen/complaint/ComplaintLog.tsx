@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert, FlatList, Pressable, TextInput, View } from "react-native";
 import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
 import { ComplaintDetailsProps, GOTO_S_COMPLAINT_ASSIGN_PAGE, TechnicianDetailsProps } from "../../database/model";
@@ -8,6 +8,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import { fetchTechnicianData } from "../../database/technicianhttp";
+import { useFocusEffect } from "@react-navigation/native";
 import ComplaintItemDetails from "./ComplaintItemDetails";
 import { logStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
@@ -82,10 +83,12 @@ export default function ComplaintLog({ navigation, route }: any) {
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
 
-    useEffect(() => {
-        getTechnicianList();
-        getRefreshList();
-    }, [buildingId]);
+    useFocusEffect(
+        useCallback(() => {
+            getTechnicianList();
+            getRefreshList();
+        }, [buildingId])
+    );
 
     const getTechnicianList = async () => {
         setLoading(true);

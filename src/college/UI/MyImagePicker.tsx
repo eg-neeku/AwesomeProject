@@ -97,16 +97,17 @@ export default function MyImagePicker({ onImagePick, defaultImageURL = "", shape
             const galleryUri = photos.edges[0]?.node?.image?.uri;
             if (galleryUri) {
                 console.log("Gallery path to the image is: ", galleryUri);
-                // Copy to app-local storage so the file:// path stays valid across app restarts.
-                // content:// MediaStore URIs can become inaccessible after the process is killed
-                // (especially on Android 12+ with scoped storage / picker URIs).
+                // Copy to a temp local path so RNFS can read it reliably,
+                // then convert to base64 and discard the temp file.
                 const fileName = `building_img_${Date.now()}.jpg`;
                 const destPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
                 await RNFS.copyFile(galleryUri, destPath);
-                const localUri = `file://${destPath}`;
-                console.log("Persistent local path: ", localUri);
-                setSelectedImage(localUri);
-                onImagePick(localUri);
+                const base64String = await RNFS.readFile(destPath, "base64");
+                await RNFS.unlink(destPath); // temp file no longer needed
+                const dataUri = `data:image/jpeg;base64,${base64String}`;
+                console.log("Image converted to base64 data URI");
+                setSelectedImage(dataUri);
+                onImagePick(dataUri);
             }
         } catch (error) {
             console.log("Error in fetching image:", error);
