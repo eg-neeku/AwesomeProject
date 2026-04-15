@@ -1,47 +1,15 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useContext, useState } from "react";
 import { View, FlatList, Pressable, TextInput } from "react-native";
-import { BuildingDetailsProp, doNothing, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../../database/model";
+import { BuildingDetailsProp } from "../../database/model";
 import { BuildingContext } from "../../database/BuildingContextProvider";
 import { fetchBuildingData } from "../../database/buildinghttp";
-import Icon from "react-native-vector-icons/Ionicons";
-import MyIcon from "../../UI/MyIcon";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import BuildingItemDetails from "./BuildingItemDetails";
 import { logStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
-import { AuthContext } from "../../database/AuthContentProvider";
-
-function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
-    const { authItems } = useContext(AuthContext);
-    const handleBuildingPress = () => {
-        navigation.navigate(GOTO_S_MANAGE_BUILDING_PAGE, {
-            buildingId: item.id
-        });
-    };
-
-    const handleComplaintPress = () => {
-        navigation.navigate(GOTO_S_COMPLAINT_FORM_PAGE, {
-            buildingId: item.id,
-            buildingName: item.name
-        });
-    };
-
-    return (
-        <Pressable onPress={authItems.role !== "techni" ? handleBuildingPress : doNothing}
-            style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
-            <BuildingItemDetails item={item} />
-            {authItems.role !== "techni" && <View style={logStyles.itemOptions}>
-                <MyIcon onPress={handleComplaintPress} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
-                    <Icon name="pencil-sharp" size={20} color={Colors.dark} />
-                </MyIcon>
-            </View>
-            }
-        </Pressable>
-    )
-}
+import BuildingItem from "./BuildingItem";
 
 export default function BuildingLog() {
     const buildingCtx = useContext(BuildingContext);

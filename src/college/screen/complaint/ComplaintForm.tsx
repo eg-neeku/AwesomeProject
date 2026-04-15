@@ -21,7 +21,7 @@ export default function ComplaintForm() {
         buildingId: route.params.buildingId,
         name: `${authItems.firstName} ${authItems.lastName}`,
         description: "", comment: "", priority: 0,
-        startDate: new Date(), imageURL: ""
+        status: "open", startDate: new Date(), imageURL: ""
     });
     const [datepick, setDatePick] = useState(false);
 
@@ -65,12 +65,12 @@ export default function ComplaintForm() {
             />
         </InputWithLabel>
         <InputWithLabel label="Description">
-            <TextInput style={styles.textinput} value={task.description}
+            <TextInput style={styles.textinput} value={task.description} maxLength={200}
                 onChangeText={(enteredValue) => setTask({ ...task, description: enteredValue })}
             />
         </InputWithLabel>
         <InputWithLabel label="Comment">
-            <TextInput style={styles.textinput} value={task.comment}
+            <TextInput style={styles.textinput} value={task.comment} maxLength={200}
                 onChangeText={(enteredValue) => setTask({ ...task, comment: enteredValue })}
             />
         </InputWithLabel>

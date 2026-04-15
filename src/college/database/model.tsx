@@ -12,7 +12,7 @@ export type ComplaintDetailsProps = {
     startDate: Date,
     imageURL: string,
     technicianId?: string,
-    status?: "open" | "assigned" | "in_progress" | "resolved" | "closed";
+    status?: "open" | "assigned" | "in_progress" | "resolved";
 };
 
 export type BuildingDetailsProp = {

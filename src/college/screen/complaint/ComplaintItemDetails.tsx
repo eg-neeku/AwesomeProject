@@ -19,11 +19,8 @@ export default function ComplaintItemDetails({ item, onUpdateSuccess }: { item: 
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState("" as ComplaintDetailsProps["status"]);
     const statusOptions = [
-        { label: "Open", value: "open" },
-        { label: "Assigned", value: "assigned" },
         { label: "In progress", value: "in_progress" },
         { label: "Resolved", value: "resolved" },
-        { label: "Closed", value: "closed" },
     ];
 
     useEffect(() => {

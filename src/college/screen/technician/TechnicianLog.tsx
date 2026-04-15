@@ -1,44 +1,14 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 import { View, FlatList, Pressable, TextInput } from "react-native";
-import { doNothing, GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { TechnicianDetailsProps } from "../../database/model";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { fetchTechnicianData } from "../../database/technicianhttp";
-import MyIcon from "../../UI/MyIcon";
-import Icon from "react-native-vector-icons/Ionicons";
-import TechnicianItemDetails from "./TechnicianItemDetails";
 import { logStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
-import { AuthContext } from "../../database/AuthContentProvider";
-
-function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, navigation: any }) {
-    const { authItems } = useContext(AuthContext);
-    const handleTechnicianPress = () => {
-        navigation.navigate(GOTO_S_MANAGE_TECHNICIAN_PAGE, {
-            technicianId: item.id
-        });
-    };
-
-    const getComplaintAssigned = () => {
-        navigation.navigate(GOTO_S_ASSIGNED_COMPLAINT_PAGE, {
-            technicianId: item.id
-        });
-    };
-
-    return (
-        <Pressable onPress={authItems.role === "admin" ? handleTechnicianPress : doNothing}
-            style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
-            <TechnicianItemDetails item={item} />
-            <View style={logStyles.itemOptions}>
-                <MyIcon onPress={getComplaintAssigned} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
-                    <Icon name="arrow-forward" size={20} color={Colors.dark} />
-                </MyIcon>
-            </View>
-        </Pressable>
-    )
-}
+import TechnicianItem from "./TechnicianItem";
 
 export default function TechnicianLog() {
     const navigation: any = useNavigation();

@@ -14,7 +14,6 @@ export default function ComplaintAssign({ navigation, route }: any) {
     const complaintItem: ComplaintDetailsProps = route.params?.complaintItem;
     const complaintId: ComplaintDetailsProps["id"] = complaintItem.id;
     const technicianList: TechnicianDetailsProps[] = route.params?.technicianList;
-    const status: ComplaintDetailsProps["status"] = route.params?.status;
 
     const dropdownTechnicianList = technicianList?.map((technician) => ({
         label: technician.firstName + " " + technician.lastName,
@@ -48,7 +47,7 @@ export default function ComplaintAssign({ navigation, route }: any) {
         setLoading(true);
         try {
             const technicianId = getTechnicianId();
-            await assignComplaintToTechnician(complaintId, technicianId ?? "", status ?? "open");
+            await assignComplaintToTechnician(complaintId, technicianId ?? "", "assigned");
             console.log("Complaint Assigned");
             await sendEmail(value, "Please Fix this issue", `Hi ${technician?.firstName} ${technician?.lastName}, This is ${complaintItem?.name}.\n\t${complaintItem?.description + complaintItem?.comment}\n\nThankyou!`);
             navigation.navigate(GOTO_SD_MAIN_PAGE, {

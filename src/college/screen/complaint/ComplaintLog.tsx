@@ -1,76 +1,16 @@
 import { useCallback, useState } from "react";
-import { Alert, FlatList, Pressable, TextInput, View } from "react-native";
-import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
-import { ComplaintDetailsProps, GOTO_S_COMPLAINT_ASSIGN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { FlatList, Pressable, TextInput, View } from "react-native";
+import { fetchComplaintDataByBuilding } from "../../database/complainthttp";
+import { ComplaintDetailsProps, TechnicianDetailsProps } from "../../database/model";
 import LoadingOverlay from "../../UI/LoadingOverlay";
-import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import { fetchTechnicianData } from "../../database/technicianhttp";
 import { useFocusEffect } from "@react-navigation/native";
-import ComplaintItemDetails from "./ComplaintItemDetails";
 import { logStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
-
-function ComplaintItem({ item, onRefresh, navigation, technicianList }: { item: ComplaintDetailsProps, onRefresh: () => void, navigation: any, technicianList: TechnicianDetailsProps[] }) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const deleteComplaintHandler = () => {
-        Alert.alert("Delete Complaint!", "Are you sure you want to delete it?", [
-            {
-                text: "Okay",
-                onPress: async () => {
-                    setIsSubmitting(true);
-                    try {
-                        await deleteComplaint(item.id);
-                        onRefresh();
-                    } catch (error) {
-                        console.log("Unable to delete the complaint data", error);
-                    } finally {
-                        setIsSubmitting(false);
-                    }
-                },
-                style: "destructive",
-            },
-            {
-                text: "Cancel",
-                style: "cancel",
-            },
-        ]);
-    };
-
-    const handleAssignComplaint = () => {
-        navigation.navigate(GOTO_S_COMPLAINT_ASSIGN_PAGE, {
-            complaintItem: { ...item, startDate: item.startDate?.toISOString() },
-            technicianList: technicianList,
-            status: "open"
-        });
-    };
-
-    if (isSubmitting) {
-        return <LoadingOverlay color={Colors.blue} />;
-    }
-
-    return (
-        <Pressable
-            onPress={() => { }}
-            style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}
-        >
-            <ComplaintItemDetails item={item} />
-            <View>
-                <View style={logStyles.itemOptions}>
-                    <MyIcon onPress={deleteComplaintHandler} iconBgColor={Colors.lightRed} paddingInsideIcon={8}>
-                        <Icon name="delete" size={20} color={Colors.white} />
-                    </MyIcon>
-                    <MyIcon onPress={handleAssignComplaint} iconBgColor={Colors.lightRed} paddingInsideIcon={6}>
-                        <Icon name="location-exit" size={20} color={Colors.white} />
-                    </MyIcon>
-                </View>
-            </View>
-        </Pressable>
-    );
-}
+import ComplaintItem from "./ComplaintItem";
 
 export default function ComplaintLog({ navigation, route }: any) {
     const buildingId: string = route?.params?.buildingId;
