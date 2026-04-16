@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, Text, View } from "react-native";
 import { formStyles } from "../screenStyles";
 import MyImagePicker from "../../UI/MyImagePicker";
 import Colors from "../../../constants/colors";
@@ -41,13 +41,12 @@ export default function MyProfile() {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <View style={formStyles.forms}>
+            <View style={[formStyles.forms, { margin: 5 }]}>
                 <View style={{ alignItems: "flex-end" }}>
                     <MyIcon onPress={handleLogout} iconBgColor={Colors.normalRed}>
                         <Icon name="logout" size={20} color={Colors.dark} />
                     </MyIcon>
                 </View>
-                <Text style={formStyles.titleHead}>{profile.firstName} {profile.lastName}</Text>
                 <MyImagePicker onImagePick={saveProfilePicHandler}
                     defaultImageURL={profile.profilePic ?? ""}
                     shape="circle" myImgTitle="Edit DP" />

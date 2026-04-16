@@ -114,8 +114,8 @@ const defaultSections = (appName = 'Our App', companyName = 'Our Company', conta
 ];
 
 export default function PrivacyPolicy({
-  appName = 'Facility Manager',
-  companyName = 'Acme Facilities Pvt. Ltd.',
+  appName = 'Facilit FDVU',
+  companyName = 'EGDK India Private Ltd.',
   contactEmail = 'privacy@acme-facilities.com',
   lastUpdated = '2026-03-09',
   sectionsOverride,
