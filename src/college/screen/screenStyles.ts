@@ -36,8 +36,9 @@ export function useItemDetailStyles() {
 
     return StyleSheet.create({
         itemContainer: {
-            padding: 16,
+            padding: 8,
             flex: 1,
+            margin: 8,
             minWidth: deviceCtx.isPotrait ? deviceCtx.deviceHeight / 5 : deviceCtx.deviceWidth / 1.55
         },
         description: {
@@ -49,10 +50,10 @@ export function useItemDetailStyles() {
 
 export const formStyles = StyleSheet.create({
     forms: {
-        flex:1,
+        flex: 1,
         margin: 16,
         padding: 16,
-        justifyContent:"center",
+        justifyContent: "center",
         backgroundColor: Colors.white,
         borderRadius: 12,
         elevation: 3,              // Android shadow

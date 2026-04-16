@@ -13,9 +13,10 @@ import ComplaintInDetail from "../screen/technician/ComplaintInDetail";
 import { useContext } from "react";
 import { AuthContext } from "../database/AuthContentProvider";
 
+const Stack = createNativeStackNavigator();
+
 export default function AfterLoginStack() {
     const { authItems } = useContext(AuthContext);
-    const Stack = createNativeStackNavigator();
     return (
         <Stack.Navigator>
             <Stack.Screen name={GOTO_SD_MAIN_PAGE} component={CDrawerScreen}
@@ -23,7 +24,7 @@ export default function AfterLoginStack() {
                     headerShown: false
                 }} />
             {
-                (authItems.role === "admin" || authItems.role == "user") &&
+                (authItems.role === "admin" || authItems.role === "user") &&
                 <Stack.Group>
                     <Stack.Screen name={GOTO_S_COMPLAINT_FORM_PAGE} component={ComplaintForm}
                         options={({ navigation }) => ({
