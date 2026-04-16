@@ -48,3 +48,12 @@ export const updatePassword = async (loginDetail: LoginProps) => {
     const key = Object.keys(response.data)[0];
     await axios.patch(`${DB_URL}/${DB_NAME}/register/${key}.json`, { password: loginDetail.password });
 }
+
+export const updateProfile = async (
+    emailId: string,
+    data: Pick<RegisterProps, "firstName" | "lastName" | "phoneNumber" | "gender">
+) => {
+    const response = await getLoginDetail(emailId);
+    const key = Object.keys(response.data)[0];
+    await axios.patch(`${DB_URL}/${DB_NAME}/register/${key}.json`, data);
+};
