@@ -1,7 +1,7 @@
-import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer"
-import { Image, StyleSheet, Text, View } from "react-native"
-import { AuthContentProps } from "../database/model"
-import Colors from "../../constants/colors"
+import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { AuthContentProps } from "../database/model";
+import Colors from "../../constants/colors";
 
 export default function CustomDrawerContent({ props, authItems }: { props: DrawerContentComponentProps, authItems: AuthContentProps["authItems"] }) {
     return (

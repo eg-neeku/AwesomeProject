@@ -2,10 +2,7 @@
   "mcpServers": {
     "npm-package-docs": {
       "type": "http",
-      "url": "http://localhost:6274/mcp",
-      "headers": {
-        "Authorization": "Bearer <replace_with_generated_token_id>"
-      }
+      "url": "http://localhost:3000/mcp"
     }
   }
 }

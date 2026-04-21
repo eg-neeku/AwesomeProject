@@ -12,7 +12,6 @@ import { useContext } from "react";
 import { AuthContext } from "../database/AuthContentProvider";
 import ComplaintList from "../screen/technician/ComplaintList";
 import CustomDrawerContent from "./CustomDrawerContent";
-import Colors from "../../constants/colors";
 
 const Drawer = createDrawerNavigator();
 
