@@ -11,39 +11,69 @@ import Colors from "../../../constants/colors";
 import { AppContext } from "../../database/AppContextProvider";
 import MyImagePicker from "../../UI/MyImagePicker";
 import { AuthContext } from "../../database/AuthContentProvider";
+import ErrorMessage from "../../UI/ErrorMessage";
+import { formStyles } from "../screenStyles";
 
 export default function ComplaintForm() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
     const { isPotrait } = useContext(AppContext);
     const { authItems } = useContext(AuthContext);
-    const [task, setTask] = useState<ComplaintPropsDTO>({
-        buildingId: route.params.buildingId,
-        name: `${authItems.firstName} ${authItems.lastName}`,
-        description: "", comment: "", priority: 0,
-        status: "open", startDate: new Date(), imageURL: ""
+
+    const [inputValues, setInputValues] = useState({
+        description: { value: "", isValid: true },
+        comment: { value: "", isValid: true },
+        priority: { value: 0, isValid: true },
+        startDate: { value: new Date(), isValid: true },
+        imageURL: { value: "", isValid: true },
     });
     const [datepick, setDatePick] = useState(false);
 
+    const inputHandlerChange = (identifier: string, value: string) => {
+        setInputValues(prev => ({
+            ...prev,
+            [identifier]: { value, isValid: true }
+        }));
+    };
+
     const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date): void => {
-        // close if user didnt selected the date
         if (event.type === "dismissed") {
             setDatePick(false);
             return;
         }
-        setDatePick(false); // user has selected the date
-        if (datepick) {
-            setTask({ ...task, startDate: selectedDate ?? task.startDate });
-        }
+        setDatePick(false);
+        setInputValues(prev => ({
+            ...prev,
+            startDate: { value: selectedDate ?? prev.startDate.value, isValid: true }
+        }));
     };
 
     const handleComplaintSubmit = async () => {
+        const descriptionIsValid = inputValues.description.value.trim().length > 0;
+        const commentIsValid = inputValues.comment.value.trim().length > 0;
+
+        if (!descriptionIsValid || !commentIsValid) {
+            setInputValues(prev => ({
+                ...prev,
+                description: { value: prev.description.value, isValid: descriptionIsValid },
+                comment: { value: prev.comment.value, isValid: commentIsValid },
+            }));
+            return;
+        }
+
+        const complaintData: ComplaintPropsDTO = {
+            buildingId: route.params.buildingId,
+            name: `${authItems.firstName} ${authItems.lastName}`,
+            description: inputValues.description.value.trim(),
+            comment: inputValues.comment.value.trim(),
+            priority: inputValues.priority.value,
+            status: "open",
+            startDate: inputValues.startDate.value,
+            imageURL: inputValues.imageURL.value,
+        };
+
         try {
-            if (!task.comment || !task.description) {
-                Alert.alert("", "Please fill out the necessary field");
-                return;
-            }
-            await storeComplaintData(task);
+            await storeComplaintData(complaintData);
             Alert.alert("", "Complaint Submitted", [{ text: "Okay", style: "destructive" }]);
             navigation.navigate(GOTO_S_COMPLAINT_LOG_PAGE, { buildingId: route.params.buildingId });
         } catch (error) {
@@ -60,40 +90,41 @@ export default function ComplaintForm() {
     let registerProblemScreen = <View style={styles.container}>
         <Text style={styles.headerText}>Building Name : {route.params.buildingName}</Text>
         <InputWithLabel label="Your Name">
-            <TextInput style={styles.textinput} value={authItems.firstName + " " + authItems.lastName} readOnly
-                onChangeText={(enteredValue) => setTask({ ...task, name: enteredValue })}
-            />
+            <TextInput style={styles.textinput} value={`${authItems.firstName} ${authItems.lastName}`} readOnly />
         </InputWithLabel>
         <InputWithLabel label="Description">
-            <TextInput style={styles.textinput} value={task.description} maxLength={200}
-                onChangeText={(enteredValue) => setTask({ ...task, description: enteredValue })}
+            <TextInput style={[styles.textinput, !inputValues.description.isValid && formStyles.errortextinput]}
+                value={inputValues.description.value} maxLength={200}
+                onChangeText={(text) => inputHandlerChange("description", text)}
             />
+            {!inputValues.description.isValid && <ErrorMessage message="Description is required." formStyles={formStyles} />}
         </InputWithLabel>
         <InputWithLabel label="Comment">
-            <TextInput style={styles.textinput} value={task.comment} maxLength={200}
-                onChangeText={(enteredValue) => setTask({ ...task, comment: enteredValue })}
+            <TextInput style={[styles.textinput, !inputValues.comment.isValid && formStyles.errortextinput]}
+                value={inputValues.comment.value} maxLength={200}
+                onChangeText={(text) => inputHandlerChange("comment", text)}
             />
+            {!inputValues.comment.isValid && <ErrorMessage message="Comment is required." formStyles={formStyles} />}
         </InputWithLabel>
         <InputWithLabel label="Set Priority">
-            <Text style={{ textAlign: "center", fontSize: 12 }}>{task.priority}</Text>
-            <Slider style={{ outlineColor: Colors.purple }} value={task.priority}
-                minimumValue={0} maximumValue={6} step={0}
-                minimumTrackTintColor={Colors.danger} maximumTrackTintColor={Colors.green} thumbTintColor={Colors.blue}
-                onValueChange={(selectedValue) => setTask({ ...task, priority: Math.round(selectedValue) })}
+            <Text style={{ textAlign: "center", fontSize: 12 }}>{inputValues.priority.value}</Text>
+            <Slider style={{ outlineColor: Colors.purple }} value={inputValues.priority.value}
+                minimumValue={0} maximumValue={6} step={0} minimumTrackTintColor={Colors.danger} 
+                maximumTrackTintColor={Colors.green} thumbTintColor={Colors.blue}
+                onValueChange={(val) => setInputValues(prev => ({ ...prev, priority: { value: Math.round(val), isValid: true } }))}
             />
         </InputWithLabel>
         <Pressable style={({ pressed }) => [{ paddingVertical: 15 }, pressed && styles.pressed]} onPress={() => setDatePick(true)}>
-            <InputWithLabel label={`Start Date: ${task.startDate.toDateString()}`}>
-                {
-                    datepick &&
-                    <DateTimePicker mode="date" value={task.startDate} minimumDate={new Date()}
+            <InputWithLabel label={`Start Date: ${inputValues.startDate.value.toDateString()}`}>
+                {datepick &&
+                    <DateTimePicker mode="date" value={inputValues.startDate.value} minimumDate={new Date()}
                         onChange={handleDateChange}
                     />
                 }
             </InputWithLabel>
         </Pressable>
         <InputWithLabel label="Proof of complaint">
-            <MyImagePicker onImagePick={(val: string) => setTask({ ...task, imageURL: val })} />
+            <MyImagePicker onImagePick={(val: string) => inputHandlerChange("imageURL", val)} />
         </InputWithLabel>
         <View style={styles.buttonContainer}>
             <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title="Submit" onPress={handleComplaintSubmit} beforeTextColor={Colors.white} afterTextColor={Colors.dark} />

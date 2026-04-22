@@ -8,6 +8,7 @@ import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
 import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, RegisterProps } from "../../database/model";
 import { storeRegisteredData } from "../../database/registerhttp";
+import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function Registration({ navigation }: any) {
     const [inputValues, setInputValues] = useState({
@@ -54,7 +55,7 @@ export default function Registration({ navigation }: any) {
         const lastNameIsValid = registerData.lastName.trim().length > 0;
         const emailIdIsValid = registerData.emailId.trim().length > 0;
         const passwordIsValid = checkPasswordRequirement(registerData.password);
-        const genderIsValid = registerData.gender.trim().length > 0;
+        const genderIsValid = registerData.gender.trim().toLowerCase() === "m" || registerData.gender.trim().toLowerCase() === "f";
         const phonenumberIsValid = `${registerData.phoneNumber}`.trim().length == 10;
 
         if (!firstNameIsValid || !lastNameIsValid || !emailIdIsValid || !passwordIsValid
@@ -79,16 +80,17 @@ export default function Registration({ navigation }: any) {
                     },
                     gender: {
                         value: prevValues.gender.value,
-                        isValid: passwordIsValid
+                        isValid: genderIsValid
                     },
                     phoneNumber: {
                         value: prevValues.phoneNumber.value,
-                        isValid: passwordIsValid
+                        isValid: phonenumberIsValid
                     },
                 }
             });
-            return;
+            return false;
         }
+        return true;
     };
 
     const onRegisterHandler = async () => {
@@ -101,7 +103,7 @@ export default function Registration({ navigation }: any) {
             phoneNumber: inputValues.phoneNumber.value,
             role: "user"
         };
-        validateRegisterInfoEnteredByUser(registerData);
+        if (!validateRegisterInfoEnteredByUser(registerData)) return;
         try {
             await storeRegisteredData(registerData);
             Alert.alert("", "Registered Successfully", [
@@ -154,9 +156,9 @@ export default function Registration({ navigation }: any) {
                             maxLength={25}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder={!inputValues.firstName.isValid ? "Please fill out the field" : ""}
                             style={[formStyles.input, !inputValues.firstName.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.firstName.isValid && <ErrorMessage message="First name is required." formStyles={formStyles}/>}
                     </InputWithLabel>
                     <InputWithLabel label="Last Name">
                         <TextInput value={inputValues.lastName.value}
@@ -164,9 +166,9 @@ export default function Registration({ navigation }: any) {
                             maxLength={25}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder={!inputValues.lastName.isValid ? "Please fill out the field" : ""}
                             style={[formStyles.input, !inputValues.lastName.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.lastName.isValid && <ErrorMessage message="Last name is required." formStyles={formStyles}/>}
                     </InputWithLabel>
                     <InputWithLabel label="EmailId">
                         <TextInput keyboardType="email-address"
@@ -175,9 +177,9 @@ export default function Registration({ navigation }: any) {
                             maxLength={50}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder={!inputValues.emailId.isValid ? "Please fill out the field" : ""}
                             style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.emailId.isValid && <ErrorMessage message="Email name is required." formStyles={formStyles}/>}
                     </InputWithLabel>
                     <InputWithLabel label="Password">
                         <View style={{ flexDirection: "row" }}>
@@ -186,7 +188,6 @@ export default function Registration({ navigation }: any) {
                                 secureTextEntry={!showPassword}
                                 maxLength={10}
                                 autoCapitalize="none"
-                                placeholder={!inputValues.password.isValid ? "Please fill out the field" : ""}
                                 autoCorrect={false}
                                 style={[{ flex: 1 }, formStyles.input, !inputValues.password.isValid && formStyles.errortextinput]}
                             />
@@ -194,6 +195,7 @@ export default function Registration({ navigation }: any) {
                                 <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                             </MyIcon>
                         </View>
+                        {!inputValues.password.isValid && <ErrorMessage message="Password does not meet requirements." formStyles={formStyles}/>}
                     </InputWithLabel>
                     <InputWithLabel label="Gender">
                         <TextInput
@@ -202,9 +204,10 @@ export default function Registration({ navigation }: any) {
                             maxLength={1}
                             autoCorrect={false}
                             autoCapitalize="characters"
-                            placeholder={!inputValues.gender.isValid ? "Please fill out the field" : "Enter M if Male else F"}
+                            placeholder="Enter M if Male else F"
                             style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.gender.isValid && <ErrorMessage message="Please enter M for Male or F for Female." formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Phone Number">
                         <TextInput keyboardType="phone-pad"
@@ -212,9 +215,9 @@ export default function Registration({ navigation }: any) {
                             onChangeText={(text) => inputHandler("phoneNumber", text)}
                             maxLength={10}
                             autoCorrect={false}
-                            placeholder={!inputValues.phoneNumber.isValid ? "Please fill out the field" : ""}
                             style={[formStyles.input, !inputValues.phoneNumber.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.phoneNumber.isValid && <ErrorMessage message="Phone number must be 10 digits." formStyles={formStyles} />}
                     </InputWithLabel>
                 </View>
                 <View style={{ marginTop: 10 }}>

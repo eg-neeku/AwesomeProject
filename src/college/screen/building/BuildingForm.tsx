@@ -6,6 +6,7 @@ import { InputWithLabel } from "../../UI/Input";
 import MyButton from "../../UI/MyButton";
 import MyImagePicker from "../../UI/MyImagePicker";
 import { formStyles } from "../screenStyles";
+import ErrorMessage from "../../UI/ErrorMessage";
 
 type BuildingFormProps = {
     onCancel: () => void,
@@ -106,54 +107,54 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
             <Text style={formStyles.titleHead}>Building Form</Text>
             <InputWithLabel label="Building Name">
                 <TextInput value={inputValues.name.value}
-                    placeholder={!inputValues.name.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.name.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredName) => inputHandlerChange("name", enteredName)}
                 />
+                {!inputValues.name.isValid && <ErrorMessage message="Building name is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Address">
                 <TextInput value={inputValues.address.value} multiline maxLength={750}
-                    placeholder={!inputValues.address.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, formStyles.inputMulitline, !inputValues.address.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredAddress) => inputHandlerChange("address", enteredAddress)}
                 />
+                {!inputValues.address.isValid && <ErrorMessage message="Address is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="City">
                 <TextInput value={inputValues.city.value} maxLength={170}
-                    placeholder={!inputValues.city.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.city.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredCity) => inputHandlerChange("city", enteredCity)}
                 />
+                {!inputValues.city.isValid && <ErrorMessage message="City is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="State">
                 <TextInput value={inputValues.state.value} maxLength={70}
-                    placeholder={!inputValues.state.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.state.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredState) => inputHandlerChange("state", enteredState)}
                 />
+                {!inputValues.state.isValid && <ErrorMessage message="State is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Pincode">
                 <TextInput value={`${inputValues.pincode.value}`}
                     keyboardType="decimal-pad" maxLength={10}
-                    placeholder={!inputValues.pincode.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.pincode.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredPincode) => inputHandlerChange("pincode", enteredPincode)}
                 />
+                {!inputValues.pincode.isValid && <ErrorMessage message="Pincode is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Country">
                 <TextInput value={inputValues.country.value} maxLength={70}
-                    placeholder={!inputValues.country.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.country.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredcountry) => inputHandlerChange("country", enteredcountry)}
                 />
+                {!inputValues.country.isValid && <ErrorMessage message="Country is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Floors">
                 <TextInput value={`${inputValues.floors.value}`} keyboardType="numeric"
-                    placeholder={!inputValues.floors.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.floors.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredFloors) => inputHandlerChange("floors", enteredFloors)}
                     maxLength={3}
                 />
+                {!inputValues.floors.isValid && <ErrorMessage message="Floors must be greater than 0." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Select building image">
                 <MyImagePicker onImagePick={(val: string) => inputHandlerChange("imageURL", val)} defaultImageURL={inputValues.imageURL.value} />

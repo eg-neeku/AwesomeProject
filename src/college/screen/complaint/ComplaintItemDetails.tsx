@@ -1,7 +1,7 @@
 import { Linking, Platform, StyleSheet, Text, View } from "react-native";
 import { ComplaintDetailsProps, formatPostalAddress } from "../../database/model";
 import { useItemDetailStyles } from "../screenStyles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { fetchBuildingDataById } from "../../database/buildinghttp";
 import MyButton from "../../UI/MyButton";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -9,9 +9,11 @@ import { Dropdown } from "react-native-element-dropdown";
 import { updateComplaintStatus } from "../../database/complainthttp";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import Colors from "../../../constants/colors";
+import { AuthContext } from "../../database/AuthContentProvider";
 
 export default function ComplaintItemDetails({ item, onUpdateSuccess }: { item: ComplaintDetailsProps, onUpdateSuccess?: () => void }) {
     const itemDetailStyles = useItemDetailStyles();
+    const {authItems} = useContext(AuthContext);
     const [building, setBuilding] = useState({ name: "", location: "" });
 
     const [action, setAction] = useState(false);
@@ -113,7 +115,7 @@ export default function ComplaintItemDetails({ item, onUpdateSuccess }: { item: 
                     /> :
                         <Text style={itemDetailStyles.description}>Status: {item.status.toString().toUpperCase()}</Text>
                 }
-                <MyButton title={action ? "Update" : "Change"} onPress={action ? handleComplaintStatusUpdate : () => setAction(true)} />
+                {authItems.role==="techni" && <MyButton title={action ? "Update" : "Change"} onPress={action ? handleComplaintStatusUpdate : () => setAction(true)} />}
             </View>}
         </View>
     )

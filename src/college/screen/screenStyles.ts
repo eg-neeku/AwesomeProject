@@ -94,5 +94,12 @@ export const formStyles = StyleSheet.create({
         borderColor: Colors.lightRed,
         backgroundColor: Colors.lightRed,
         borderWidth: 1
+    },
+    fieldError: {
+        color: Colors.lightRed,
+        fontSize: 12,
+        marginTop: 3,
+        marginHorizontal: 4,
+        textAlign:"center"
     }
 })

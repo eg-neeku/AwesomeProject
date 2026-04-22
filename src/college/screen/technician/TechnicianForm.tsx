@@ -5,6 +5,7 @@ import { TechnicianFormProps } from "../../database/model";
 import { InputWithLabel } from "../../UI/Input";
 import MyButton from "../../UI/MyButton";
 import { formStyles } from "../screenStyles";
+import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function TechnicianForm({ onCancel, onConfirm, selectedTechnician, isEditing, deleteTechnicianHandler }: any) {
     const [inputValues, setInputValues] = useState({
@@ -78,38 +79,39 @@ export default function TechnicianForm({ onCancel, onConfirm, selectedTechnician
             <Text style={formStyles.titleHead}>Technician Form</Text>
             <InputWithLabel label="First name">
                 <TextInput value={inputValues.firstName.value}
-                    placeholder={!inputValues.firstName.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.firstName.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredFirstName) => inputHandlerChange("firstName", enteredFirstName)}
                 />
+                {!inputValues.firstName.isValid && <ErrorMessage message="First name is required." formStyles={formStyles}/>}
             </InputWithLabel>
             <InputWithLabel label="Last name">
                 <TextInput value={inputValues.lastName.value}
-                    placeholder={!inputValues.lastName.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.lastName.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredLastName) => inputHandlerChange("lastName", enteredLastName)}
                 />
+                {!inputValues.lastName.isValid && <ErrorMessage message="Last name is required." formStyles={formStyles}/>}
             </InputWithLabel>
             <InputWithLabel label="Email Address">
                 <TextInput value={inputValues.emailId.value}
-                    placeholder={!inputValues.emailId.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredEmailAddress) => inputHandlerChange("emailId", enteredEmailAddress)}
                 />
+                {!inputValues.emailId.isValid && <ErrorMessage message="Email name is required." formStyles={formStyles}/>}
             </InputWithLabel>
             <InputWithLabel label="Gender">
                 <TextInput value={inputValues.gender.value} maxLength={1} autoCapitalize="characters"
-                    placeholder={!inputValues.gender.isValid ? "Please fill out the field" : "Enter M if Male else F"}
+                    placeholder="Enter M if Male else F"
                     style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredGender) => inputHandlerChange("gender", enteredGender)}
                 />
+                {!inputValues.gender.isValid && <ErrorMessage message="Please enter M for Male or F for Female." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Phone Number">
                 <TextInput value={inputValues.phoneNumber.value} maxLength={10}
-                    placeholder={!inputValues.phoneNumber.isValid ? "Please fill out the field" : ""}
                     style={[formStyles.input, !inputValues.phoneNumber.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredPhoneNumber) => inputHandlerChange("phoneNumber", enteredPhoneNumber)}
                 />
+                {!inputValues.phoneNumber.isValid && <ErrorMessage message="Phone number must be 10 digits." formStyles={formStyles} />}
             </InputWithLabel>
             <View style={formStyles.buttonsContainer}>
                 <MyButton beforeBgColor={Colors.primary} afterBgColor={Colors.aqua} title="Cancel"

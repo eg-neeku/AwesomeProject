@@ -8,6 +8,7 @@ import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
 import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, LoginProps } from "../../database/model";
 import { updatePassword } from "../../database/registerhttp";
+import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function ForgotPassword({ navigation }: any) {
     const [inputValues, setInputValues] = useState({
@@ -43,8 +44,9 @@ export default function ForgotPassword({ navigation }: any) {
                     }
                 }
             });
-            return;
+            return false;
         }
+        return true;
     };
 
     const letsGotoLogin = () => {
@@ -59,7 +61,7 @@ export default function ForgotPassword({ navigation }: any) {
             emailId: inputValues.emailId.value,
             password: inputValues.password.value
         };
-        validateLoginInfoEnteredByUser(loginData);
+        if (!validateLoginInfoEnteredByUser(loginData)) return;
         try {
             await updatePassword(loginData);
             Alert.alert("", "Password updated Successfully", [
@@ -103,9 +105,9 @@ export default function ForgotPassword({ navigation }: any) {
                         maxLength={50}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        placeholder={!inputValues.emailId.isValid ? "Please fill out the field" : ""}
                         style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                     />
+                    {!inputValues.emailId.isValid && <ErrorMessage message="Email name is required." formStyles={formStyles}/>}
                 </InputWithLabel>
                 <InputWithLabel label="New Password">
                     <View style={{ flexDirection: "row" }}>
@@ -115,13 +117,13 @@ export default function ForgotPassword({ navigation }: any) {
                             maxLength={10}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder={!inputValues.password.isValid ? "Please fill out the field" : ""}
                             style={[{ flex: 1 }, formStyles.input, !inputValues.password.isValid && formStyles.errortextinput]}
                         />
                         <MyIcon onPress={togglePasswordVisible} >
                             <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                         </MyIcon>
                     </View>
+                    {!inputValues.password.isValid && <ErrorMessage message="Password does not meet requirements." formStyles={formStyles}/>}
                 </InputWithLabel>
             </View>
             <View style={{ marginTop: 10 }}>
