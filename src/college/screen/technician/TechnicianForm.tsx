@@ -47,7 +47,7 @@ export default function TechnicianForm({ onCancel, onConfirm, selectedTechnician
             firstName: inputValues.firstName.value,
             lastName: inputValues.lastName.value,
             emailId: inputValues.emailId.value,
-            password: "Password@123",
+            password: "Password@1",
             phoneNumber: inputValues.phoneNumber.value,
             gender: inputValues.gender.value,
             role: "techni",

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
-import AntDesign from "react-native-vector-icons/AntDesign";
 import { assignComplaintToTechnician, fetchComplaintDataById } from "../../database/complainthttp";
 import MyButton from "../../UI/MyButton";
 import LoadingOverlay from "../../UI/LoadingOverlay";
@@ -9,6 +7,7 @@ import { ComplaintDetailsProps, GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, s
 import { fetchTechnicianDataById } from "../../database/technicianhttp";
 import TechnicianItemDetails from "../technician/TechnicianItemDetails";
 import Colors from "../../../constants/colors";
+import MyDropDown from "../../UI/MyDropDown";
 
 export default function ComplaintAssign({ navigation, route }: any) {
     const complaintItem: ComplaintDetailsProps = route.params?.complaintItem;
@@ -72,34 +71,14 @@ export default function ComplaintAssign({ navigation, route }: any) {
                 <Text style={styles.textColor}> Do you wanna reassign to someone else?</Text>
             </View>
             }
-            <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={dropdownTechnicianList}
-                search
-                maxHeight={300}
+            <MyDropDown
+                focus={isFocus}
+                itemList={dropdownTechnicianList}
                 labelField="label"
                 valueField="value"
                 placeholder="Assign Complaint To..."
                 searchPlaceholder="Search..."
-                value={value}
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
-                onChange={item => {
-                    setValue(item.value);
-                    setIsFocus(false);
-                }}
-                renderLeftIcon={() => (
-                    <AntDesign
-                        style={styles.icon}
-                        color={isFocus ? 'blue' : 'black'}
-                        name="Safety"
-                        size={20}
-                    />
-                )}
+                selectedValue={setValue}
             />
             <View style={{ alignItems: "center" }}>
                 <MyButton title="Assign Complaint" onPress={handleAssignComplaint} />
@@ -113,42 +92,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         padding: 16,
-    },
-    dropdown: {
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 0.5,
-        borderRadius: 8,
-        paddingHorizontal: 8,
-    },
-    icon: {
-        marginRight: 5,
-    },
-    label: {
-        position: 'absolute',
-        backgroundColor: 'white',
-        left: 22,
-        top: 8,
-        zIndex: 999,
-        paddingHorizontal: 8,
-        fontSize: 14,
-    },
-    placeholderStyle: {
-        fontSize: 16,
-    },
-    selectedTextStyle: {
-        fontSize: 16,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 16,
-    },
-    buildItemContainer: {
-        padding: 16
     },
     textColor: {
         color: Colors.dark
