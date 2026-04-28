@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Alert, ScrollView, Text, View } from "react-native";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import MyImagePicker from "../../UI/MyImagePicker";
 import Colors from "../../../constants/colors";
 import { RegisterDTOProps } from "../../database/model";
@@ -10,9 +10,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { saveProfileImage } from "../../database/registerhttp";
 import EditMyProfile from "./EditMyProfile";
 import ProfileInfo from "./ProfileInfo";
-import { profileStyles } from "./profileStyles";
+import { useProfileStyles } from "./profileStyles";
 
 export default function MyProfile() {
+    const profileStyles = useProfileStyles();
+    const formStyles = useFormStyles();
     const { authItems, token, setAuth } = useContext(AuthContext);
 
     const [isEditing, setIsEditing] = useState(false);
@@ -53,7 +55,7 @@ export default function MyProfile() {
 
                 <View style={profileStyles.detailContainer}>
                     <View style={profileStyles.sectionHeader}>
-                        <Text style={[formStyles.titleHead, { fontSize: 20 }]}>Profile Info</Text>
+                        <Text style={[formStyles.textMessage, { fontSize: 20 }]}>Profile Info</Text>
                         {!isEditing && (
                             <MyIcon onPress={() => setIsEditing(true)} iconBgColor={Colors.primary}>
                                 <Icon name="pencil" size={18} color={Colors.white} />

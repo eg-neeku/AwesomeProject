@@ -8,17 +8,18 @@ import { ComplaintPropsDTO, GOTO_S_COMPLAINT_LOG_PAGE } from "../../database/mod
 import { storeComplaintData } from "../../database/complainthttp";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
-import { AppContext } from "../../database/AppContextProvider";
 import MyImagePicker from "../../UI/MyImagePicker";
 import { AuthContext } from "../../database/AuthContentProvider";
 import ErrorMessage from "../../UI/ErrorMessage";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
+import { AppContext } from "../../database/AppContextProvider";
 
 export default function ComplaintForm() {
     const route: any = useRoute();
     const navigation: any = useNavigation();
-    const { isPotrait } = useContext(AppContext);
     const { authItems } = useContext(AuthContext);
+    const formStyles = useFormStyles();
+    const { isDarkMode } = useContext(AppContext);
 
     const [inputValues, setInputValues] = useState({
         description: { value: "", isValid: true },
@@ -87,6 +88,36 @@ export default function ComplaintForm() {
         });
     };
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: isDarkMode ? Colors.mediumDark : Colors.white,
+            margin: 5,
+            padding: 5,
+            justifyContent: "center"
+        },
+        pressed: {
+            opacity: 0.35
+        },
+        headerText: {
+            textAlign: "center",
+            fontSize: 20,
+            paddingVertical: 10
+        },
+        textinput: {
+            borderBottomWidth: 1,
+            height: 50,
+            backgroundColor: Colors.gray,
+            padding: 8,
+            borderRadius: 8
+        },
+        buttonContainer: {
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+        }
+    });
+
     let registerProblemScreen = <View style={styles.container}>
         <Text style={styles.headerText}>Building Name : {route.params.buildingName}</Text>
         <InputWithLabel label="Your Name">
@@ -109,7 +140,7 @@ export default function ComplaintForm() {
         <InputWithLabel label="Set Priority">
             <Text style={{ textAlign: "center", fontSize: 12 }}>{inputValues.priority.value}</Text>
             <Slider style={{ outlineColor: Colors.purple }} value={inputValues.priority.value}
-                minimumValue={0} maximumValue={6} step={0} minimumTrackTintColor={Colors.danger} 
+                minimumValue={0} maximumValue={6} step={0} minimumTrackTintColor={Colors.danger}
                 maximumTrackTintColor={Colors.green} thumbTintColor={Colors.blue}
                 onValueChange={(val) => setInputValues(prev => ({ ...prev, priority: { value: Math.round(val), isValid: true } }))}
             />
@@ -132,40 +163,9 @@ export default function ComplaintForm() {
         </View>
     </View>;
 
-    return isPotrait ? (
-        <>
-            {registerProblemScreen}
-        </>
-    ) : (
-        <ScrollView style={{ marginBottom: 25 }}>
+    return (
+        <ScrollView>
             {registerProblemScreen}
         </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.white,
-        margin: 5,
-        padding: 5,
-        justifyContent: "center"
-    },
-    pressed: {
-        opacity: 0.35
-    },
-    headerText: {
-        textAlign: "center",
-        fontSize: 20,
-        paddingVertical: 10
-    },
-    textinput: {
-        borderBottomWidth: 1,
-        height: 50,
-    },
-    buttonContainer: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "space-around",
-    }
-});

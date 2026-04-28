@@ -4,10 +4,11 @@ import { useState } from "react";
 import { TechnicianFormProps } from "../../database/model";
 import { InputWithLabel } from "../../UI/Input";
 import MyButton from "../../UI/MyButton";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function TechnicianForm({ onCancel, onConfirm, selectedTechnician, isEditing, deleteTechnicianHandler }: any) {
+    const formStyles = useFormStyles();
     const [inputValues, setInputValues] = useState({
         firstName: {
             value: selectedTechnician ? selectedTechnician.firstName.toString() : "",

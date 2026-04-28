@@ -8,11 +8,12 @@ import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import { fetchTechnicianData } from "../../database/technicianhttp";
 import { useFocusEffect } from "@react-navigation/native";
-import { logStyles } from "../screenStyles";
+import { useLogStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
 import ComplaintItem from "./ComplaintItem";
 
 export default function ComplaintLog({ navigation, route }: any) {
+    const logStyles = useLogStyles();
     const buildingId: string = route?.params?.buildingId;
 
     // Keep a full copy and a filtered copy
@@ -96,9 +97,9 @@ export default function ComplaintLog({ navigation, route }: any) {
     return (
         <View style={logStyles.container}>
             <InputWithSearch>
-                <Icon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
                     placeholder="Search by complaint info...."
+                    placeholderTextColor={Colors.gray}
                     value={complaintSearch}
                     onChangeText={(text) => {
                         setComplaintSearch(text);

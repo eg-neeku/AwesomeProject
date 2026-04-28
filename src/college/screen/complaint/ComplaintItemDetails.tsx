@@ -9,9 +9,11 @@ import LoadingOverlay from "../../UI/LoadingOverlay";
 import Colors from "../../../constants/colors";
 import { AuthContext } from "../../database/AuthContentProvider";
 import MyDropDown from "../../UI/MyDropDown";
+import { AppContext } from "../../database/AppContextProvider";
 
 export default function ComplaintItemDetails({ item, onUpdateSuccess }: { item: ComplaintDetailsProps, onUpdateSuccess?: () => void }) {
     const itemDetailStyles = useItemDetailStyles();
+    const {isDarkMode} = useContext(AppContext);
     const { authItems } = useContext(AuthContext);
     const [building, setBuilding] = useState({ name: "", location: "" });
 
@@ -83,7 +85,7 @@ export default function ComplaintItemDetails({ item, onUpdateSuccess }: { item: 
             </Text>
             {item.status && <View>
                 {
-                    action ? <MyDropDown
+                    action ? <MyDropDown isDarkMode={isDarkMode}
                         focus={isFocus}
                         itemList={statusOptions}
                         labelField="label"

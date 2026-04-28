@@ -1,6 +1,6 @@
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../../UI/Input";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import { useState } from "react";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -11,6 +11,7 @@ import { storeRegisteredData } from "../../database/registerhttp";
 import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function Registration({ navigation }: any) {
+    const formStyles = useFormStyles();
     const [inputValues, setInputValues] = useState({
         firstName: {
             value: "",
@@ -226,7 +227,7 @@ export default function Registration({ navigation }: any) {
                 </View>
                 <View style={formStyles.buttonsContainer}>
                     <TouchableOpacity onPress={letsGotoLogin}>
-                        <Text style={{ marginTop: 10 }}>Already have an account? Click here</Text>
+                        <Text style={[formStyles.simpleText, { marginTop: 15 }]}>Already have an account? Click here</Text>
                     </TouchableOpacity>
                 </View>
             </View>

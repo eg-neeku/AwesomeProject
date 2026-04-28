@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import Colors from "../../constants/colors";
+import { AppContext } from "../database/AppContextProvider";
 
 type InputProps = {
     label: string,
@@ -8,6 +9,7 @@ type InputProps = {
 }
 
 export function InputWithLabel({ label, children }: InputProps) {
+    const { isDarkMode } = useContext(AppContext);
     const styles = StyleSheet.create({
         inputContainer: {
             marginHorizontal: 4,
@@ -15,7 +17,8 @@ export function InputWithLabel({ label, children }: InputProps) {
         },
         labelText: {
             fontSize: 14,
-            marginBottom: 4
+            marginBottom: 4,
+            color: isDarkMode ? Colors.white : Colors.dark
         },
         errorlabel: {
             color: Colors.error500
@@ -36,7 +39,7 @@ export function InputWithSearch({ children }: { children: React.ReactNode }) {
         searchRow: {
             flexDirection: "row",
             alignItems: "center",
-            borderWidth: 1, borderColor: "#ddd", borderRadius: 8,
+            borderRadius: 8,
             paddingHorizontal: 10, paddingVertical: 8,
         },
     });

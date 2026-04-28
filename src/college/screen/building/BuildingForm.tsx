@@ -5,7 +5,7 @@ import { BuildingDetailsDTO, BuildingDetailsProp } from "../../database/model";
 import { InputWithLabel } from "../../UI/Input";
 import MyButton from "../../UI/MyButton";
 import MyImagePicker from "../../UI/MyImagePicker";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import ErrorMessage from "../../UI/ErrorMessage";
 
 type BuildingFormProps = {
@@ -17,6 +17,7 @@ type BuildingFormProps = {
 };
 
 export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, isEditing, deleteBuildingHandler }: BuildingFormProps) {
+    const formStyles = useFormStyles();
     const [inputValues, setInputValues] = useState({
         name: {
             value: selectedBuilding ? selectedBuilding.name.toString() : "",

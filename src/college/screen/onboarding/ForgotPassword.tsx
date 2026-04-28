@@ -1,6 +1,6 @@
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../../UI/Input";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import { useState } from "react";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -11,6 +11,7 @@ import { updatePassword } from "../../database/registerhttp";
 import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function ForgotPassword({ navigation }: any) {
+    const formStyles = useFormStyles();
     const [inputValues, setInputValues] = useState({
         emailId: {
             value: "",
@@ -135,7 +136,7 @@ export default function ForgotPassword({ navigation }: any) {
                     index: 0,
                     routes: [{ name: GOTO_S_LOGIN_PAGE }]
                 })} >
-                    <Text style={{ marginTop: 10 }}>Go to Login</Text>
+                    <Text style={[formStyles.simpleText, { marginTop: 15 }]}>Go to Login</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -1,6 +1,6 @@
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../../UI/Input";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import { useContext, useState } from "react";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -13,6 +13,7 @@ import { AuthContext } from "../../database/AuthContentProvider";
 import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function Login({ navigation }: any) {
+    const formStyles = useFormStyles();
     const authCtx = useContext(AuthContext);
     const [inputValues, setInputValues] = useState({
         emailId: {
@@ -57,7 +58,7 @@ export default function Login({ navigation }: any) {
             emailId: inputValues.emailId.value,
             password: inputValues.password.value
         };
-        if(!validateLoginInfoEnteredByUser(loginData)) return ;
+        if (!validateLoginInfoEnteredByUser(loginData)) return;
         try {
             const dbData: RegisterProps | null = await checkLoginCredentials(loginData.emailId);
             if (dbData?.emailId == loginData.emailId && dbData?.password == loginData.password) {
@@ -102,7 +103,7 @@ export default function Login({ navigation }: any) {
                         autoCorrect={false}
                         style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                     />
-                    {!inputValues.emailId.isValid && <ErrorMessage message="Email name is required." formStyles={formStyles}/>}
+                    {!inputValues.emailId.isValid && <ErrorMessage message="Email name is required." formStyles={formStyles} />}
                 </InputWithLabel>
                 <InputWithLabel label="Password">
                     <View style={{ flexDirection: "row" }}>
@@ -118,7 +119,7 @@ export default function Login({ navigation }: any) {
                             <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                         </MyIcon>
                     </View>
-                    {!inputValues.password.isValid && <ErrorMessage message="Password does not meet requirements." formStyles={formStyles}/>}
+                    {!inputValues.password.isValid && <ErrorMessage message="Password does not meet requirements." formStyles={formStyles} />}
                 </InputWithLabel>
             </View>
             <View style={{ marginTop: 10 }}>
@@ -130,13 +131,13 @@ export default function Login({ navigation }: any) {
                     index: 0,
                     routes: [{ name: GOTO_S_FORGOT_PASSWORD_PAGE }]
                 })} >
-                    <Text style={{ marginTop: 10 }}>Forgot Password? Click here</Text>
+                    <Text style={[formStyles.simpleText, { marginTop: 15 }]}>Forgot Password? Click here</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.reset({
                     index: 0,
                     routes: [{ name: GOTO_S_REGISTER_PAGE }]
                 })} >
-                    <Text style={{ marginTop: 10 }}>Don't have an account? Click here</Text>
+                    <Text style={formStyles.simpleText}>Don't have an account? Click here</Text>
                 </TouchableOpacity>
             </View>
         </View>

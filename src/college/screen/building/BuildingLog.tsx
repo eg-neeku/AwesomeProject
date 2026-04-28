@@ -7,7 +7,7 @@ import { fetchBuildingData } from "../../database/buildinghttp";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import { logStyles } from "../screenStyles";
+import { useLogStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
 import BuildingItem from "./BuildingItem";
 
@@ -17,6 +17,7 @@ export default function BuildingLog() {
     const [refreshing, setRefreshing] = useState(false);
     const [building, setBuilding] = useState("");
     const [demo, setDemo] = useState(buildingCtx.buildingData);
+    const logStyles = useLogStyles();
 
     const activateRefreshBuilding = async () => {
         setRefreshing(true);
@@ -61,9 +62,9 @@ export default function BuildingLog() {
     return (
         <View style={logStyles.container}>
             <InputWithSearch>
-                <MIcon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
                     placeholder="Search by building info...."
+                    placeholderTextColor={Colors.gray}
                     value={building}
                     onChangeText={(text) => {
                         setBuilding(text);

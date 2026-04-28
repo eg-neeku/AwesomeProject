@@ -6,7 +6,7 @@ import LoadingOverlay from "../../UI/LoadingOverlay";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { BuildingContext } from "../../database/BuildingContextProvider";
 import { BuildingDetailsDTO, BuildingDetailsProp, ComplaintDetailsProps } from "../../database/model";
-import { deleteComplaint, fetchComplaintDataByBuilding } from "../../database/complainthttp";
+import { deleteComplaintData, fetchComplaintDataByBuilding } from "../../database/complainthttp";
 import Colors from "../../../constants/colors";
 
 export default function ManageBuilding({ route, navigation }: any) {
@@ -30,7 +30,7 @@ export default function ManageBuilding({ route, navigation }: any) {
         try {
             for (let i = 0; i < complaintList.length; i += concurrency) {
                 const batches = complaintList.slice(i, i + concurrency);
-                await Promise.all(batches.map(complaintItem => deleteComplaint(complaintItem.id)))
+                await Promise.all(batches.map(complaintItem => deleteComplaintData(complaintItem.id)))
             }
         } catch (error) {
             console.log("Something went wrong", "May be internet/server is down/slow?");

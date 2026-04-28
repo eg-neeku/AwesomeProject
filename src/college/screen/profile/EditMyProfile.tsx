@@ -1,13 +1,12 @@
-import { Alert, Text, TextInput, View } from "react-native";
+import { Alert, TextInput, View } from "react-native";
 import { InputWithLabel } from "../../UI/Input";
 import { useState } from "react";
 import { RegisterDTOProps } from "../../database/model";
 import { updateProfile } from "../../database/registerhttp";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
 import ErrorMessage from "../../UI/ErrorMessage";
-
 
 export default function EditMyProfile({ authItems, onCancel, onSaved }: { authItems: RegisterDTOProps; onCancel: () => void; onSaved: (updated: RegisterDTOProps) => void; }) {
     const [editValues, setEditValues] = useState({
@@ -28,6 +27,7 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
             isValid: true
         },
     });
+    const formStyles = useFormStyles();
 
     const inputHandler = (field: string, text: string) => {
         if (field === "phoneNumber")
@@ -83,7 +83,7 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                     autoCorrect={false}
                     style={[formStyles.input, !editValues.firstName.isValid && formStyles.errortextinput]}
                 />
-                {!editValues.firstName.isValid && <ErrorMessage message="First name is required." formStyles={formStyles}/>}
+                {!editValues.firstName.isValid && <ErrorMessage message="First name is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Last Name">
                 <TextInput
@@ -94,7 +94,7 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                     autoCorrect={false}
                     style={[formStyles.input, !editValues.lastName.isValid && formStyles.errortextinput]}
                 />
-                {!editValues.lastName.isValid && <ErrorMessage message="Last name is required." formStyles={formStyles}/>}
+                {!editValues.lastName.isValid && <ErrorMessage message="Last name is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Phone Number">
                 <TextInput
@@ -104,7 +104,7 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                     maxLength={10}
                     style={[formStyles.input, !editValues.phoneNumber.isValid && formStyles.errortextinput]}
                 />
-                {!editValues.phoneNumber.isValid && <ErrorMessage message="Phone number must be 10 digits." formStyles={formStyles}/>}
+                {!editValues.phoneNumber.isValid && <ErrorMessage message="Phone number must be 10 digits." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Gender (M / F)">
                 <TextInput
@@ -116,7 +116,7 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                     placeholder="Enter M if Male else F"
                     style={[formStyles.input, !editValues.gender.isValid && formStyles.errortextinput]}
                 />
-                {!editValues.gender.isValid && <ErrorMessage message="Please enter M for Male or F for Female." formStyles={formStyles}/>}
+                {!editValues.gender.isValid && <ErrorMessage message="Please enter M for Male or F for Female." formStyles={formStyles} />}
             </InputWithLabel>
             <View style={[formStyles.buttonsContainer, { marginTop: 10 }]}>
                 <MyButton title="Save"

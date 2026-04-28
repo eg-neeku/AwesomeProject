@@ -10,17 +10,29 @@ import BuildingLog from "../screen/building/BuildingLog";
 import MyProfile from "../screen/profile/MyProfile";
 import { useContext } from "react";
 import { AuthContext } from "../database/AuthContentProvider";
+import { AppContext } from "../database/AppContextProvider";
 import ComplaintList from "../screen/technician/ComplaintList";
 import CustomDrawerContent from "./CustomDrawerContent";
+import Colors from "../../constants/colors";
 
 const Drawer = createDrawerNavigator();
 
 export default function CDrawerScreen() {
     const { authItems } = useContext(AuthContext);
+    const { isDarkMode } = useContext(AppContext);
     return (
         <Drawer.Navigator
             screenOptions={{
                 headerRightContainerStyle: { paddingRight: 10 },
+                ...(isDarkMode && {
+                    headerStyle: { backgroundColor: Colors.dark },
+                    headerTitleStyle: { color: Colors.aqua },
+                    headerTintColor: Colors.white,
+                    drawerActiveTintColor: Colors.aqua,
+                    drawerInactiveTintColor: Colors.white,
+                    drawerStyle: { backgroundColor: Colors.dark },
+                    sceneStyle: { backgroundColor: Colors.mediumDark }
+                })
             }}
             drawerContent={(props) => <CustomDrawerContent authItems={authItems} props={props} />}>
             <Drawer.Screen name={GOTO_D_HOME_PAGE} component={BuildingLog}
