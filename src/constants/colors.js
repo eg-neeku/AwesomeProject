@@ -23,10 +23,11 @@ export const Colors = {
     white: "#fff",
     purple: "#f0f",
     pink: "#f1a9f1",
-    coffee:"#dada",
-    brown:"#840",
+    coffee: "#dada",
+    brown: "#840",
     gray700: "#221c30",
     error50: "#fcc4e4",
+    mediumDark: "#0B1220"
 }
 
 export default Colors;
