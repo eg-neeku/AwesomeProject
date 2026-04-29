@@ -1,3 +1,4 @@
+REM This below line is used to hide the commands being executed
 @echo off
 
 echo Cleaning Android build directories...
