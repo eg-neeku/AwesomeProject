@@ -6,7 +6,7 @@ import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
-import { AuthContentProps, checkPasswordRequirement, GOTO_S_FORGOT_PASSWORD_PAGE, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../../database/model";
+import { AuthContentProps, checkEmailIdRequirement, checkPasswordRequirement, GOTO_S_FORGOT_PASSWORD_PAGE, GOTO_S_REGISTER_PAGE, LoginProps, RegisterProps } from "../../database/model";
 import { checkLoginCredentials } from "../../database/registerhttp";
 import { nanoid } from "nanoid";
 import { AuthContext } from "../../database/AuthContentProvider";
@@ -32,7 +32,7 @@ export default function Login({ navigation }: any) {
     };
 
     const validateLoginInfoEnteredByUser = (loginData: LoginProps) => {
-        const emailIsValid = loginData.emailId.trim().length > 0;
+        const emailIsValid = checkEmailIdRequirement(loginData.emailId);
         const passwordIsValid = checkPasswordRequirement(loginData.password);
 
         if (!emailIsValid || !passwordIsValid) {
@@ -71,7 +71,7 @@ export default function Login({ navigation }: any) {
                 authCtx.setAuth(store);
                 console.log("Is it working", store);
             } else {
-                Alert.alert("", "Account does not exists", [{ text: "Okay", style: "cancel" }]);
+                Alert.alert("Account does not exists!", "Kindly create a new account before logging in", [{ text: "Okay", style: "cancel" }]);
             }
         } catch (error) {
             console.log("Unable to login");
@@ -103,7 +103,7 @@ export default function Login({ navigation }: any) {
                         autoCorrect={false}
                         style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                     />
-                    {!inputValues.emailId.isValid && <ErrorMessage message="Email name is required." formStyles={formStyles} />}
+                    {!inputValues.emailId.isValid && <ErrorMessage message={inputValues.emailId.value.trim().length == 0 ? "Email is required." : "Invalid email address."} formStyles={formStyles} />}
                 </InputWithLabel>
                 <InputWithLabel label="Password">
                     <View style={{ flexDirection: "row" }}>
@@ -119,7 +119,7 @@ export default function Login({ navigation }: any) {
                             <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                         </MyIcon>
                     </View>
-                    {!inputValues.password.isValid && <ErrorMessage message="Password does not meet requirements." formStyles={formStyles} />}
+                    {!inputValues.password.isValid && <ErrorMessage message={inputValues.password.value.trim().length == 0 ? "Password is required." : "Password does not meet requirements."} formStyles={formStyles} />}
                 </InputWithLabel>
             </View>
             <View style={{ marginTop: 10 }}>

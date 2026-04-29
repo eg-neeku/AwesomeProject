@@ -21,7 +21,9 @@ export default function MyProfile() {
     const [profile, setProfile] = useState<RegisterDTOProps>(authItems);
 
     const handleLogout = async () => {
-        setAuth({ authItems: {} as RegisterDTOProps, token: "" });
+        Alert.alert("Logging Out...", "Are you sure you want to logout?",
+            [{ text: "Yes", onPress: () => setAuth({ authItems: {} as RegisterDTOProps, token: "" }) },
+            { text: "No", style: "cancel" }]);
     };
 
     const saveProfilePicHandler = async (val: string) => {

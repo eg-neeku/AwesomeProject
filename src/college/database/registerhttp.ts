@@ -57,3 +57,8 @@ export const updateProfile = async (
     const key = Object.keys(response.data)[0];
     await axios.patch(`${DB_URL}/${DB_NAME}/register/${key}.json`, data);
 };
+
+export const checkEmailExists = async (emailId: string) => {
+    const response = await getLoginDetail(emailId);
+    return Object.keys(response.data).length > 0 && response.data[Object.keys(response.data)[0]].emailId === emailId;
+};

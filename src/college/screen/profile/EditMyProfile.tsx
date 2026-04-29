@@ -1,12 +1,13 @@
 import { Alert, TextInput, View } from "react-native";
 import { InputWithLabel } from "../../UI/Input";
 import { useState } from "react";
-import { RegisterDTOProps } from "../../database/model";
+import { checkFirstNameRequirement, checkGenderRequirement, checkLastNameRequirement, RegisterDTOProps } from "../../database/model";
 import { updateProfile } from "../../database/registerhttp";
 import { useFormStyles } from "../screenStyles";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
 import ErrorMessage from "../../UI/ErrorMessage";
+import MyDropDown from "../../UI/MyDropDown";
 
 export default function EditMyProfile({ authItems, onCancel, onSaved }: { authItems: RegisterDTOProps; onCancel: () => void; onSaved: (updated: RegisterDTOProps) => void; }) {
     const [editValues, setEditValues] = useState({
@@ -27,6 +28,17 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
             isValid: true
         },
     });
+    const [isFocus, setIsFocus] = useState(false);
+    const [value, setValue] = useState("" as RegisterDTOProps["gender"]);
+
+    const handleGenderSelect = (val: string) => {
+        setValue(val as RegisterDTOProps["gender"]);
+        setEditValues(prev => ({ ...prev, gender: { ...prev.gender, isValid: true } }));
+    };
+    const genderOptions = [
+        { label: "Male", value: "M" },
+        { label: "Female", value: "F" },
+    ];
     const formStyles = useFormStyles();
 
     const inputHandler = (field: string, text: string) => {
@@ -41,10 +53,10 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
     };
 
     const handleSaveProfile = async () => {
-        const firstNameValid = editValues.firstName.value.trim().length > 0;
-        const lastNameValid = editValues.lastName.value.trim().length > 0;
+        const firstNameValid = checkFirstNameRequirement(editValues.firstName.value);
+        const lastNameValid = checkLastNameRequirement(editValues.lastName.value);
         const phoneValid = `${editValues.phoneNumber.value}`.trim().length === 10;
-        const genderValid = editValues.gender.value.trim().toLowerCase() === "m" || editValues.gender.value.trim().toLowerCase() === "f";
+        const genderValid = checkGenderRequirement(value);
 
         if (!firstNameValid || !lastNameValid || !phoneValid || !genderValid) {
             setEditValues(prev => ({
@@ -61,7 +73,7 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                 firstName: editValues.firstName.value.trim(),
                 lastName: editValues.lastName.value.trim(),
                 phoneNumber: editValues.phoneNumber.value,
-                gender: editValues.gender.value.trim().toUpperCase(),
+                gender: value.trim().toUpperCase(),
             };
             await updateProfile(authItems.emailId, updatedData);
             onSaved({ ...authItems, ...updatedData });
@@ -107,7 +119,16 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                 {!editValues.phoneNumber.isValid && <ErrorMessage message="Phone number must be 10 digits." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Gender (M / F)">
-                <TextInput
+                <MyDropDown
+                    focus={isFocus}
+                    itemList={genderOptions}
+                    labelField="label"
+                    valueField="value"
+                    placeholder="Select Gender"
+                    searchPlaceholder="Search Gender"
+                    selectedValue={handleGenderSelect}
+                />
+                {/* <TextInput claude --resume 0a1bcf55-8384-49c6-a096-c997a960f39f
                     value={editValues.gender.value}
                     onChangeText={(text) => inputHandler("gender", text)}
                     maxLength={1}
@@ -115,8 +136,8 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                     autoCorrect={false}
                     placeholder="Enter M if Male else F"
                     style={[formStyles.input, !editValues.gender.isValid && formStyles.errortextinput]}
-                />
-                {!editValues.gender.isValid && <ErrorMessage message="Please enter M for Male or F for Female." formStyles={formStyles} />}
+                /> */}
+                {!editValues.gender.isValid && <ErrorMessage message="Kindly select your gender" formStyles={formStyles} />}
             </InputWithLabel>
             <View style={[formStyles.buttonsContainer, { marginTop: 10 }]}>
                 <MyButton title="Save"

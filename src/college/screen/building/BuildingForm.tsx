@@ -1,7 +1,7 @@
 import { Text, TextInput, View } from "react-native";
 import Colors from "../../../constants/colors";
 import { useState } from "react";
-import { BuildingDetailsDTO, BuildingDetailsProp } from "../../database/model";
+import { BuildingDetailsDTO, BuildingDetailsProp, checkGeneralTextRequirement } from "../../database/model";
 import { InputWithLabel } from "../../UI/Input";
 import MyButton from "../../UI/MyButton";
 import MyImagePicker from "../../UI/MyImagePicker";
@@ -76,11 +76,11 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
             imageURL: inputValues.imageURL.value,
         };
 
-        const nameIsValid = buildingdata.name.trim().length > 0;
-        const addressIsValid = buildingdata.address.trim().length > 0;
-        const cityIsValid = buildingdata.city.trim().length > 0;
-        const stateIsValid = buildingdata.state.trim().length > 0;
-        const countryIsValid = buildingdata.country.trim().length > 0;
+        const nameIsValid = checkGeneralTextRequirement(buildingdata.name);
+        const addressIsValid = checkGeneralTextRequirement(buildingdata.address);
+        const cityIsValid = checkGeneralTextRequirement(buildingdata.city);
+        const stateIsValid = checkGeneralTextRequirement(buildingdata.state);
+        const countryIsValid = checkGeneralTextRequirement(buildingdata.country);
         const floorsIsValid = buildingdata.floors > 0;
         const pincodeisValid = `${buildingdata.pincode}`.length >= 0;
         const imageURLIsValid = buildingdata.imageURL.trim().length > 0;

@@ -62,9 +62,11 @@ export default function ComplaintAssign({ navigation, route }: any) {
         setLoading(true);
         try {
             const technicianId = getTechnicianId();
+            const selectedTechnician = technicianList.find((t) => t.emailId === value);
             await assignComplaintToTechnician(complaintId, technicianId ?? "", "assigned");
             console.log("Complaint Assigned");
-            await sendEmail(value, "Please Fix this issue", `Hi ${technician?.firstName} ${technician?.lastName}, This is ${complaintItem?.name}.\n\t${complaintItem?.description + complaintItem?.comment}\n\nThankyou!`);
+            await sendEmail(value, "Please Fix this issue!", `Hi ${selectedTechnician?.firstName} ${selectedTechnician?.lastName}, I am ${complaintItem?.name}.
+                 The problem in my building occured is:\n\nComplaint Id: ${complaintId}\nComplaint Description: ${complaintItem?.description}\nComment: ${complaintItem?.comment}\n\nThankyou!`);
             navigation.navigate(GOTO_SD_MAIN_PAGE, {
                 screen: GOTO_D_TECHNICIAN_LOG_PAGE
             });
@@ -95,7 +97,6 @@ export default function ComplaintAssign({ navigation, route }: any) {
                 placeholder="Assign Complaint To..."
                 searchPlaceholder="Search..."
                 selectedValue={setValue}
-                isDarkMode={isDarkMode}
             />
             <View style={{ alignItems: "center" }}>
                 <MyButton title="Assign Complaint" onPress={handleAssignComplaint} />

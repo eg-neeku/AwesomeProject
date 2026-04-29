@@ -6,8 +6,8 @@ import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
-import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, LoginProps } from "../../database/model";
-import { updatePassword } from "../../database/registerhttp";
+import { checkEmailIdRequirement, checkPasswordRequirement, GOTO_S_LOGIN_PAGE, LoginProps } from "../../database/model";
+import { checkEmailExists, updatePassword } from "../../database/registerhttp";
 import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function ForgotPassword({ navigation }: any) {
@@ -29,7 +29,7 @@ export default function ForgotPassword({ navigation }: any) {
     };
 
     const validateLoginInfoEnteredByUser = (loginData: LoginProps) => {
-        const emailIsValid = loginData.emailId.trim().length > 0;
+        const emailIsValid = checkEmailIdRequirement(loginData.emailId);
         const passwordIsValid = checkPasswordRequirement(loginData.password);
 
         if (!emailIsValid || !passwordIsValid) {
@@ -63,6 +63,26 @@ export default function ForgotPassword({ navigation }: any) {
             password: inputValues.password.value
         };
         if (!validateLoginInfoEnteredByUser(loginData)) return;
+        try {
+            const isEmailExists = await checkEmailExists(loginData.emailId);
+            if (!isEmailExists) {
+                Alert.alert("Email not found", "The email address you entered does not exist.", [
+                    {
+                        text: "Okay",
+                        style: "cancel"
+                    }
+                ]);
+                return;
+            }
+        } catch (error) {
+            Alert.alert("Something went wrong!", "Check your internet connection and try again later", [
+                {
+                    text: "Okay",
+                    style: "cancel"
+                }
+            ]);
+            return;
+        }
         try {
             await updatePassword(loginData);
             Alert.alert("", "Password updated Successfully", [
@@ -108,7 +128,7 @@ export default function ForgotPassword({ navigation }: any) {
                         autoCorrect={false}
                         style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                     />
-                    {!inputValues.emailId.isValid && <ErrorMessage message="Email name is required." formStyles={formStyles}/>}
+                    {!inputValues.emailId.isValid && <ErrorMessage message={inputValues.emailId.value.trim().length == 0 ? "Email is required." : "Invalid email address."} formStyles={formStyles} />}
                 </InputWithLabel>
                 <InputWithLabel label="New Password">
                     <View style={{ flexDirection: "row" }}>
@@ -124,7 +144,7 @@ export default function ForgotPassword({ navigation }: any) {
                             <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                         </MyIcon>
                     </View>
-                    {!inputValues.password.isValid && <ErrorMessage message="Password does not meet requirements." formStyles={formStyles}/>}
+                    {!inputValues.password.isValid && <ErrorMessage message={inputValues.password.value.trim().length == 0 ? "Password is required." : "Password does not meet requirements."} formStyles={formStyles} />}
                 </InputWithLabel>
             </View>
             <View style={{ marginTop: 10 }}>

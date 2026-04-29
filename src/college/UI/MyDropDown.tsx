@@ -1,8 +1,10 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Colors from "../../constants/colors";
+import { AppContext } from "../database/AppContextProvider";
+import { RegisterDTOProps } from "../database/model";
 
 type ListProps = {
     label: string,
@@ -17,14 +19,15 @@ type MyDropDownProps = {
     placeholder: string,
     searchPlaceholder: string,
     selectedValue: Dispatch<SetStateAction<string>> |
+    ((val: RegisterDTOProps["gender"]) => void) |
     Dispatch<SetStateAction<"open" | "assigned" | "in_progress" | "resolved" | undefined>>,
-    isDarkMode: boolean
 };
 
 export default function MyDropDown({ focus, itemList, labelField, valueField, placeholder,
-    searchPlaceholder, selectedValue, isDarkMode }: MyDropDownProps) {
+    searchPlaceholder, selectedValue }: MyDropDownProps) {
     const [value, setValue] = useState("");
     const [isFocus, setIsFocus] = useState(focus);
+    const { isDarkMode } = useContext(AppContext);
 
     const styles = StyleSheet.create({
         container: {

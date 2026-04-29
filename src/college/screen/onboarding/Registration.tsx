@@ -6,9 +6,10 @@ import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
-import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, RegisterProps } from "../../database/model";
+import { checkEmailIdRequirement, checkFirstNameRequirement, checkGenderRequirement, checkLastNameRequirement, checkPasswordRequirement, GOTO_S_LOGIN_PAGE, RegisterDTOProps, RegisterProps } from "../../database/model";
 import { storeRegisteredData } from "../../database/registerhttp";
 import ErrorMessage from "../../UI/ErrorMessage";
+import MyDropDown from "../../UI/MyDropDown";
 
 export default function Registration({ navigation }: any) {
     const formStyles = useFormStyles();
@@ -29,6 +30,10 @@ export default function Registration({ navigation }: any) {
             value: "",
             isValid: true
         },
+        confirm_password: {
+            value: "",
+            isValid: true
+        },
         gender: {
             value: "",
             isValid: true
@@ -39,6 +44,17 @@ export default function Registration({ navigation }: any) {
         }
     });
     const [showPassword, setShowPassword] = useState(false);
+    const [isFocus, setIsFocus] = useState(false);
+    const [value, setValue] = useState("" as RegisterDTOProps["gender"]);
+
+    const handleGenderSelect = (val: string) => {
+        setValue(val as RegisterDTOProps["gender"]);
+        setInputValues(prev => ({ ...prev, gender: { ...prev.gender, isValid: true } }));
+    };
+    const genderOptions = [
+        { label: "Male", value: "M" },
+        { label: "Female", value: "F" },
+    ];
 
     const togglePasswordVisible = () => {
         setShowPassword(!showPassword);
@@ -52,15 +68,16 @@ export default function Registration({ navigation }: any) {
     };
 
     const validateRegisterInfoEnteredByUser = (registerData: RegisterProps) => {
-        const firstNameIsValid = registerData.firstName.trim().length > 0;
-        const lastNameIsValid = registerData.lastName.trim().length > 0;
-        const emailIdIsValid = registerData.emailId.trim().length > 0;
+        const firstNameIsValid = checkFirstNameRequirement(registerData.firstName);
+        const lastNameIsValid = checkLastNameRequirement(registerData.lastName);
+        const emailIdIsValid = checkEmailIdRequirement(registerData.emailId);
         const passwordIsValid = checkPasswordRequirement(registerData.password);
-        const genderIsValid = registerData.gender.trim().toLowerCase() === "m" || registerData.gender.trim().toLowerCase() === "f";
+        const confirm_passwordIsValid = checkPasswordRequirement(inputValues.confirm_password.value) && registerData.password === inputValues.confirm_password.value;
+        const genderIsValid = checkGenderRequirement(registerData.gender);
         const phonenumberIsValid = `${registerData.phoneNumber}`.trim().length == 10;
 
         if (!firstNameIsValid || !lastNameIsValid || !emailIdIsValid || !passwordIsValid
-            || !genderIsValid || !phonenumberIsValid) {
+            || !genderIsValid || !phonenumberIsValid || !confirm_passwordIsValid) {
             setInputValues(prevValues => {
                 return {
                     firstName: {
@@ -78,6 +95,10 @@ export default function Registration({ navigation }: any) {
                     password: {
                         value: prevValues.password.value,
                         isValid: passwordIsValid
+                    },
+                    confirm_password: {
+                        value: prevValues.confirm_password.value,
+                        isValid: confirm_passwordIsValid
                     },
                     gender: {
                         value: prevValues.gender.value,
@@ -100,7 +121,7 @@ export default function Registration({ navigation }: any) {
             lastName: inputValues.lastName.value,
             emailId: inputValues.emailId.value,
             password: inputValues.password.value,
-            gender: inputValues.gender.value,
+            gender: value,
             phoneNumber: inputValues.phoneNumber.value,
             role: "user"
         };
@@ -159,7 +180,7 @@ export default function Registration({ navigation }: any) {
                             autoCorrect={false}
                             style={[formStyles.input, !inputValues.firstName.isValid && formStyles.errortextinput]}
                         />
-                        {!inputValues.firstName.isValid && <ErrorMessage message="First name is required." formStyles={formStyles}/>}
+                        {!inputValues.firstName.isValid && <ErrorMessage message="First name is required." formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Last Name">
                         <TextInput value={inputValues.lastName.value}
@@ -169,7 +190,7 @@ export default function Registration({ navigation }: any) {
                             autoCorrect={false}
                             style={[formStyles.input, !inputValues.lastName.isValid && formStyles.errortextinput]}
                         />
-                        {!inputValues.lastName.isValid && <ErrorMessage message="Last name is required." formStyles={formStyles}/>}
+                        {!inputValues.lastName.isValid && <ErrorMessage message="Last name is required." formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="EmailId">
                         <TextInput keyboardType="email-address"
@@ -180,7 +201,7 @@ export default function Registration({ navigation }: any) {
                             autoCorrect={false}
                             style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                         />
-                        {!inputValues.emailId.isValid && <ErrorMessage message="Email name is required." formStyles={formStyles}/>}
+                        {!inputValues.emailId.isValid && <ErrorMessage message={inputValues.emailId.value.trim().length == 0 ? "Email is required." : "Invalid email address."} formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Password">
                         <View style={{ flexDirection: "row" }}>
@@ -196,10 +217,35 @@ export default function Registration({ navigation }: any) {
                                 <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                             </MyIcon>
                         </View>
-                        {!inputValues.password.isValid && <ErrorMessage message="Password does not meet requirements." formStyles={formStyles}/>}
+                        {!inputValues.password.isValid && <ErrorMessage message={inputValues.password.value.trim().length == 0 ? "Password is required." : "Password does not meet requirements."} formStyles={formStyles} />}
+                    </InputWithLabel>
+                    <InputWithLabel label="Confirm Password">
+                        <View style={{ flexDirection: "row" }}>
+                            <TextInput value={inputValues.confirm_password.value}
+                                onChangeText={(text) => inputHandler("confirm_password", text)}
+                                secureTextEntry={!showPassword}
+                                maxLength={10}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                style={[{ flex: 1 }, formStyles.input, !inputValues.confirm_password.isValid && formStyles.errortextinput]}
+                            />
+                            <MyIcon onPress={togglePasswordVisible} >
+                                <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
+                            </MyIcon>
+                        </View>
+                        {!inputValues.confirm_password.isValid && <ErrorMessage message="Password does not match" formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Gender">
-                        <TextInput
+                        <MyDropDown
+                            focus={isFocus}
+                            itemList={genderOptions}
+                            labelField="label"
+                            valueField="value"
+                            placeholder="Select Gender"
+                            searchPlaceholder="Search Gender"
+                            selectedValue={handleGenderSelect}
+                        />
+                        {/* <TextInput
                             value={inputValues.gender.value}
                             onChangeText={(text) => inputHandler("gender", text)}
                             maxLength={1}
@@ -207,8 +253,8 @@ export default function Registration({ navigation }: any) {
                             autoCapitalize="characters"
                             placeholder="Enter M if Male else F"
                             style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
-                        />
-                        {!inputValues.gender.isValid && <ErrorMessage message="Please enter M for Male or F for Female." formStyles={formStyles} />}
+                        /> */}
+                        {!inputValues.gender.isValid && <ErrorMessage message="Kindly select your gender" formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Phone Number">
                         <TextInput keyboardType="phone-pad"
