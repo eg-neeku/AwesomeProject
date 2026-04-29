@@ -12,6 +12,7 @@ export const fetchComplaintData = async () => {
         const complaintItem: ComplaintDetailsProps = {
             id: key,
             buildingId: response.data[key].buildingId,
+            residentId: response.data[key].residentId,
             name: response.data[key].name,
             description: response.data[key].description,
             comment: response.data[key].comment,
@@ -43,6 +44,7 @@ export const fetchComplaintDataByBuilding = async (buildingId: string) => {
             const complaintItem: ComplaintDetailsProps = {
                 id: key,
                 buildingId: response.data[key].buildingId,
+                residentId: response.data[key].residentId,
                 name: response.data[key].name,
                 description: response.data[key].description,
                 comment: response.data[key].comment,
@@ -75,6 +77,7 @@ export const getAssignedComplaintToTechnician = async (technicianId: string) => 
         assignedComplaintList.push({
             id: key,
             buildingId: response.data[key].buildingId,
+            residentId: response.data[key].residentId,
             name: response.data[key].name,
             description: response.data[key].description,
             comment: response.data[key].comment,

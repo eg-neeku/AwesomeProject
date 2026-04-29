@@ -118,7 +118,7 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                 />
                 {!editValues.phoneNumber.isValid && <ErrorMessage message="Phone number must be 10 digits." formStyles={formStyles} />}
             </InputWithLabel>
-            <InputWithLabel label="Gender (M / F)">
+            <InputWithLabel label="Gender">
                 <MyDropDown
                     focus={isFocus}
                     itemList={genderOptions}
@@ -128,15 +128,6 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
                     searchPlaceholder="Search Gender"
                     selectedValue={handleGenderSelect}
                 />
-                {/* <TextInput claude --resume 0a1bcf55-8384-49c6-a096-c997a960f39f
-                    value={editValues.gender.value}
-                    onChangeText={(text) => inputHandler("gender", text)}
-                    maxLength={1}
-                    autoCapitalize="characters"
-                    autoCorrect={false}
-                    placeholder="Enter M if Male else F"
-                    style={[formStyles.input, !editValues.gender.isValid && formStyles.errortextinput]}
-                /> */}
                 {!editValues.gender.isValid && <ErrorMessage message="Kindly select your gender" formStyles={formStyles} />}
             </InputWithLabel>
             <View style={[formStyles.buttonsContainer, { marginTop: 10 }]}>

@@ -18,7 +18,8 @@ export function useLogStyles() {
             marginVertical: 5,
             flexDirection: "row",
             justifyContent: "space-between",
-            borderRadius: 8,
+            borderRadius: 5,
+            borderTopRightRadius: 45, borderBottomLeftRadius: 45,
             ...(isDarkMode && {
                 borderWidth: 1,
                 borderColor: Colors.aqua

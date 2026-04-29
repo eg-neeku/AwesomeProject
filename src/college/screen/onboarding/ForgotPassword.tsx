@@ -134,11 +134,13 @@ export default function ForgotPassword({ navigation }: any) {
                     <View style={{ flexDirection: "row" }}>
                         <TextInput value={inputValues.password.value}
                             onChangeText={(enteredText) => inputHandler("password", enteredText)}
+                            placeholder="Password size 10, must contain atleast 1 special character, number, uppercase and lowercase letter"
+                            placeholderTextColor={Colors.gray500}
                             secureTextEntry={!showPassword}
                             maxLength={10}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            style={[{ flex: 1 }, formStyles.input, !inputValues.password.isValid && formStyles.errortextinput]}
+                            style={[{ flex: 1 }, formStyles.input, { fontSize: inputValues.password.value.length === 0 ? 11 : 18 }, !inputValues.password.isValid && formStyles.errortextinput]}
                         />
                         <MyIcon onPress={togglePasswordVisible} >
                             <Icon name={showPassword ? "eye" : "eye-off"} size={18} />

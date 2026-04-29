@@ -112,11 +112,6 @@ export default function TechnicianForm({ onCancel, onConfirm, selectedTechnician
                 {!inputValues.emailId.isValid && <ErrorMessage message={inputValues.emailId.value.trim().length == 0 ? "Email is required." : "Invalid email address."} formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Gender">
-                {/* <TextInput value={inputValues.gender.value} maxLength={1} autoCapitalize="characters"
-                    placeholder="Enter M if Male else F"
-                    style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
-                    onChangeText={(enteredGender) => inputHandlerChange("gender", enteredGender)}
-                /> */}
                 <MyDropDown
                     focus={isFocus}
                     itemList={genderOptions}

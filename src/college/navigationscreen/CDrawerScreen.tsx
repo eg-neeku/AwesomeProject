@@ -4,7 +4,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import About from "../screen/About";
 import PrivacyPolicy from "../screen/PrivacyPolicy";
 import MyIcon from "../UI/MyIcon";
-import { GOTO_D_ABOUT_PAGE, GOTO_D_HOME_PAGE, GOTO_D_PRIVACY_POLICY_PAGE, GOTO_D_MY_PROFILE_PAGE, GOTO_S_MANAGE_BUILDING_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_D_COMPLAINT_LIST_PAGE } from "../database/model";
+import { GOTO_D_ABOUT_PAGE, GOTO_D_HOME_PAGE, GOTO_D_PRIVACY_POLICY_PAGE, GOTO_D_MY_PROFILE_PAGE, GOTO_S_MANAGE_BUILDING_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_D_COMPLAINT_LIST_PAGE, GOTO_D_USERS_LIST_PAGE } from "../database/model";
 import TechnicianLog from "../screen/technician/TechnicianLog";
 import BuildingLog from "../screen/building/BuildingLog";
 import MyProfile from "../screen/profile/MyProfile";
@@ -14,6 +14,7 @@ import { AppContext } from "../database/AppContextProvider";
 import ComplaintList from "../screen/technician/ComplaintList";
 import CustomDrawerContent from "./CustomDrawerContent";
 import Colors from "../../constants/colors";
+import UsersList from "../screen/admin/UsersList";
 
 const Drawer = createDrawerNavigator();
 
@@ -67,6 +68,12 @@ export default function CDrawerScreen() {
                     drawerIcon: ({ color, size }) => <IonIcons name="person-sharp" color={color} size={size} />
                 }}
             />
+            {authItems.role === "admin" && <Drawer.Screen name={GOTO_D_USERS_LIST_PAGE} component={UsersList}
+                options={{
+                    title: "Users List",
+                    drawerIcon: ({ color, size }) => <IonIcons name="people-sharp" color={color} size={size} />
+                }}
+            />}
             <Drawer.Screen name={GOTO_D_ABOUT_PAGE} component={About}
                 options={{
                     drawerIcon: ({ color, size }) => <IonIcons name="information-circle-sharp" color={color} size={size} />

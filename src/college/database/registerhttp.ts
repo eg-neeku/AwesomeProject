@@ -62,3 +62,27 @@ export const checkEmailExists = async (emailId: string) => {
     const response = await getLoginDetail(emailId);
     return Object.keys(response.data).length > 0 && response.data[Object.keys(response.data)[0]].emailId === emailId;
 };
+
+export const fetchUserData = async () => {
+    const response = await axios.get(`${DB_URL}/${DB_NAME}/register.json`, {
+        params: {
+            orderBy: '"role"',
+            equalTo: '"user"',
+        }
+    });
+    let userList: RegisterDTOProps[] = [];
+    for (const key in response.data) {
+        const userItem: RegisterDTOProps = {
+            id: key,
+            firstName: response.data[key].firstName,
+            lastName: response.data[key].lastName,
+            emailId: response.data[key].emailId,
+            phoneNumber: response.data[key].phoneNumber,
+            gender: response.data[key].gender,
+            role: response.data[key].role,
+            profilePic: response.data[key].profilePic
+        };
+        userList.push(userItem);
+    }
+    return userList;
+};

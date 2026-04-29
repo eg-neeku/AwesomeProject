@@ -206,12 +206,14 @@ export default function Registration({ navigation }: any) {
                     <InputWithLabel label="Password">
                         <View style={{ flexDirection: "row" }}>
                             <TextInput value={inputValues.password.value}
+                                placeholder="Password size 10, must contain atleast 1 special character, number, uppercase and lowercase letter"
+                                placeholderTextColor={Colors.gray500}
                                 onChangeText={(text) => inputHandler("password", text)}
                                 secureTextEntry={!showPassword}
                                 maxLength={10}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                style={[{ flex: 1 }, formStyles.input, !inputValues.password.isValid && formStyles.errortextinput]}
+                                style={[{ flex: 1 }, formStyles.input, { fontSize: inputValues.password.value.length === 0 ? 11 : 18 }, !inputValues.password.isValid && formStyles.errortextinput]}
                             />
                             <MyIcon onPress={togglePasswordVisible} >
                                 <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
@@ -223,11 +225,13 @@ export default function Registration({ navigation }: any) {
                         <View style={{ flexDirection: "row" }}>
                             <TextInput value={inputValues.confirm_password.value}
                                 onChangeText={(text) => inputHandler("confirm_password", text)}
+                                placeholder="Password size 10, must contain atleast 1 special character, number, uppercase and lowercase letter"
+                                placeholderTextColor={Colors.gray500}
                                 secureTextEntry={!showPassword}
                                 maxLength={10}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                style={[{ flex: 1 }, formStyles.input, !inputValues.confirm_password.isValid && formStyles.errortextinput]}
+                                style={[{ flex: 1 }, formStyles.input, { fontSize: inputValues.confirm_password.value.length === 0 ? 11 : 18 }, !inputValues.confirm_password.isValid && formStyles.errortextinput]}
                             />
                             <MyIcon onPress={togglePasswordVisible} >
                                 <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
@@ -245,15 +249,6 @@ export default function Registration({ navigation }: any) {
                             searchPlaceholder="Search Gender"
                             selectedValue={handleGenderSelect}
                         />
-                        {/* <TextInput
-                            value={inputValues.gender.value}
-                            onChangeText={(text) => inputHandler("gender", text)}
-                            maxLength={1}
-                            autoCorrect={false}
-                            autoCapitalize="characters"
-                            placeholder="Enter M if Male else F"
-                            style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
-                        /> */}
                         {!inputValues.gender.isValid && <ErrorMessage message="Kindly select your gender" formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Phone Number">
