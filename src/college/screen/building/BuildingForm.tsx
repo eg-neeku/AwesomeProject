@@ -107,14 +107,14 @@ export default function BuildingForm({ onCancel, onConfirm, selectedBuilding, is
         <View style={formStyles.forms}>
             <Text style={formStyles.titleHead}>Building Form</Text>
             <InputWithLabel label="Building Name">
-                <TextInput value={inputValues.name.value}
+                <TextInput value={inputValues.name.value} maxLength={50}
                     style={[formStyles.input, !inputValues.name.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredName) => inputHandlerChange("name", enteredName)}
                 />
                 {!inputValues.name.isValid && <ErrorMessage message="Building name is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Address">
-                <TextInput value={inputValues.address.value} multiline maxLength={750}
+                <TextInput value={inputValues.address.value} multiline maxLength={200}
                     style={[formStyles.input, formStyles.inputMulitline, !inputValues.address.isValid && formStyles.errortextinput]}
                     onChangeText={(enteredAddress) => inputHandlerChange("address", enteredAddress)}
                 />

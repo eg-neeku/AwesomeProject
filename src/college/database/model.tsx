@@ -12,6 +12,7 @@ export type ComplaintDetailsProps = {
     startDate: Date,
     imageURL: string,
     technicianId?: string,
+    residentId: string,
     status?: "open" | "assigned" | "in_progress" | "resolved";
 };
 
@@ -58,6 +59,30 @@ export function formatPostalAddress(address: string, pincode: number, city: stri
     return `${address}, ${city} - ${pincode}, ${state}, ${country}.`;
 }
 
+export function checkGeneralTextRequirement(text: string) {
+    return text.trim().length > 0;
+}
+
+export function checkFirstNameRequirement(firstName: string) {
+    return firstName.trim().length > 0;
+}
+
+export function checkLastNameRequirement(lastName: string) {
+    return lastName.trim().length > 0;
+}
+
+export function checkEmailIdRequirement(emailId: string) {
+    // Local (before @): 6-30 chars, letters/digits/dots only, no leading/trailing/consecutive dots
+    // Domain (after @): letters/digits/hyphens/dots, no leading/trailing hyphens per label, must have at least one dot
+    const regex = /^(?=[a-z0-9.]{3,30}@)[a-z0-9]+(?:\.[a-z0-9]+)*@[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+$/i;
+    return regex.test(emailId);
+}
+
+export function checkGenderRequirement(gender: string) {
+    return gender.trim().toLowerCase() === "m" || gender.trim().toLowerCase() === "f";
+}
+
+
 export function checkPasswordRequirement(password: string) {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10}$/;
     return regex.test(password);
@@ -73,7 +98,7 @@ export async function sendEmail(to: string = "", subject: string, body: string, 
     cc && queries.append('cc', cc);
     bcc && queries.append('bcc', bcc);
 
-    const params = queries.toString();
+    const params = queries.toString().replace(/\+/g, '%20');
 
     const url = `mailto:${to}?${params}`;
     await Linking.openURL(url);
@@ -88,6 +113,7 @@ export const GOTO_D_MY_PROFILE_PAGE = "MyProfile";
 export const GOTO_D_ABOUT_PAGE = "About";
 export const GOTO_D_PRIVACY_POLICY_PAGE = "PrivacyPolicy";
 export const GOTO_D_COMPLAINT_LIST_PAGE = "ComplaintList";
+export const GOTO_D_USERS_LIST_PAGE = "UsersList";
 
 export const GOTO_SD_MAIN_PAGE = "MainPage";
 export const GOTO_S_COMPLAINT_FORM_PAGE = "ComplaintBuilding";

@@ -1,7 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { FlatList, Pressable, TextInput, View } from "react-native";
 import { fetchComplaintDataByBuilding } from "../../database/complainthttp";
 import { ComplaintDetailsProps, TechnicianDetailsProps } from "../../database/model";
+import { AuthContext } from "../../database/AuthContentProvider";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
@@ -15,6 +16,7 @@ import ComplaintItem from "./ComplaintItem";
 export default function ComplaintLog({ navigation, route }: any) {
     const logStyles = useLogStyles();
     const buildingId: string = route?.params?.buildingId;
+    const { authItems } = useContext(AuthContext);
 
     // Keep a full copy and a filtered copy
     const [allComplaints, setAllComplaints] = useState<ComplaintDetailsProps[]>([]);
@@ -47,8 +49,9 @@ export default function ComplaintLog({ navigation, route }: any) {
         try {
             setLoading(true);
             const res = await fetchComplaintDataByBuilding(buildingId);
-            setAllComplaints(res || []);
-            setDemo(res || []);
+            const filtered = authItems.role === "admin" ? res : (res || []).filter(c => c.residentId === authItems.id);
+            setAllComplaints(filtered);
+            setDemo(filtered);
         } catch (error) {
             console.log("Could not fetch data", error);
             setAllComplaints([]);
