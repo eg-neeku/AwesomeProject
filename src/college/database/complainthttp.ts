@@ -12,6 +12,7 @@ export const fetchComplaintData = async () => {
         const complaintItem: ComplaintDetailsProps = {
             id: key,
             buildingId: response.data[key].buildingId,
+            residentId: response.data[key].residentId,
             name: response.data[key].name,
             description: response.data[key].description,
             comment: response.data[key].comment,
@@ -30,7 +31,7 @@ export const fetchComplaintDataById = async (complaintId: string) => {
     return response.data;
 }
 
-export const deleteComplaint = async (complaintId: string) => {
+export const deleteComplaintData = async (complaintId: string) => {
     return await axios.delete(`${DB_URL}/${DB_NAME}/complaint/${complaintId}.json`);
 }
 
@@ -43,6 +44,7 @@ export const fetchComplaintDataByBuilding = async (buildingId: string) => {
             const complaintItem: ComplaintDetailsProps = {
                 id: key,
                 buildingId: response.data[key].buildingId,
+                residentId: response.data[key].residentId,
                 name: response.data[key].name,
                 description: response.data[key].description,
                 comment: response.data[key].comment,
@@ -63,23 +65,27 @@ export const assignComplaintToTechnician = async (complaintId: string, technicia
 
 export const getAssignedComplaintToTechnician = async (technicianId: string) => {
     if (!technicianId) throw new Error("Technician Id is empty");
-    const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`);
-    let assignedComplaintList: ComplaintDetailsProps[] = [];
-    for (const key in response.data) {
-        if (response.data[key].technicianId === technicianId) {
-            const complaintItem: ComplaintDetailsProps = {
-                id: key,
-                buildingId: response.data[key].buildingId,
-                name: response.data[key].name,
-                description: response.data[key].description,
-                comment: response.data[key].comment,
-                priority: response.data[key].priority,
-                startDate: new Date(response.data[key].startDate),
-                imageURL: response.data[key].imageURL,
-                status: response.data[key].status
-            };
-            assignedComplaintList.push(complaintItem);
+    const response = await axios.get(`${DB_URL}/${DB_NAME}/complaint.json`, {
+        params: {
+            orderBy: '"technicianId"',
+            equalTo: `"${technicianId}"`
         }
+    });
+    if (!response.data) return [];
+    const assignedComplaintList: ComplaintDetailsProps[] = [];
+    for (const key in response.data) {
+        assignedComplaintList.push({
+            id: key,
+            buildingId: response.data[key].buildingId,
+            residentId: response.data[key].residentId,
+            name: response.data[key].name,
+            description: response.data[key].description,
+            comment: response.data[key].comment,
+            priority: response.data[key].priority,
+            startDate: new Date(response.data[key].startDate),
+            imageURL: response.data[key].imageURL,
+            status: response.data[key].status
+        });
     }
     return assignedComplaintList;
 };

@@ -1,23 +1,51 @@
 import { Alert, TextInput, View } from "react-native";
 import { InputWithLabel } from "../../UI/Input";
 import { useState } from "react";
-import { RegisterDTOProps } from "../../database/model";
+import { checkFirstNameRequirement, checkGenderRequirement, checkLastNameRequirement, RegisterDTOProps } from "../../database/model";
 import { updateProfile } from "../../database/registerhttp";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
-
+import ErrorMessage from "../../UI/ErrorMessage";
+import MyDropDown from "../../UI/MyDropDown";
 
 export default function EditMyProfile({ authItems, onCancel, onSaved }: { authItems: RegisterDTOProps; onCancel: () => void; onSaved: (updated: RegisterDTOProps) => void; }) {
     const [editValues, setEditValues] = useState({
-        firstName: authItems.firstName ?? "",
-        lastName: authItems.lastName ?? "",
-        phoneNumber: `${authItems.phoneNumber ?? ""}`,
-        gender: authItems.gender ?? "",
+        firstName: {
+            value: authItems.firstName ?? "",
+            isValid: true
+        },
+        lastName: {
+            value: authItems.lastName ?? "",
+            isValid: true
+        },
+        phoneNumber: {
+            value: authItems.phoneNumber ?? 0,
+            isValid: true
+        },
+        gender: {
+            value: authItems.gender ?? "",
+            isValid: true
+        },
     });
+    const [isFocus, setIsFocus] = useState(false);
+    const [value, setValue] = useState("" as RegisterDTOProps["gender"]);
 
-    const inputHandler = (field: string, value: string) => {
-        setEditValues(prev => ({ ...prev, [field]: value }));
+    const handleGenderSelect = (val: string) => {
+        setValue(val as RegisterDTOProps["gender"]);
+        setEditValues(prev => ({ ...prev, gender: { ...prev.gender, isValid: true } }));
+    };
+    const genderOptions = [
+        { label: "Male", value: "M" },
+        { label: "Female", value: "F" },
+    ];
+    const formStyles = useFormStyles();
+
+    const inputHandler = (field: string, text: string) => {
+        if (field === "phoneNumber")
+            setEditValues(prev => ({ ...prev, [field]: { value: +text, isValid: true } }));
+        else
+            setEditValues(prev => ({ ...prev, [field]: { value: text, isValid: true } }));
     };
 
     const handleCancel = () => {
@@ -25,22 +53,27 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
     };
 
     const handleSaveProfile = async () => {
-        const firstNameValid = editValues.firstName.trim().length > 0;
-        const lastNameValid = editValues.lastName.trim().length > 0;
-        const phoneValid = `${editValues.phoneNumber}`.trim().length === 10;
-        const genderValid = editValues.gender.trim().length > 0;
+        const firstNameValid = checkFirstNameRequirement(editValues.firstName.value);
+        const lastNameValid = checkLastNameRequirement(editValues.lastName.value);
+        const phoneValid = `${editValues.phoneNumber.value}`.trim().length === 10;
+        const genderValid = checkGenderRequirement(value);
 
         if (!firstNameValid || !lastNameValid || !phoneValid || !genderValid) {
-            Alert.alert("Validation Error", "Please fill all fields correctly. Phone number must be 10 digits.", [{ text: "OK" }]);
+            setEditValues(prev => ({
+                firstName: { value: prev.firstName.value, isValid: firstNameValid },
+                lastName: { value: prev.lastName.value, isValid: lastNameValid },
+                phoneNumber: { value: prev.phoneNumber.value, isValid: phoneValid },
+                gender: { value: prev.gender.value, isValid: genderValid },
+            }));
             return;
         }
 
         try {
             const updatedData = {
-                firstName: editValues.firstName.trim(),
-                lastName: editValues.lastName.trim(),
-                phoneNumber: +editValues.phoneNumber,
-                gender: editValues.gender.trim().toUpperCase(),
+                firstName: editValues.firstName.value.trim(),
+                lastName: editValues.lastName.value.trim(),
+                phoneNumber: editValues.phoneNumber.value,
+                gender: value.trim().toUpperCase(),
             };
             await updateProfile(authItems.emailId, updatedData);
             onSaved({ ...authItems, ...updatedData });
@@ -55,42 +88,47 @@ export default function EditMyProfile({ authItems, onCancel, onSaved }: { authIt
         <View>
             <InputWithLabel label="First Name">
                 <TextInput
-                    value={editValues.firstName}
+                    value={editValues.firstName.value}
                     onChangeText={(text) => inputHandler("firstName", text)}
                     maxLength={25}
                     autoCapitalize="words"
                     autoCorrect={false}
-                    style={formStyles.input}
+                    style={[formStyles.input, !editValues.firstName.isValid && formStyles.errortextinput]}
                 />
+                {!editValues.firstName.isValid && <ErrorMessage message="First name is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Last Name">
                 <TextInput
-                    value={editValues.lastName}
+                    value={editValues.lastName.value}
                     onChangeText={(text) => inputHandler("lastName", text)}
                     maxLength={25}
                     autoCapitalize="words"
                     autoCorrect={false}
-                    style={formStyles.input}
+                    style={[formStyles.input, !editValues.lastName.isValid && formStyles.errortextinput]}
                 />
+                {!editValues.lastName.isValid && <ErrorMessage message="Last name is required." formStyles={formStyles} />}
             </InputWithLabel>
             <InputWithLabel label="Phone Number">
                 <TextInput
-                    value={editValues.phoneNumber}
+                    value={`${editValues.phoneNumber.value}`}
                     onChangeText={(text) => inputHandler("phoneNumber", text)}
                     keyboardType="phone-pad"
                     maxLength={10}
-                    style={formStyles.input}
+                    style={[formStyles.input, !editValues.phoneNumber.isValid && formStyles.errortextinput]}
                 />
+                {!editValues.phoneNumber.isValid && <ErrorMessage message="Phone number must be 10 digits." formStyles={formStyles} />}
             </InputWithLabel>
-            <InputWithLabel label="Gender (M / F)">
-                <TextInput
-                    value={editValues.gender}
-                    onChangeText={(text) => inputHandler("gender", text)}
-                    maxLength={1}
-                    autoCapitalize="characters"
-                    autoCorrect={false}
-                    style={formStyles.input}
+            <InputWithLabel label="Gender">
+                <MyDropDown
+                    focus={isFocus}
+                    itemList={genderOptions}
+                    labelField="label"
+                    valueField="value"
+                    placeholder="Select Gender"
+                    searchPlaceholder="Search Gender"
+                    selectedValue={handleGenderSelect}
                 />
+                {!editValues.gender.isValid && <ErrorMessage message="Kindly select your gender" formStyles={formStyles} />}
             </InputWithLabel>
             <View style={[formStyles.buttonsContainer, { marginTop: 10 }]}>
                 <MyButton title="Save"

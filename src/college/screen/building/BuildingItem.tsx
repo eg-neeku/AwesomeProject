@@ -2,13 +2,14 @@ import { useContext } from "react";
 import { AuthContext } from "../../database/AuthContentProvider";
 import { BuildingDetailsProp, doNothing, GOTO_S_COMPLAINT_FORM_PAGE, GOTO_S_MANAGE_BUILDING_PAGE } from "../../database/model";
 import { Pressable, View } from "react-native";
-import { logStyles } from "../screenStyles";
+import { useLogStyles } from "../screenStyles";
 import BuildingItemDetails from "./BuildingItemDetails";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import Colors from "../../../constants/colors";
 
 export default function BuildingItem({ item, navigation }: { item: BuildingDetailsProp, navigation: any }) {
+    const logStyles = useLogStyles();
     const { authItems } = useContext(AuthContext);
     const handleBuildingPress = () => {
         navigation.navigate(GOTO_S_MANAGE_BUILDING_PAGE, {
@@ -24,7 +25,7 @@ export default function BuildingItem({ item, navigation }: { item: BuildingDetai
     };
 
     return (
-        <Pressable onPress={authItems.role !== "techni" ? handleBuildingPress : doNothing}
+        <Pressable onPress={authItems.role === "admin" ? handleBuildingPress : doNothing}
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}>
             <BuildingItemDetails item={item} />
             {authItems.role !== "techni" && <View style={logStyles.itemOptions}>

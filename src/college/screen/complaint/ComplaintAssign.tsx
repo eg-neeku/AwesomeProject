@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
-import AntDesign from "react-native-vector-icons/AntDesign";
 import { assignComplaintToTechnician, fetchComplaintDataById } from "../../database/complainthttp";
 import MyButton from "../../UI/MyButton";
 import LoadingOverlay from "../../UI/LoadingOverlay";
@@ -9,16 +7,33 @@ import { ComplaintDetailsProps, GOTO_D_TECHNICIAN_LOG_PAGE, GOTO_SD_MAIN_PAGE, s
 import { fetchTechnicianDataById } from "../../database/technicianhttp";
 import TechnicianItemDetails from "../technician/TechnicianItemDetails";
 import Colors from "../../../constants/colors";
+import MyDropDown from "../../UI/MyDropDown";
+import { AppContext } from "../../database/AppContextProvider";
 
 export default function ComplaintAssign({ navigation, route }: any) {
     const complaintItem: ComplaintDetailsProps = route.params?.complaintItem;
     const complaintId: ComplaintDetailsProps["id"] = complaintItem.id;
     const technicianList: TechnicianDetailsProps[] = route.params?.technicianList;
+    const { isDarkMode } = useContext(AppContext);
 
     const dropdownTechnicianList = technicianList?.map((technician) => ({
         label: technician.firstName + " " + technician.lastName,
         value: technician.emailId,
     }));
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            padding: 16,
+        },
+        textColor: {
+            color: isDarkMode ? Colors.white : Colors.dark
+        },
+        assigningSection: {
+            marginBottom: 50,
+            flex: 0.25
+        }
+    });
 
     const [technician, setTechnician] = useState<TechnicianDetailsProps>();
 
@@ -47,9 +62,11 @@ export default function ComplaintAssign({ navigation, route }: any) {
         setLoading(true);
         try {
             const technicianId = getTechnicianId();
+            const selectedTechnician = technicianList.find((t) => t.emailId === value);
             await assignComplaintToTechnician(complaintId, technicianId ?? "", "assigned");
             console.log("Complaint Assigned");
-            await sendEmail(value, "Please Fix this issue", `Hi ${technician?.firstName} ${technician?.lastName}, This is ${complaintItem?.name}.\n\t${complaintItem?.description + complaintItem?.comment}\n\nThankyou!`);
+            await sendEmail(value, "Please Fix this issue!", `Hi ${selectedTechnician?.firstName} ${selectedTechnician?.lastName}, I am ${complaintItem?.name}.
+                 The problem in my building occured is:\n\nComplaint Id: ${complaintId}\nComplaint Description: ${complaintItem?.description}\nComment: ${complaintItem?.comment}\n\nThankyou!`);
             navigation.navigate(GOTO_SD_MAIN_PAGE, {
                 screen: GOTO_D_TECHNICIAN_LOG_PAGE
             });
@@ -67,39 +84,19 @@ export default function ComplaintAssign({ navigation, route }: any) {
     return (
         <View style={styles.container}>
             {technician?.emailId && <View style={styles.assigningSection}>
-                <Text>The complaint is already assigned to technician named {technician.firstName} {technician.lastName}</Text>
-                <TechnicianItemDetails item={technician} />
+                <Text style={styles.textColor}>The complaint is already assigned to technician named {technician.firstName} {technician.lastName}</Text>
                 <Text style={styles.textColor}> Do you wanna reassign to someone else?</Text>
+                <TechnicianItemDetails item={technician} />
             </View>
             }
-            <Dropdown
-                style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={dropdownTechnicianList}
-                search
-                maxHeight={300}
+            <MyDropDown
+                focus={isFocus}
+                itemList={dropdownTechnicianList}
                 labelField="label"
                 valueField="value"
                 placeholder="Assign Complaint To..."
                 searchPlaceholder="Search..."
-                value={value}
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
-                onChange={item => {
-                    setValue(item.value);
-                    setIsFocus(false);
-                }}
-                renderLeftIcon={() => (
-                    <AntDesign
-                        style={styles.icon}
-                        color={isFocus ? 'blue' : 'black'}
-                        name="Safety"
-                        size={20}
-                    />
-                )}
+                selectedValue={setValue}
             />
             <View style={{ alignItems: "center" }}>
                 <MyButton title="Assign Complaint" onPress={handleAssignComplaint} />
@@ -107,54 +104,3 @@ export default function ComplaintAssign({ navigation, route }: any) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        padding: 16,
-    },
-    dropdown: {
-        height: 50,
-        borderColor: 'gray',
-        borderWidth: 0.5,
-        borderRadius: 8,
-        paddingHorizontal: 8,
-    },
-    icon: {
-        marginRight: 5,
-    },
-    label: {
-        position: 'absolute',
-        backgroundColor: 'white',
-        left: 22,
-        top: 8,
-        zIndex: 999,
-        paddingHorizontal: 8,
-        fontSize: 14,
-    },
-    placeholderStyle: {
-        fontSize: 16,
-    },
-    selectedTextStyle: {
-        fontSize: 16,
-    },
-    iconStyle: {
-        width: 20,
-        height: 20,
-    },
-    inputSearchStyle: {
-        height: 40,
-        fontSize: 16,
-    },
-    buildItemContainer: {
-        padding: 16
-    },
-    textColor: {
-        color: Colors.dark
-    },
-    assigningSection: {
-        marginTop: 25,
-        flex: 0.25
-    }
-});

@@ -1,15 +1,18 @@
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../../UI/Input";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import { useState } from "react";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
-import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, RegisterProps } from "../../database/model";
+import { checkEmailIdRequirement, checkFirstNameRequirement, checkGenderRequirement, checkLastNameRequirement, checkPasswordRequirement, GOTO_S_LOGIN_PAGE, RegisterDTOProps, RegisterProps } from "../../database/model";
 import { storeRegisteredData } from "../../database/registerhttp";
+import ErrorMessage from "../../UI/ErrorMessage";
+import MyDropDown from "../../UI/MyDropDown";
 
 export default function Registration({ navigation }: any) {
+    const formStyles = useFormStyles();
     const [inputValues, setInputValues] = useState({
         firstName: {
             value: "",
@@ -27,6 +30,10 @@ export default function Registration({ navigation }: any) {
             value: "",
             isValid: true
         },
+        confirm_password: {
+            value: "",
+            isValid: true
+        },
         gender: {
             value: "",
             isValid: true
@@ -37,6 +44,17 @@ export default function Registration({ navigation }: any) {
         }
     });
     const [showPassword, setShowPassword] = useState(false);
+    const [isFocus, setIsFocus] = useState(false);
+    const [value, setValue] = useState("" as RegisterDTOProps["gender"]);
+
+    const handleGenderSelect = (val: string) => {
+        setValue(val as RegisterDTOProps["gender"]);
+        setInputValues(prev => ({ ...prev, gender: { ...prev.gender, isValid: true } }));
+    };
+    const genderOptions = [
+        { label: "Male", value: "M" },
+        { label: "Female", value: "F" },
+    ];
 
     const togglePasswordVisible = () => {
         setShowPassword(!showPassword);
@@ -50,15 +68,16 @@ export default function Registration({ navigation }: any) {
     };
 
     const validateRegisterInfoEnteredByUser = (registerData: RegisterProps) => {
-        const firstNameIsValid = registerData.firstName.trim().length > 0;
-        const lastNameIsValid = registerData.lastName.trim().length > 0;
-        const emailIdIsValid = registerData.emailId.trim().length > 0;
+        const firstNameIsValid = checkFirstNameRequirement(registerData.firstName);
+        const lastNameIsValid = checkLastNameRequirement(registerData.lastName);
+        const emailIdIsValid = checkEmailIdRequirement(registerData.emailId);
         const passwordIsValid = checkPasswordRequirement(registerData.password);
-        const genderIsValid = registerData.gender.trim().length > 0;
+        const confirm_passwordIsValid = checkPasswordRequirement(inputValues.confirm_password.value) && registerData.password === inputValues.confirm_password.value;
+        const genderIsValid = checkGenderRequirement(registerData.gender);
         const phonenumberIsValid = `${registerData.phoneNumber}`.trim().length == 10;
 
         if (!firstNameIsValid || !lastNameIsValid || !emailIdIsValid || !passwordIsValid
-            || !genderIsValid || !phonenumberIsValid) {
+            || !genderIsValid || !phonenumberIsValid || !confirm_passwordIsValid) {
             setInputValues(prevValues => {
                 return {
                     firstName: {
@@ -77,18 +96,23 @@ export default function Registration({ navigation }: any) {
                         value: prevValues.password.value,
                         isValid: passwordIsValid
                     },
+                    confirm_password: {
+                        value: prevValues.confirm_password.value,
+                        isValid: confirm_passwordIsValid
+                    },
                     gender: {
                         value: prevValues.gender.value,
-                        isValid: passwordIsValid
+                        isValid: genderIsValid
                     },
                     phoneNumber: {
                         value: prevValues.phoneNumber.value,
-                        isValid: passwordIsValid
+                        isValid: phonenumberIsValid
                     },
                 }
             });
-            return;
+            return false;
         }
+        return true;
     };
 
     const onRegisterHandler = async () => {
@@ -97,11 +121,11 @@ export default function Registration({ navigation }: any) {
             lastName: inputValues.lastName.value,
             emailId: inputValues.emailId.value,
             password: inputValues.password.value,
-            gender: inputValues.gender.value,
+            gender: value,
             phoneNumber: inputValues.phoneNumber.value,
             role: "user"
         };
-        validateRegisterInfoEnteredByUser(registerData);
+        if (!validateRegisterInfoEnteredByUser(registerData)) return;
         try {
             await storeRegisteredData(registerData);
             Alert.alert("", "Registered Successfully", [
@@ -154,9 +178,9 @@ export default function Registration({ navigation }: any) {
                             maxLength={25}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder={!inputValues.firstName.isValid ? "Please fill out the field" : ""}
                             style={[formStyles.input, !inputValues.firstName.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.firstName.isValid && <ErrorMessage message="First name is required." formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Last Name">
                         <TextInput value={inputValues.lastName.value}
@@ -164,9 +188,9 @@ export default function Registration({ navigation }: any) {
                             maxLength={25}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder={!inputValues.lastName.isValid ? "Please fill out the field" : ""}
                             style={[formStyles.input, !inputValues.lastName.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.lastName.isValid && <ErrorMessage message="Last name is required." formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="EmailId">
                         <TextInput keyboardType="email-address"
@@ -175,36 +199,57 @@ export default function Registration({ navigation }: any) {
                             maxLength={50}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder={!inputValues.emailId.isValid ? "Please fill out the field" : ""}
                             style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.emailId.isValid && <ErrorMessage message={inputValues.emailId.value.trim().length == 0 ? "Email is required." : "Invalid email address."} formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Password">
                         <View style={{ flexDirection: "row" }}>
                             <TextInput value={inputValues.password.value}
+                                placeholder="Password size 10, must contain atleast 1 special character, number, uppercase and lowercase letter"
+                                placeholderTextColor={Colors.gray500}
                                 onChangeText={(text) => inputHandler("password", text)}
                                 secureTextEntry={!showPassword}
                                 maxLength={10}
                                 autoCapitalize="none"
-                                placeholder={!inputValues.password.isValid ? "Please fill out the field" : ""}
                                 autoCorrect={false}
-                                style={[{ flex: 1 }, formStyles.input, !inputValues.password.isValid && formStyles.errortextinput]}
+                                style={[{ flex: 1 }, formStyles.input, { fontSize: inputValues.password.value.length === 0 ? 11 : 18 }, !inputValues.password.isValid && formStyles.errortextinput]}
                             />
                             <MyIcon onPress={togglePasswordVisible} >
                                 <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                             </MyIcon>
                         </View>
+                        {!inputValues.password.isValid && <ErrorMessage message={inputValues.password.value.trim().length == 0 ? "Password is required." : "Password does not meet requirements."} formStyles={formStyles} />}
+                    </InputWithLabel>
+                    <InputWithLabel label="Confirm Password">
+                        <View style={{ flexDirection: "row" }}>
+                            <TextInput value={inputValues.confirm_password.value}
+                                onChangeText={(text) => inputHandler("confirm_password", text)}
+                                placeholder="Password size 10, must contain atleast 1 special character, number, uppercase and lowercase letter"
+                                placeholderTextColor={Colors.gray500}
+                                secureTextEntry={!showPassword}
+                                maxLength={10}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                style={[{ flex: 1 }, formStyles.input, { fontSize: inputValues.confirm_password.value.length === 0 ? 11 : 18 }, !inputValues.confirm_password.isValid && formStyles.errortextinput]}
+                            />
+                            <MyIcon onPress={togglePasswordVisible} >
+                                <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
+                            </MyIcon>
+                        </View>
+                        {!inputValues.confirm_password.isValid && <ErrorMessage message="Password does not match" formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Gender">
-                        <TextInput
-                            value={inputValues.gender.value}
-                            onChangeText={(text) => inputHandler("gender", text)}
-                            maxLength={1}
-                            autoCorrect={false}
-                            autoCapitalize="characters"
-                            placeholder={!inputValues.gender.isValid ? "Please fill out the field" : "Enter M if Male else F"}
-                            style={[formStyles.input, !inputValues.gender.isValid && formStyles.errortextinput]}
+                        <MyDropDown
+                            focus={isFocus}
+                            itemList={genderOptions}
+                            labelField="label"
+                            valueField="value"
+                            placeholder="Select Gender"
+                            searchPlaceholder="Search Gender"
+                            selectedValue={handleGenderSelect}
                         />
+                        {!inputValues.gender.isValid && <ErrorMessage message="Kindly select your gender" formStyles={formStyles} />}
                     </InputWithLabel>
                     <InputWithLabel label="Phone Number">
                         <TextInput keyboardType="phone-pad"
@@ -212,9 +257,9 @@ export default function Registration({ navigation }: any) {
                             onChangeText={(text) => inputHandler("phoneNumber", text)}
                             maxLength={10}
                             autoCorrect={false}
-                            placeholder={!inputValues.phoneNumber.isValid ? "Please fill out the field" : ""}
                             style={[formStyles.input, !inputValues.phoneNumber.isValid && formStyles.errortextinput]}
                         />
+                        {!inputValues.phoneNumber.isValid && <ErrorMessage message="Phone number must be 10 digits." formStyles={formStyles} />}
                     </InputWithLabel>
                 </View>
                 <View style={{ marginTop: 10 }}>
@@ -223,7 +268,7 @@ export default function Registration({ navigation }: any) {
                 </View>
                 <View style={formStyles.buttonsContainer}>
                     <TouchableOpacity onPress={letsGotoLogin}>
-                        <Text style={{ marginTop: 10 }}>Already have an account? Click here</Text>
+                        <Text style={[formStyles.simpleText, { marginTop: 15 }]}>Already have an account? Click here</Text>
                     </TouchableOpacity>
                 </View>
             </View>

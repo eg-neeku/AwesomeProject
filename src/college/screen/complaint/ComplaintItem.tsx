@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { ComplaintDetailsProps, GOTO_S_COMPLAINT_ASSIGN_PAGE, TechnicianDetailsProps } from "../../database/model";
+import { ComplaintDetailsProps, doNothing, GOTO_S_COMPLAINT_ASSIGN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import { Alert, Pressable, View } from "react-native";
-import { deleteComplaint } from "../../database/complainthttp";
+import { deleteComplaintData } from "../../database/complainthttp";
 import LoadingOverlay from "../../UI/LoadingOverlay";
 import Colors from "../../../constants/colors";
-import { logStyles } from "../screenStyles";
+import { useLogStyles } from "../screenStyles";
 import ComplaintItemDetails from "./ComplaintItemDetails";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -17,6 +17,7 @@ type ComplaintItemProps = {
 }
 
 export default function ComplaintItem({ item, onRefresh, navigation, technicianList }: ComplaintItemProps) {
+    const logStyles = useLogStyles();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const deleteComplaintHandler = () => {
@@ -26,7 +27,7 @@ export default function ComplaintItem({ item, onRefresh, navigation, technicianL
                 onPress: async () => {
                     setIsSubmitting(true);
                     try {
-                        await deleteComplaint(item.id);
+                        await deleteComplaintData(item.id);
                         onRefresh();
                     } catch (error) {
                         console.log("Unable to delete the complaint data", error);
@@ -56,7 +57,7 @@ export default function ComplaintItem({ item, onRefresh, navigation, technicianL
 
     return (
         <Pressable
-            onPress={() => { }}
+            onPress={doNothing}
             style={({ pressed }) => [logStyles.beforePressed, pressed && logStyles.afterPressed]}
         >
             <ComplaintItemDetails item={item} />

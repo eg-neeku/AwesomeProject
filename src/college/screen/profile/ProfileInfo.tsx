@@ -1,25 +1,26 @@
 import { Text, View } from "react-native";
 import { AuthContentProps } from "../../database/model";
-import { profileStyles } from "./profileStyles";
+import { useProfileStyles } from "./profileStyles";
 
 export default function ProfileInfo({ profile }: { profile: AuthContentProps["authItems"] }) {
+    const profileStyles = useProfileStyles();
     return (
         <View>
             <View style={profileStyles.detailSection}>
-                <Text>Bio: </Text>
-                <Text>Hey there, I'm {profile.firstName} {profile.lastName}</Text>
+                <Text style={profileStyles.textMessage}>Bio: </Text>
+                <Text style={profileStyles.textMessage}>Hey there, I'm {profile.firstName} {profile.lastName}</Text>
             </View>
             <View style={profileStyles.detailSection}>
-                <Text>Email Address: </Text>
-                <Text>{profile.emailId}</Text>
+                <Text style={profileStyles.textMessage}>Email Address: </Text>
+                <Text style={profileStyles.textMessage}>{profile.emailId}</Text>
             </View>
             <View style={profileStyles.detailSection}>
-                <Text>Gender: </Text>
-                <Text>{profile.gender === "M" ? "Male" : "Female"}</Text>
+                <Text style={profileStyles.textMessage}>Gender: </Text>
+                <Text style={profileStyles.textMessage}>{profile.gender === "M" ? "Male" : "Female"}</Text>
             </View>
             <View style={profileStyles.detailSection}>
-                <Text>Phone number: </Text>
-                <Text>{profile.phoneNumber}</Text>
+                <Text style={profileStyles.textMessage}>Phone number: </Text>
+                <Text style={profileStyles.textMessage}>{profile.phoneNumber}</Text>
             </View>
         </View>
     )

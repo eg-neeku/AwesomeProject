@@ -1,15 +1,17 @@
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { InputWithLabel } from "../../UI/Input";
-import { formStyles } from "../screenStyles";
+import { useFormStyles } from "../screenStyles";
 import { useState } from "react";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 import MyButton from "../../UI/MyButton";
 import Colors from "../../../constants/colors";
-import { checkPasswordRequirement, GOTO_S_LOGIN_PAGE, LoginProps } from "../../database/model";
-import { updatePassword } from "../../database/registerhttp";
+import { checkEmailIdRequirement, checkPasswordRequirement, GOTO_S_LOGIN_PAGE, LoginProps } from "../../database/model";
+import { checkEmailExists, updatePassword } from "../../database/registerhttp";
+import ErrorMessage from "../../UI/ErrorMessage";
 
 export default function ForgotPassword({ navigation }: any) {
+    const formStyles = useFormStyles();
     const [inputValues, setInputValues] = useState({
         emailId: {
             value: "",
@@ -27,7 +29,7 @@ export default function ForgotPassword({ navigation }: any) {
     };
 
     const validateLoginInfoEnteredByUser = (loginData: LoginProps) => {
-        const emailIsValid = loginData.emailId.trim().length > 0;
+        const emailIsValid = checkEmailIdRequirement(loginData.emailId);
         const passwordIsValid = checkPasswordRequirement(loginData.password);
 
         if (!emailIsValid || !passwordIsValid) {
@@ -43,8 +45,9 @@ export default function ForgotPassword({ navigation }: any) {
                     }
                 }
             });
-            return;
+            return false;
         }
+        return true;
     };
 
     const letsGotoLogin = () => {
@@ -59,7 +62,27 @@ export default function ForgotPassword({ navigation }: any) {
             emailId: inputValues.emailId.value,
             password: inputValues.password.value
         };
-        validateLoginInfoEnteredByUser(loginData);
+        if (!validateLoginInfoEnteredByUser(loginData)) return;
+        try {
+            const isEmailExists = await checkEmailExists(loginData.emailId);
+            if (!isEmailExists) {
+                Alert.alert("Email not found", "The email address you entered does not exist.", [
+                    {
+                        text: "Okay",
+                        style: "cancel"
+                    }
+                ]);
+                return;
+            }
+        } catch (error) {
+            Alert.alert("Something went wrong!", "Check your internet connection and try again later", [
+                {
+                    text: "Okay",
+                    style: "cancel"
+                }
+            ]);
+            return;
+        }
         try {
             await updatePassword(loginData);
             Alert.alert("", "Password updated Successfully", [
@@ -103,25 +126,27 @@ export default function ForgotPassword({ navigation }: any) {
                         maxLength={50}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        placeholder={!inputValues.emailId.isValid ? "Please fill out the field" : ""}
                         style={[formStyles.input, !inputValues.emailId.isValid && formStyles.errortextinput]}
                     />
+                    {!inputValues.emailId.isValid && <ErrorMessage message={inputValues.emailId.value.trim().length == 0 ? "Email is required." : "Invalid email address."} formStyles={formStyles} />}
                 </InputWithLabel>
                 <InputWithLabel label="New Password">
                     <View style={{ flexDirection: "row" }}>
                         <TextInput value={inputValues.password.value}
                             onChangeText={(enteredText) => inputHandler("password", enteredText)}
+                            placeholder="Password size 10, must contain atleast 1 special character, number, uppercase and lowercase letter"
+                            placeholderTextColor={Colors.gray500}
                             secureTextEntry={!showPassword}
                             maxLength={10}
                             autoCapitalize="none"
                             autoCorrect={false}
-                            placeholder={!inputValues.password.isValid ? "Please fill out the field" : ""}
-                            style={[{ flex: 1 }, formStyles.input, !inputValues.password.isValid && formStyles.errortextinput]}
+                            style={[{ flex: 1 }, formStyles.input, { fontSize: inputValues.password.value.length === 0 ? 11 : 18 }, !inputValues.password.isValid && formStyles.errortextinput]}
                         />
                         <MyIcon onPress={togglePasswordVisible} >
                             <Icon name={showPassword ? "eye" : "eye-off"} size={18} />
                         </MyIcon>
                     </View>
+                    {!inputValues.password.isValid && <ErrorMessage message={inputValues.password.value.trim().length == 0 ? "Password is required." : "Password does not meet requirements."} formStyles={formStyles} />}
                 </InputWithLabel>
             </View>
             <View style={{ marginTop: 10 }}>
@@ -133,7 +158,7 @@ export default function ForgotPassword({ navigation }: any) {
                     index: 0,
                     routes: [{ name: GOTO_S_LOGIN_PAGE }]
                 })} >
-                    <Text style={{ marginTop: 10 }}>Go to Login</Text>
+                    <Text style={[formStyles.simpleText, { marginTop: 15 }]}>Go to Login</Text>
                 </TouchableOpacity>
             </View>
         </View>

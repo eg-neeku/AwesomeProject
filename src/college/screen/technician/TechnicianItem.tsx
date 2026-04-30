@@ -3,12 +3,13 @@ import { AuthContext } from "../../database/AuthContentProvider";
 import { doNothing, GOTO_S_ASSIGNED_COMPLAINT_PAGE, GOTO_S_MANAGE_TECHNICIAN_PAGE, TechnicianDetailsProps } from "../../database/model";
 import { Pressable, View } from "react-native";
 import TechnicianItemDetails from "./TechnicianItemDetails";
-import { logStyles } from "../screenStyles";
+import { useLogStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
 import MyIcon from "../../UI/MyIcon";
 import Icon from "react-native-vector-icons/Ionicons";
 
 export default function TechnicianItem({ item, navigation }: { item: TechnicianDetailsProps, navigation: any }) {
+    const logStyles = useLogStyles();
     const { authItems } = useContext(AuthContext);
     const handleTechnicianPress = () => {
         navigation.navigate(GOTO_S_MANAGE_TECHNICIAN_PAGE, {

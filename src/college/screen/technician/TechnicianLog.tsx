@@ -6,7 +6,7 @@ import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import MIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { fetchTechnicianData } from "../../database/technicianhttp";
-import { logStyles } from "../screenStyles";
+import { useLogStyles } from "../screenStyles";
 import Colors from "../../../constants/colors";
 import TechnicianItem from "./TechnicianItem";
 
@@ -16,6 +16,7 @@ export default function TechnicianLog() {
     const [searchTechnician, setSearchTechnician] = useState("");
     const [demo, setDemo] = useState<TechnicianDetailsProps[]>([]);
     const [technicianDetails, setTechnicianDetails] = useState<TechnicianDetailsProps[]>([]);
+    const logStyles = useLogStyles();
 
     const activateRefreshTechnician = async () => {
         setRefreshing(true);
@@ -55,9 +56,9 @@ export default function TechnicianLog() {
     return (
         <View style={logStyles.container}>
             <InputWithSearch>
-                <MIcon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
                     placeholder="Search by technician info...."
+                    placeholderTextColor={Colors.gray}
                     value={searchTechnician}
                     onChangeText={(text) => {
                         setSearchTechnician(text);

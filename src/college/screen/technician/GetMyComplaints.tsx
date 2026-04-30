@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, TextInput, View } from "react-native";
 import { getAssignedComplaintToTechnician } from "../../database/complainthttp";
 import { ComplaintDetailsProps } from "../../database/model";
 import LoadingOverlay from "../../UI/LoadingOverlay";
@@ -7,11 +7,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ErrorOverlay from "../../UI/ErrorOverlay";
 import { InputWithSearch } from "../../UI/Input";
 import Colors from "../../../constants/colors";
-import AssingedComplaintItem from "./AssignedComplaintItem";
+import AssignedComplaintItem from "./AssignedComplaintItem";
 import { useFocusEffect } from "@react-navigation/native";
 
-export default function AssignedComplaint({ route }: any) {
-    const selectedTechnicianId: string = route?.params?.technicianId;
+export default function GetMyComplaints({ selectedTechnicianId }: { selectedTechnicianId: string }) {
 
     // Keep a full copy and a filtered copy
     const [allComplaints, setAllComplaints] = useState<ComplaintDetailsProps[]>([]);
@@ -22,22 +21,24 @@ export default function AssignedComplaint({ route }: any) {
 
     useFocusEffect(
         useCallback(() => {
+            if (!selectedTechnicianId) return;
             getComplaintList();
         }, [selectedTechnicianId])
     );
 
-    const getComplaintList = async () => {
+    const getComplaintList = useCallback(async () => {
         setLoading(true);
         try {
             const response = await getAssignedComplaintToTechnician(selectedTechnicianId);
             setDemo(response);
             setAllComplaints(response);
         } catch (error) {
+            console.log("Technician: ", selectedTechnicianId);
             console.log("Unable to get complaints, may be there is no complaint!");
         } finally {
             setLoading(false);
         }
-    };
+    }, [selectedTechnicianId]);
 
     const activateRefreshComplaint = async () => {
         try {
@@ -71,17 +72,20 @@ export default function AssignedComplaint({ route }: any) {
         applyFilter(complaintSearch);
     };
 
+    const renderItem = useCallback((itemData: { item: ComplaintDetailsProps }) => (
+        <AssignedComplaintItem item={itemData.item} onRefresh={getComplaintList} />
+    ), [getComplaintList]);
+
     if (loading) {
         return <LoadingOverlay color={Colors.blue} />;
     }
 
     return (
         <View style={styles.complaintOuterContainer}>
-            <Text style={styles.complaintHeader}>List of the complaint details</Text>
             <InputWithSearch>
-                <Icon name="magnify" size={22} color="#222" style={{ marginRight: 8 }} />
                 <TextInput
-                    placeholder="Enter the complaint detail to be searched"
+                    placeholder="Search by complaint info...."
+                    placeholderTextColor={Colors.gray}
                     value={complaintSearch}
                     onChangeText={(text) => {
                         setComplaintSearch(text);
@@ -109,12 +113,13 @@ export default function AssignedComplaint({ route }: any) {
                 <FlatList
                     data={demo}
                     keyExtractor={(item) => item.id}
-                    renderItem={(itemData) => (
-                        <AssingedComplaintItem item={itemData.item} />
-                    )}
+                    renderItem={renderItem}
                     contentContainerStyle={{ paddingBottom: 12 }}
                     onRefresh={activateRefreshComplaint}
                     refreshing={refreshing}
+                    initialNumToRender={10}
+                    maxToRenderPerBatch={5}
+                    windowSize={5}
                 />
             ) : (
                 <ErrorOverlay message={complaintSearch.trim()
@@ -127,6 +132,5 @@ export default function AssignedComplaint({ route }: any) {
 
 const styles = StyleSheet.create({
     complaintOuterContainer: { flex: 1, padding: 16 },
-    complaintHeader: { fontSize: 18, fontWeight: "600", marginBottom: 12, textAlign: "center" },
     input: { flex: 1, fontSize: 16, color: "#222", backgroundColor: Colors.white },
 });

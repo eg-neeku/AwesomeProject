@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { ComplaintDetailsProps, GOTO_S_COMPLAINT_IN_DETAIL_PAGE } from "../../database/model";
 import { Pressable } from "react-native";
-import { logStyles } from "../screenStyles";
+import { useLogStyles } from "../screenStyles";
 import ComplaintItemDetails from "../complaint/ComplaintItemDetails";
 
-export default function AssingedComplaintItem({ item, onRefresh }: { item: ComplaintDetailsProps, onRefresh?: () => void }) {
+export default function AssignedComplaintItem({ item, onRefresh }: { item: ComplaintDetailsProps, onRefresh?: () => void }) {
+    const logStyles = useLogStyles();
     const navigation: any = useNavigation();
 
     const handleComplaintPress = () => {
